@@ -1,0 +1,20 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+        <article class="container" >
+             <img class="rounded article-image" width="250" height="250" src= " {{ url_for('static', filename='shirts/2.2.jpg') }}">
+            <div class="box-1">
+                  <h5> <a href="{{ url_for('main.item',item_id=item['_id'] ) }}">{{ item["Brand"] }} </a> </h5>
+                    <small class="text-muted">{{ item["Description"] }}</small>
+                    <div class="price">
+                        <small> {{item["Price"] }} <strike> {{item["Mrp"] }} </strike> <div class="text-danger" > {{item["Discount"] }}% Off </div> </small>
+                    </div>
+                   <a class="button" href="url_for('users.cart',user_id=user.id)">Buy Now</a>
+                   <a class="button" href="url_for('add_to_cart',item['_id'])">Add To Cart</a>
+
+                </div>
+            </div>
+        </article>
+{% endblock content %}
+
