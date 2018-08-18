@@ -10,8 +10,7 @@
                     <div class="price">
                         <small> {{item["Price"] }} <strike> {{item["Mrp"] }} </strike> <div class="text-danger" > {{item["Discount"] }}% Off </div> </small>
                     </div>
-                   <a class="button" href="url_for('users.cart',user_id=user.id)">Buy Now</a>
-                   <a class="button" href="url_for('add_to_cart',item['_id'])">Add To Cart</a>
+                   <a class="button" href="url_for('remove_from_cart',item['_id'])">Remove</a>
 
                 </div>
             </div>
