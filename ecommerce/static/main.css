@@ -7,6 +7,27 @@ body{
   margin:0;
 }
 
+img{
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+.bg-steel {
+  background-color: #5f788a;
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #cbd5db;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
 
 .button{
   background-color:#333;
@@ -21,21 +42,20 @@ body{
 }
 
 .container{
-  width:80%;
+  width:100%;
   margin:auto;
   overflow:hidden;
 }
 
 .box-1 h5{
-  font-family:Tahoma;
-  font-weight:800;
-  font-style:italic;
-  text-decoration:underline;
+  font-weight:200;
   text-transform:uppercase;
-  letter-spacing: 0.2em;
-  word-spacing: 1em;
+  letter-spacing: 0.1em;
 }
 
+h5{
+  color:#333;
+}
 #main-header{
   background-color:coral;
   color:#fff;
