@@ -1,15 +1,16 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, jsonify
 from ecommerce import mongo
 from flask_login import current_user
 from bson.objectid import ObjectId
+import json
 main = Blueprint('main', __name__)
 
 
 @main.route('/')
 @main.route('/home')
 def home():
-    items = mongo.db.items.find_one_or_404()
-    return render_template('home.html', item=items)
+    items = mongo.db.items
+    return render_template('home.html', items=items)
 
 
 @main.route('/item/<string:item_id>')

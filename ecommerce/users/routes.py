@@ -1,8 +1,9 @@
-from flask import render_template, redirect, url_for, Blueprint, flash
+from flask import render_template, redirect, url_for, Blueprint, flash, request
 from flask_login import current_user, login_required, login_user, logout_user
 from ecommerce.users.forms import RequestResetForm, ResetPasswordForm, RegistrationForm, LoginForm
-from ecommerce import db
+from ecommerce import db, bcrypt, mongo
 from ecommerce.models import User
+from bson.objectid import ObjectId
 
 users = Blueprint('users', __name__)
 
@@ -14,25 +15,26 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
-        user = User(username=form.username.data, password=hashed_password, email=form.email.data)
-        db.session.add(user)
-        db.session.commit()
+        users = mongo.db.customers
+        users.insert({"username": form.username.data, "email": form.email.data, "password": hashed_password})
         flash('Your account has been created. You are now able to log in.', 'success')
         return redirect(url_for('users.login'))
     return render_template('register.html', title='register', form=form)
 
 
-@users.route('/login')
+@users.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user, remember=form.remember.data)
-            next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('main.home'))
+        users = mongo.db.customers
+        login_user = users.find_one({'email': request.form['email']})
+        if login_user:
+            if bcrypt.hashpw(request.form['password'].encode('utf-8'), login_user['password'].encode('utf-8')) == login_user['password'].encode('utf-8'):
+                session['email'] = request.form['email']
+                flash('You have been successfully logged in', 'success')
+                return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
             flash('Login Unsuccessful, Please check email and password', 'danger')
     return render_template('login.html', title='login', form=form)
@@ -44,12 +46,33 @@ def logout():
     return render_template(url_for('main.home'))
 
 
-@users.route('/saving/<string:item_id>')
+@users.route('/saving/<string:item_id>', methods=['GET', 'POST'])
 @login_required
-def add_to_cart():
-    current_user.cart = item_id
-    db.session.commit()
+def add_to_cart(item_id):
+    id = "1234"
+    users = mongo.db.customers
+    # users.update({"_id": ObjectId(id)}, {$set: {cart_item_ids: item_id}})
+    flash('This item has been successfully added to cart', 'success')
     return render_template('home.html')
+
+
+@users.route('/removing/<string:item_id>')
+@login_required
+def remove_from_cart(item_id):
+    id = current_user.get_id()
+    users = mongo.db.customers
+    # users.update({"_id": ObjectId(id)}, {$pull: {"cart_item_ids": item_id}})
+    flash('Successfully Removed', 'success')
+    return render_template('home.html')
+
+
+@users.route('/ my_cart', methods=['GET', 'POST'])
+@login_required
+def cart():
+    id = current_user.get_id()
+    users = mongo.db.customers.find({"_id": ObjectId(id)})
+    item = users["cart_item_ids"]
+    return render_template('cart.html', users=users, item=items)
 
 
 @users.route('/reset_password')

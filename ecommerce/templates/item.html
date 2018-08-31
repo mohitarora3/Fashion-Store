@@ -1,34 +1,47 @@
 
 {% extends "layout.html" %}
 {% block content %}
-        <article class="container">
-            <img class="rounded article-image" width="250" height="250" src= " {{ url_for('static', filename='shirts/2.2.jpg') }}">
-                <div class="box-1">
-                  <h4>  {{ item["Brand"] }}</h4>
-                    <small class="text-muted">{{ item["Description"] }}</small>
-                    <div class="price">
-                        <small> {{item["Price"] }} <strike> {{item["Mrp"] }} </strike></small> <p class="text-danger" > {{item["Discount"] }}% OFF</p>
-                    </div>
+<script type="text/javascript">
 
-                    <div>
-                        <small> Select Size</small>
-                        <ul>
-                            <li>{{item["Size"] }}</li>
-                        </ul>
-                        <a class="button" href="">Buy Now</a>
-                        <a class="button" href="">Add To Cart</a>
-                    </div>
-
-                    <div>
-                    <p>
-                        <small> Product Details </small>
-                        {{ item["Product Details"]}}
-                        <br>
-                        <small> Material & Care</small>
-                        {{ item["Material & Care"]}}
-                    </p>
-
-                </div>
+</script>
+    <article class="container">
+        <div class="box-1">
+            {% for image in item["Image"] %}
+                {{image}}
+            {% endfor %}
+                <h4>  {{ item["Brand"] }}</h4>
+            <small class="text-muted">{{ item["Description"] }}</small>
+            <div class="price">
+                <small> {{item["Price"] }} <strike> {{item["Mrp"] }} </strike></small> <p class="text-danger" > {{item["Discount"] }}%OFF</p>
             </div>
-        </article>
+
+            <div>
+                <small> Select Size</small>
+                <ul>
+                    {% for s in item["Size"] %}
+                    <li id="s">{{s}}</li>
+                    {% endfor %}
+
+                </ul>
+                <a class="button" href="">Buy Now</a>
+                <a class="button" href=" {{ url_for('users.add_to_cart',item_id=item['_id'] )}} ">Add To Cart</a>
+            </div>
+
+            <div>
+            <p>
+                <h5> Product Details </h5>
+                {{ item["Product Details"]}}
+                <br>
+                <h5> Material & Care</h5>
+                <ul>
+                {% for material in item["Material & Care"] %}
+                <li> {{material}} </li>
+                </ul>
+                {% endfor %}
+
+            </p>
+
+        </div>
+    </div>
+    </article>
 {% endblock content %}
