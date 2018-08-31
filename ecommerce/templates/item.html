@@ -1,6 +1,7 @@
 
 {% extends "layout.html" %}
 {% block content %}
+<<<<<<< HEAD
 <script type="text/javascript">
 
 </script>
@@ -21,6 +22,24 @@
                     {% for s in item["Size"] %}
                     <li id="s">{{s}}</li>
                     {% endfor %}
+=======
+
+    <article class="container">
+        <img class="rounded article-image" id ="image" width="250" height="250" src= " {{ url_for('static', filename='shirts/2.2.jpg') }}">
+        <button class="btn" onclick="document.getElementById('image').src='{{ url_for("static", filename="shirts/2.3.jpg") }}'">next</button>
+        <div class="box-1">
+          <h4>  {{ item["Brand"] }}</h4>
+            <small class="text-muted">{{ item["Description"] }}</small>
+            <div class="price">
+                <small> {{item["Price"] }} <strike> {{item["Mrp"] }} </strike></small> <p class="text-danger" > {{item["Discount"] }}% OFF</p>
+            </div>
+
+            <div>
+                <small> Select Size</small>
+                <ul>
+
+                    <li id="s"></li>
+>>>>>>> 0f0c6b1604d91563c852b7e4cc7e8e36b5b0d382
 
                 </ul>
                 <a class="button" href="">Buy Now</a>
@@ -33,12 +52,16 @@
                 {{ item["Product Details"]}}
                 <br>
                 <h5> Material & Care</h5>
+<<<<<<< HEAD
                 <ul>
                 {% for material in item["Material & Care"] %}
                 <li> {{material}} </li>
                 </ul>
                 {% endfor %}
 
+=======
+                {{ item["Material & Care"]}}
+>>>>>>> 0f0c6b1604d91563c852b7e4cc7e8e36b5b0d382
             </p>
 
         </div>

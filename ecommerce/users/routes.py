@@ -29,12 +29,21 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         users = mongo.db.customers
+<<<<<<< HEAD
         login_user = users.find_one({'email': request.form['email']})
         if login_user:
             if bcrypt.hashpw(request.form['password'].encode('utf-8'), login_user['password'].encode('utf-8')) == login_user['password'].encode('utf-8'):
                 session['email'] = request.form['email']
                 flash('You have been successfully logged in', 'success')
                 return redirect(next_page) if next_page else redirect(url_for('main.home'))
+=======
+        user = users.find({"email": form.email.data})
+        p = user["password"]
+        if user and bcrypt.check_password_hash(p, form.password.data):
+            login_user(user, remember=form.remember.data)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('main.home'))
+>>>>>>> 0f0c6b1604d91563c852b7e4cc7e8e36b5b0d382
         else:
             flash('Login Unsuccessful, Please check email and password', 'danger')
     return render_template('login.html', title='login', form=form)
@@ -58,15 +67,36 @@ def add_to_cart(item_id):
 
 @users.route('/removing/<string:item_id>')
 @login_required
+<<<<<<< HEAD
 def remove_from_cart(item_id):
     id = current_user.get_id()
     users = mongo.db.customers
     # users.update({"_id": ObjectId(id)}, {$pull: {"cart_item_ids": item_id}})
+=======
+def add_to_cart():
+    id = current_user.get_id()
+    users = mongo.db.customers
+    users.update({"_id": ObjectId(id)}, {$push: {"cart_item_ids": item_id}})
+    flash('This item has been successfully added to cart', 'success')
+    return render_template('home.html')
+
+
+@users.route('/removing/<string:item_id>')
+@login_required
+def remove_from_cart():
+    id = current_user.get_id()
+    users = mongo.db.customers
+    users.update({"_id": ObjectId(id)}, {$pull: {"cart_item_ids": item_id}})
+>>>>>>> 0f0c6b1604d91563c852b7e4cc7e8e36b5b0d382
     flash('Successfully Removed', 'success')
     return render_template('home.html')
 
 
+<<<<<<< HEAD
 @users.route('/ my_cart', methods=['GET', 'POST'])
+=======
+@users.route('/ my_cart / )
+>>>>>>> 0f0c6b1604d91563c852b7e4cc7e8e36b5b0d382
 @login_required
 def cart():
     id = current_user.get_id()
