@@ -63,6 +63,7 @@
         <div class="box-1">
             <h1>kbtjjbvkjybvk</h1>
             <h2>lnfknknf</h2>
+<<<<<<< HEAD
             <img class="rounded article-image" width="50" height="50" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}" onclick="document.getElementById('image').src=' {{ url_for("static", filename="shirts/"+item["Image"][0]) }}'">
             <img class="rounded article-image" width="50" height="50" src= " {{ url_for('static', filename='shirts/'+item['Image'][1]) }}" onclick="document.getElementById('image').src='{{ url_for("static", filename="shirts/"+item["Image"][1]) }}'">
             <img class="rounded article-image" width="50" height="50" src= " {{ url_for('static', filename='shirts/'+item['Image'][2]) }}" onclick="document.getElementById('image').src='{{ url_for("static", filename="shirts/"+item["Image"][2]) }}'">
@@ -73,11 +74,20 @@
                 <img class="rounded article-image" id="image" width="500" height="500" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}">
                 <div id="myresult" class="img-zoom-result"></div>
             </div>
+=======
+            <img class="rounded article-image" width="50" height="50" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}">
+            <img class="rounded article-image" width="50" height="50" src= " {{ url_for('static', filename='shirts/'+item['Image'][1]) }}" onclick="document.getElementByid('image').src='{{ url_for("static", filename="shirts/"+item["Image"][1]) }}'">
+            <img class="rounded article-image" width="50" height="50" src= " {{ url_for('static', filename='shirts/'+item['Image'][2]) }}">
+            <img class="rounded article-image" id="image" width="250" height="250" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}">
+>>>>>>> e6a70105a405c65bec680b279f6fcb964da4f733
             <h1> {{ item["Brand"] }} </h1>
             <small class="text-muted">{{ item["Description"] }}</small>
             <div class="price">
                 <small> {{item["Price"] }} <strike> {{item["Mrp"] }} </strike></small> <p class="text-danger" > {{item["Discount"] }}%OFF</p>
             </div>
+            {% for image in item["Image"] %}
+                {{image}}
+            {% endfor %}
 
 
             <div>
