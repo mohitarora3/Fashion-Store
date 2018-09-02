@@ -17,6 +17,8 @@
 	{% endif %}
 </head>
 <body>
+	<script type="text/javascript" src="templates/script.js">
+	</script>
 	<header class="site-header">
 	  <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
 	    <div class="container">
@@ -28,6 +30,7 @@
 	        <div class="navbar-nav mr-auto">
 	          <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Home</a>
 	          <a class="nav-item nav-link" href='#''>About</a>
+	          <input type="text" placeholder="search">
 	        </div>
 	        <!-- Navbar Right Side -->
 	        <div class="navbar-nav">
