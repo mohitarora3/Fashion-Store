@@ -10,6 +10,9 @@ mongo = PyMongo(app)
 
 
 def add():
+    item_id = 'knfkn'
+    mongo.db.user.update({"_id": ObjectId("5b7ef8f3ba58e927aebafb72")}, {$set: {"cart_item_ids": item_id}})
+    '''
     items = mongo.db.items
     a = items.estimated_document_count()
     documents = items.find()
@@ -19,6 +22,7 @@ def add():
     print(d["Size"][3])
     for i in arr:
         print(i)
+    '''
 
 
 if __name__ == '__main__':

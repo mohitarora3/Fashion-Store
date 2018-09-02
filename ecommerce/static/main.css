@@ -54,10 +54,21 @@ body{
   background:red;
   color:#fff;
 }
+.bg-img {
+    /* The image used */
+    background-image: url("img_nature.jpg");
 
+    min-height: 380px;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
 .container{
-  width:100%;
-  margin:auto;
+  width:33.33%;
+  display:table;
   overflow:hidden;
 }
 
@@ -134,7 +145,15 @@ h5{
   padding:20px;
   margin-top:40px;
 }
-
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: red;
+    color: white;
+    text-align: center;
+}
 @media(max-width:600px){
   #main{
     width:100%;

@@ -1,6 +1,8 @@
 from flask import render_template, redirect, url_for, Blueprint, flash, request
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 from ecommerce.users.forms import RequestResetForm, ResetPasswordForm, RegistrationForm, LoginForm
+from ecommerce.users.utils import send_reset_email
 from ecommerce import db, bcrypt, mongo
 from ecommerce.models import User
 from bson.objectid import ObjectId
@@ -14,10 +16,11 @@ def register():
         return redirect(url_for('main.home'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        users = mongo.db.customers
-        users.insert({"username": form.username.data, "email": form.email.data, "password": hashed_password})
-        flash('Your account has been created. You are now able to log in.', 'success')
+        existing_user = User.objects(email=form.email.data).first()
+        if existing_user is None:
+            hashpass = generate_password_hash(form.password.data, method='sha256')
+            hey = User(form.username.data, form.email.data, hashpass).save()
+            flash('Your account has been created. You are now able to log in.', 'success')
         return redirect(url_for('users.login'))
     return render_template('register.html', title='register', form=form)
 
@@ -28,13 +31,12 @@ def login():
         return redirect(url_for('main.home'))
     form = LoginForm()
     if form.validate_on_submit():
-        users = mongo.db.customers
-        login_user = users.find_one({'email': request.form['email']})
-        if login_user:
-            if bcrypt.hashpw(request.form['password'].encode('utf-8'), login_user['password'].encode('utf-8')) == login_user['password'].encode('utf-8'):
-                session['email'] = request.form['email']
-                flash('You have been successfully logged in', 'success')
-                return redirect(next_page) if next_page else redirect(url_for('main.home'))
+        check_user = User.objects(email=form.email.data).first()
+        if check_user and check_password_hash(check_user['password'], form.password.data):
+            login_user(check_user)
+            flash('You have been successfully logged in', 'success')
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
             flash('Login Unsuccessful, Please check email and password', 'danger')
     return render_template('login.html', title='login', form=form)
@@ -43,15 +45,15 @@ def login():
 @users.route('/logout')
 def logout():
     logout_user()
-    return render_template(url_for('main.home'))
+    return redirect(url_for('main.home'))
 
 
 @users.route('/saving/<string:item_id>', methods=['GET', 'POST'])
 @login_required
 def add_to_cart(item_id):
-    id = "1234"
-    users = mongo.db.customers
-    # users.update({"_id": ObjectId(id)}, {$set: {cart_item_ids: item_id}})
+    id = current_user.get_id()
+    print(id)
+    current_user.db.user.update({"_id": id}, {$set: {"cart_item_ids": item_id}})
     flash('This item has been successfully added to cart', 'success')
     return render_template('home.html')
 
@@ -75,17 +77,17 @@ def cart():
     return render_template('cart.html', users=users, item=items)
 
 
-@users.route('/reset_password')
+@users.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         return redirect(url_for('main.home'))
     else:
         form = RequestResetForm()
         if form.validate_on_submit():
-            user = User.query.filter_by(email=email.data).first()
+            user = User.objects(email=form.email.data).first()
             if user is None:
                 flash('There is no account with this email.', 'danger')
-                return redirect(url_for('reset_request'))
+                return redirect(url_for('users.reset_request'))
             send_reset_email(user)
             flash('An email has been sent with instructions to rest your password', 'success')
             return redirect(url_for('users.login'))
@@ -102,7 +104,7 @@ def reset_token(token):
         return redirect(url_for('reset_request'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
-        user.password = bcrypt.generate_password_hash(forms.password.data).decode('utf-8')
+        hashpass = bcrypt.generate_password_hash(forms.password.data).decode('utf-8')
         db.session.commit()
         flash('Your password has benn updated!', 'success')
         redirect(url_for('login'))
