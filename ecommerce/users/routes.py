@@ -52,18 +52,32 @@ def logout():
 @login_required
 def add_to_cart(item_id):
     id = current_user.get_id()
-    print(id)
-    current_user.db.user.update({"_id": id}, {$set: {"cart_item_ids": item_id}})
+
+    mongo.db.user.update_one(
+        {"_id": ObjectId(id)
+         },
+        {"$push":
+         {"cart_item_ids": item_id
+          }
+         }
+    )
+
     flash('This item has been successfully added to cart', 'success')
-    return render_template('home.html')
+    return redirect(url_for('main.home'))
 
 
-@users.route('/removing/<string:item_id>')
+@users.route('/removing/<string:item_id>', methods=['GET', 'POST'])
 @login_required
 def remove_from_cart(item_id):
     id = current_user.get_id()
-    users = mongo.db.customers
-    # users.update({"_id": ObjectId(id)}, {$pull: {"cart_item_ids": item_id}})
+    mongo.db.user.update_one(
+        {"_id": ObjectId(id)
+         },
+        {"$pull":
+            {"cart_item_ids": item_id
+             }
+         }
+    )
     flash('Successfully Removed', 'success')
     return render_template('home.html')
 
