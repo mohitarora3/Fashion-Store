@@ -11,7 +11,7 @@ mongo = PyMongo(app)
 
 
 def add():
-    item_id = 'knfkn'
+    '''
     mongo.db.user.update_one(
         {"_id": ObjectId("5b7ef8f3ba58e927aebafb72")
          },
@@ -20,21 +20,33 @@ def add():
         }
         }
     )
+
     a = mongo.db.user.find_one({'email': 'mohit5@gmail.com'})
     print(a)
     mongo.db.user.update(
         {'email': 'mohit5@gmail.com'},
         {'$unset':
-         {'cart_item_ids': ''}
+         {'item': ''}
          }
 
     )
-    a = mongo.db.user.find_one({'email': 'mohit5@gmail.com'})
-    print(a)
-
-    print(a)
     '''
-    items = mongo.db.items
+
+    Items = mongo.db.user.find_one({'email': 'mohit5@gmail.com'}, {'_id': 0, 'item': 1})
+    # print(Items)
+    Items = Items['item']
+    # print(Items)
+    dict = {}
+    for item in Items:
+        # print(item)
+        id = item[0]['item_id']
+        i = mongo.db.items.find_one({'_id': ObjectId(id)})
+        i['Size'] = item[1]['size']
+        # dict.add(i)
+        print(i)
+    #for item in Items:
+        #print(item)
+    '''    items = mongo.db.items
     a = items.estimated_document_count()
     documents = items.find()
     d = items.find_one({"Brand": "Highlander"})

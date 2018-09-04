@@ -9,8 +9,11 @@ class User(UserMixin, db.Document):
     #meta = {'collection': 'users'}
     #meta = {'DB': 'myDatabase'}
     username = db.StringField(max_length=30)
-    email = db.StringField(max_length=30)
+    email = db.EmailField(max_length=30)
     password = db.StringField()
+    item = db.StringField()
+    size = db.StringField()
+    item_id = db.StringField()
 
     def __rep__(self):
         return 'User({},{})'.format(self.username, self.email)

@@ -14,7 +14,7 @@
             <div class="img-zoom-container">
 
                 <img class="rounded article-image" id="image" width="500" height="500" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}">
-                <div id="myresult" class="img-zoom-result"></div>
+                <!--<div id="myresult" class="img-zoom-result"></div> -->
             </div>
             <h1> {{ item["Brand"] }} </h1>
             <small class="text-muted">{{ item["Description"] }}</small>
@@ -22,15 +22,16 @@
                 <small> {{item["Price"] }} <strike> {{item["Mrp"] }} </strike></small> <p class="text-danger" > {{item["Discount"] }}%OFF</p>
             </div>
             <div>
-                <small> Select Size</small>
-                <ul>
-                    {% for s in item["Size"] %}
-                    <li id="s">{{s}}</li>
-                    {% endfor %}
+                <h5> Select Size</h5>
+                    <form name="size" action=" {{ url_for('users.add_to_cart',item_id=item['_id'] )}} " method="post" >
+                        {% for s in item["Size"] %}
+                            <input type="radio"value={{s}} name="si">{{s}}
+                        {% endfor %}
+                        <input type="submit"class="btn btn-success" value="Add To Cart">
 
-                </ul>
+                    </form>
                 <a class="button" href="">Buy Now</a>
-                <a class="button" href=" {{ url_for('users.add_to_cart',item_id=item['_id'] )}} ">Add To Cart</a>
+
             </div>
 
             <div>

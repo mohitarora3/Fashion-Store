@@ -57,8 +57,11 @@ def add_to_cart(item_id):
         {"_id": ObjectId(id)
          },
         {"$push":
-         {"cart_item_ids": item_id
-          }
+         {"item": [
+             {"item_id": item_id},
+             {"size": request.form['si']}
+         ]
+         }
          }
     )
 
@@ -74,7 +77,7 @@ def remove_from_cart(item_id):
         {"_id": ObjectId(id)
          },
         {"$pull":
-            {"cart_item_ids": item_id
+            {"item": item_id
              }
          }
     )
@@ -86,9 +89,23 @@ def remove_from_cart(item_id):
 @login_required
 def cart():
     id = current_user.get_id()
-    users = mongo.db.customers.find({"_id": ObjectId(id)})
-    item = users["cart_item_ids"]
-    return render_template('cart.html', users=users, item=items)
+    Items = mongo.db.user.find_one(
+        {"_id": ObjectId(id)
+         },
+        {
+            "id": 0, "item": 1
+        }
+    )
+    Items = Items['item']
+    for item in Items:
+        id = item[0]['item_id']
+        size = item[1]['size']
+        a = mongo.db.items.find_one(
+            {'_id': ObjectId(id)
+             }
+        )
+        a['Size'] = size
+    return render_template('cart.html', users=users, items=Items)
 
 
 @users.route('/reset_password', methods=['GET', 'POST'])
