@@ -2,7 +2,7 @@
 {% extends "layout.html" %}
 {% block content %}
 {% for item_des in items %}
-  {% for item in mongo.db.find({'item_des[0]'})}
+  {% for item in items $}
         <article class="container" >
              <img class="rounded article-image" width="250" height="250" src= " {{ url_for('static', filename='shirts/' +) }}">
             <div class="box-1">
@@ -11,10 +11,12 @@
                     <div class="price">
                         <small> {{item["Price"] }} <strike> {{item["Mrp"] }} </strike> <div class="text-danger" > {{item["Discount"] }}% Off </div> </small>
                     </div>
+                    <small class="text-muted">{{item["Size"]}}</small>
                    <a class="button" href="url_for('remove_from_cart',item['_id'])">Remove</a>
 
                 </div>
             </div>
         </article>
+    {% endfor %}
 {% endblock content %}
 

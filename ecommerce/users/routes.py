@@ -5,6 +5,7 @@ from ecommerce.users.forms import RequestResetForm, ResetPasswordForm, Registrat
 from ecommerce.users.utils import send_reset_email
 from ecommerce import db, bcrypt, mongo
 from ecommerce.models import User
+import json
 from bson.objectid import ObjectId
 
 users = Blueprint('users', __name__)
@@ -88,15 +89,17 @@ def remove_from_cart(item_id):
 @users.route('/ my_cart', methods=['GET', 'POST'])
 @login_required
 def cart():
+    dict = {}
     id = current_user.get_id()
     Items = mongo.db.user.find_one(
         {"_id": ObjectId(id)
          },
         {
-            "id": 0, "item": 1
+            "_id": 0, "item": 1
         }
     )
     Items = Items['item']
+    str = ''
     for item in Items:
         id = item[0]['item_id']
         size = item[1]['size']
@@ -104,8 +107,11 @@ def cart():
             {'_id': ObjectId(id)
              }
         )
+        a['_id'] = id
         a['Size'] = size
-    return render_template('cart.html', users=users, items=Items)
+        a = json.dumps(a)
+        str = str + ',' + a
+    return render_template('cart.html', users=users, items=str[1:])
 
 
 @users.route('/reset_password', methods=['GET', 'POST'])
