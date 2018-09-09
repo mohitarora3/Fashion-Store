@@ -14,7 +14,7 @@
     	  <h5> <a  id="br" href="{{ url_for('main.item',item_id=item['_id'] ) }}">{{item["Brand"] }}</a> </h5>
       		<small class="text-muted" id="des">{{item["Short Description"]}}</small>
             <div class="price">
-                <small id="pr">{{item["Mrp"]}} <strike id="mr">{{item["Mrp"]}}</strike></small>
+                <small id="pr">Rs.{{item["Price"]}} <strike id="mr">{{item["Mrp"]}}</strike></small>
                 <p> <div class="text-danger" id="di" > {{item["Discount"]}}%OFF </div> </p>
             </div>
            <a class="button" href="{{ url_for('users.cart') }}">Buy Now</a>

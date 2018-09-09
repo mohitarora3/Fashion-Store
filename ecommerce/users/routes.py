@@ -53,21 +53,36 @@ def logout():
 @login_required
 def add_to_cart(item_id):
     id = current_user.get_id()
+    item = mongo.db.user.find_one({'_id': ObjectId(id), 'item.item_id': item_id, 'item.size': request.form['si']})
+    if item is None:
+        a = {"item_id": item_id, "size": request.form['si'], "quantity": 1}
+        mongo.db.user.update_one(
+            {"_id": ObjectId(id)
+             },
+            {"$push":
+             {"item": a
+              }
+             }
+        )
+        flash('This item has been successfully added to cart', 'success')
+    else:
+        flash('This item is already present in your cart', 'success')
+    return redirect(url_for('main.home'))
 
+
+@users.route('/updating/<string:item_id>', methods=['GET', 'POST'])
+@login_required
+def update_cart(item_id):
+    id = current_user.get_id()
     mongo.db.user.update_one(
-        {"_id": ObjectId(id)
+        {"_id": ObjectId(id),
+         "item.item_id": item_id
          },
-        {"$push":
-         {"item": [
-             {"item_id": item_id},
-             {"size": request.form['si']}
-         ]
-         }
+        {"$set":
+            {"item.$.quantity": request.form['qt']}
          }
     )
-
-    flash('This item has been successfully added to cart', 'success')
-    return redirect(url_for('main.home'))
+    return redirect(url_for('users.cart'))
 
 
 @users.route('/removing/<string:item_id>', methods=['GET', 'POST'])
@@ -78,18 +93,20 @@ def remove_from_cart(item_id):
         {"_id": ObjectId(id)
          },
         {"$pull":
-            {"item": item_id
+            {"item":
+                {
+                    "item_id": item_id
+                }
              }
          }
     )
     flash('Successfully Removed', 'success')
-    return render_template('home.html')
+    return redirect(url_for('users.cart'))
 
 
 @users.route('/ my_cart', methods=['GET', 'POST'])
 @login_required
 def cart():
-    dict = {}
     id = current_user.get_id()
     Items = mongo.db.user.find_one(
         {"_id": ObjectId(id)
@@ -98,20 +115,29 @@ def cart():
             "_id": 0, "item": 1
         }
     )
-    Items = Items['item']
-    str = ''
-    for item in Items:
-        id = item[0]['item_id']
-        size = item[1]['size']
-        a = mongo.db.items.find_one(
-            {'_id': ObjectId(id)
-             }
-        )
-        a['_id'] = id
-        a['Size'] = size
-        a = json.dumps(a)
-        str = str + ',' + a
-    return render_template('cart.html', users=users, items=str[1:])
+    if Items:
+        lst = []
+        dict = {}
+        bag_mrp = 0
+        bag_price = 0
+        Items = Items['item']
+        number_of_items = len(Items)
+        for item in Items:
+            id = item['item_id']
+            size = item['size']
+            quantity = item['quantity']
+            for a in mongo.db.items.find({'_id': ObjectId(id)}):
+                a['quantity'] = quantity
+                a['size'] = size
+                bag_mrp += a['Mrp']
+                bag_price += a['Price']
+                lst.append(a)
+        dict['bag_discount'] = bag_mrp - bag_price
+        dict['bag_mrp'] = bag_mrp
+        dict['bag_total'] = bag_price
+        return render_template('cart.html', users=users, items=lst, dict=dict, number=number_of_items)
+    else:
+        return render_template('cart.html', number=0)
 
 
 @users.route('/reset_password', methods=['GET', 'POST'])

@@ -24,8 +24,10 @@
             <div>
                 <h5> Select Size</h5>
                     <form name="size" action=" {{ url_for('users.add_to_cart',item_id=item['_id'] )}} " method="post" >
-                        {% for s in item["Size"] %}
-                            <input type="radio"value={{s}} name="si">{{s}}
+                        {% for key,value in item["Size"].items() %}
+                            {% if value>0 %}
+                                <input type="radio"value={{key}} name="si">{{key}}
+                            {% endif %}
                         {% endfor %}
                         <input type="submit"class="btn btn-success" value="Add To Cart">
 
