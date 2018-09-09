@@ -12,27 +12,35 @@
                     <h5> <a href="{{ url_for('main.item',item_id=item['_id'] ) }}">{{ item["Brand"] }} </a> </h5>
                       <small class="text-muted">{{ item["Description"] }}</small>
                       <div class="price">
-                          <small> {{item["Price"] }} <strike> {{item["Mrp"] }} </strike> <div class="text-danger" > {{item["Discount"] }}% Off </div> </small>
+                          <small> {{item['quantity']*item["Price"] }} <strike> {{item['quantity']*item["Mrp"] }} </strike> <div class="text-danger" > {{item["Discount"] }}% Off </div> </small>
                       </div>
                       <mark>Size: {{item["size"]}}</mark>
-                      <form name="cart" action=" {{ url_for('users.update_cart', item_id=item['_id'] ) }}" method='post' >
+                      <form name="si" action=" {{ url_for('users.update_cart', item_id=item['_id'], item_size=item['size'] ) }}" method='post' >
                         <select name='si' onchange="this.form.submit()">
-                          {% for key,value in item['Size'] %}
+                          {% for key,value in item['Size'].items() %}
                             {% if value|int > 0 %}
-                              <option value={{key}} >{{value}}</option>
+                              <option value={{key}} >{{key}}</option>
                             {% endif %}
                           {% endfor %}
                         </select>
                         <noscript><input type="submit" value="Submit"></noscript>
                         </form>
                       <mark>Qty:  {{item["quantity"]}}</mark>
-                      <form name="cart" action=" {{ url_for('users.update_cart', item_id=item['_id'] ) }}" method='post' >
+                      <form name="qt" action=" {{ url_for('users.update_cart', item_id=item['_id'] ,item_size=item['size']) }}" method='post' >
                         <select name='qt' onchange='this.form.submit()'>
-                          {% for q in range(1,11) %}
-                            <option value={{q}} >{{q}}</option>
-                          {% endfor %}
+                          {% if item["Size"][item['size']] > 10 %}
+                            {% for q in range(1,11) %}
+                              <option value={{q}} >{{q}}</option>
+                            {% endfor %}
+                          {% else %}
+                            {% for q in range(1,item["Size"][ item['size'] ] ) %}
+                              <option value={{q}} >{{q}}</option>
+                            {% endfor %}
+                          {% endif %}
+
                         </select>
                       </form>
+                    </br>
                      <a class="button" href=" {{url_for('users.remove_from_cart',item_id=item['_id'] ) }}">Remove</a>
               </div>
             </br>

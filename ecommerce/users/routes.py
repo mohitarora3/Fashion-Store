@@ -70,18 +70,31 @@ def add_to_cart(item_id):
     return redirect(url_for('main.home'))
 
 
-@users.route('/updating/<string:item_id>', methods=['GET', 'POST'])
+@users.route('/updating/<string:item_id>/<int:item_size>', methods=['GET', 'POST'])
 @login_required
-def update_cart(item_id):
+def update_cart(item_id, item_size):
     id = current_user.get_id()
-    mongo.db.user.update_one(
-        {"_id": ObjectId(id),
-         "item.item_id": item_id
-         },
-        {"$set":
-            {"item.$.quantity": request.form['qt']}
-         }
-    )
+    #item=mongo.db.items.find_one({'_id': ObjectId(item_id)}, {"_id": 0, "Size": 1})
+    # size=item["Size"]
+    if('qt' in request.form):
+        mongo.db.user.update_one(
+            {"_id": ObjectId(id),
+             "item.item_id": item_id,
+             "item.size": item_size
+             },
+            {"$set":
+             {"item.$.quantity": request.form['qt']}
+             }
+        )
+    elif('si' in request.form):
+        mongo.db.user.update_one(
+            {"_id": ObjectId(id),
+             "item.item_id": item_id
+             },
+            {"$set":
+                {"item.$.size": request.form['si']}
+             }
+        )
     return redirect(url_for('users.cart'))
 
 
@@ -125,12 +138,12 @@ def cart():
         for item in Items:
             id = item['item_id']
             size = item['size']
-            quantity = item['quantity']
+            quantity = int(item['quantity'])
             for a in mongo.db.items.find({'_id': ObjectId(id)}):
                 a['quantity'] = quantity
                 a['size'] = size
-                bag_mrp += a['Mrp']
-                bag_price += a['Price']
+                bag_mrp += quantity * a['Mrp']
+                bag_price += quantity * a['Price']
                 lst.append(a)
         dict['bag_discount'] = bag_mrp - bag_price
         dict['bag_mrp'] = bag_mrp

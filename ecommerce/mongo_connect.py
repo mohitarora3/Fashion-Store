@@ -105,12 +105,34 @@ mongo.db.user.update_one(
 def add():
     '''mongo.db.user.update_one({"_id": ObjectId('5b955a39eaeeee2c588a716a')},
                              {"$pull": {"item": {"item_id": '5b94e49ceaeeee1b1cad4b39'}}})
+
+
+    mongo.db.user.update_one(
+        {"_id": ObjectId(id),
+         "item.item_id": item_id,
+         "item.size": item_size
+         },
+        {"$set":
+         {"item.$.quantity": 4}
+         }
+    )
     '''
-    for x in mongo.db.user.find():
-        a = x['item']
-        print(type(a))
-        print(len(a))
-        print(x)
+    item = mongo.db.user.find_one({"$and": {'item.item_id': '5b94e49ceaeeee1b1cad4b39'}, {'item.size': '44'}})
+    print(item)
+    if item is None:
+        print('rnkn')
+        a = {"item_id": item_id, "size": 44, "quantity": 1}
+        mongo.db.user.update_one(
+            {"_id": ObjectId('5b94e49ceaeeee1b1cad4b39')
+             },
+            {"$push":
+             {"item": a
+              }
+             }
+        )
+
+    for i in mongo.db.user.find():
+        print(i)
 
 
 if __name__ == '__main__':
