@@ -4,7 +4,9 @@ body{
   font-family:Arial, Helvetica, sans-serif;
   font-size:16px;
   line-height:1.6em;
-  margin:0;
+  margin:auto;
+  height:100%;
+
 }
 
 
@@ -66,16 +68,40 @@ body{
     background-size: cover;
     position: relative;
 }
+/*
 .container{
   width:33.33%;
   display:table;
   overflow:hidden;
+}*/
+.btn-search {
+    background: #424242;
+    border-radius: 0;
+    color: #fff;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #1c1c1c;
+  }
+  .btn-search:link, .btn-search:visited {
+    color: #fff;
+  }
+  .btn-search:active, .btn-search:hover {
+    background: #1c1c1c;
+    color: #fff;
+  }
+.form-control {
+  background-image: url('https://res.cloudinary.com/dt9b7pad3/image/upload/v1502810110/angle-down-dark_dkyopo.png');
+  background-position: right center 5px;
 }
 
 .box-1 h5{
   font-weight:200;
   text-transform:uppercase;
   letter-spacing: 0.1em;
+}
+#search1{
+  width: 50%;
+  margin: auto;
 }
 
 h5{
