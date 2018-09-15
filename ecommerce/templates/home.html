@@ -1,8 +1,4 @@
-
-<br>
-<br>
-<br>
-<div class="input-group col-sm-6  text-center" >
+<br><br><br><div class="input-group col-sm-6  text-center" >
       <input class="form-control py-2" type="search" value="search" id="example-search-input">
       <span class="input-group-append">
         <button class="btn btn-outline-secondary" type="button">
@@ -10,27 +6,19 @@
         </button>
       </span>
 </div>
-<br>
+<br><br>
 {% extends "layout.html" %}
 {% block content %}
-<<<<<<< HEAD
-<form>
-  <input type="search" value="search">
-  <input type="submit">
-</form>
-</br>
-</br>
-=======
+
 <article class="col-lg-3 col-md-3 col-sm-6 col-xs-12" >
 
->>>>>>> 7c5a7e27995ba40ac2cf752c0b84eff57bbf7838
 {% for item in items.find() %}
 
   <div class="one-item">
-<a href="{{ url_for('main.item', item_id=item['_id']) }}">
-    <img class="rounded article-image" width="250" height="250" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}">
-</a>
-	<div class="box-1">
+    <a href="{{ url_for('main.item', item_id=item['_id']) }}">
+      <img class="rounded article-image" width="250" height="250" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}">
+    </a>
+	 <div class="box-1">
     	  <h5> <a  id="br" href="{{ url_for('main.item',item_id=item['_id'] ) }}">{{item["Brand"] }}</a> </h5>
       		<small class="text-muted" id="des">{{item["Short Description"]}}</small>
             <div class="price">
@@ -39,7 +27,7 @@
             </div>
            <a class="btn btn-success btn-md" href="{{ url_for('users.cart') }}">Buy Now</a>
            <a class="btn btn-success btn-md" href="{{ url_for('users.add_to_cart',item_id=items['_id']) }}">Add To Cart</a>
-</div>
+    </div>
   </div>
 </article>
 {% endfor %}
