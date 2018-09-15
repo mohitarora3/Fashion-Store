@@ -4,8 +4,6 @@
 <script type="text/javascript" src="script.js"></script>
     <article class="container">
         <div class="box-1">
-            <h1>kbtjjbvkjybvk</h1>
-            <h2>lnfknknf</h2>
             <img class="rounded article-image" width="50" height="50" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}" onmouseover="document.getElementById('image').src=' {{ url_for("static", filename="shirts/"+item["Image"][0]) }}'">
             <img class="rounded article-image" width="50" height="50" src= " {{ url_for('static', filename='shirts/'+item['Image'][1]) }}" onmouseover ="document.getElementById('image').src='{{ url_for("static", filename="shirts/"+item["Image"][1]) }}'">
             <img class="rounded article-image" width="50" height="50" src= " {{ url_for('static', filename='shirts/'+item['Image'][2]) }}" onmouseover="document.getElementById('image').src='{{ url_for("static", filename="shirts/"+item["Image"][2]) }}'">

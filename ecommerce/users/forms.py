@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from ecommerce.models import User
 from flask_login import current_user
@@ -31,6 +31,16 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+
+class DeliveryForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired(), Length(min=2, max=15)])
+    address = TextAreaField('Address', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    state = StringField('State', validators=[DataRequired()])
+    pin_code = IntegerField('Pin Code', validators=[DataRequired()])
+    phone_number = IntegerField('Mobile Number', validators=[DataRequired()])
+    submit = SubmitField('Save')
 
 
 class RequestResetForm(FlaskForm):

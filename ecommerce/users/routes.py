@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, Blueprint, flash, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
-from ecommerce.users.forms import RequestResetForm, ResetPasswordForm, RegistrationForm, LoginForm
+from ecommerce.users.forms import RequestResetForm, ResetPasswordForm, RegistrationForm, LoginForm, DeliveryForm
 from ecommerce.users.utils import send_reset_email
 from ecommerce import db, bcrypt, mongo
 from ecommerce.models import User
@@ -11,7 +11,7 @@ from bson.objectid import ObjectId
 users = Blueprint('users', __name__)
 
 
-@users.route('/register', methods=['GET', 'POST'])
+@users.route('/register', methods=['GET','POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
@@ -70,9 +70,9 @@ def add_to_cart(item_id):
     return redirect(url_for('main.home'))
 
 
-@users.route('/updating/<string:item_id>/<int:item_size>', methods=['GET', 'POST'])
+@users.route('/updating/<string:item_id>/<string:item_attr>', methods=['GET', 'POST'])
 @login_required
-def update_cart(item_id, item_size):
+def update_cart(item_id, item_attr):
     id = current_user.get_id()
     #item=mongo.db.items.find_one({'_id': ObjectId(item_id)}, {"_id": 0, "Size": 1})
     # size=item["Size"]
@@ -80,7 +80,7 @@ def update_cart(item_id, item_size):
         mongo.db.user.update_one(
             {"_id": ObjectId(id),
              "item.item_id": item_id,
-             "item.size": item_size
+             "item.size": item_attr
              },
             {"$set":
              {"item.$.quantity": request.form['qt']}
@@ -89,7 +89,8 @@ def update_cart(item_id, item_size):
     elif('si' in request.form):
         mongo.db.user.update_one(
             {"_id": ObjectId(id),
-             "item.item_id": item_id
+             "item.item_id": item_id,
+             "item.quantity": item_attr
              },
             {"$set":
                 {"item.$.size": request.form['si']}
@@ -117,7 +118,7 @@ def remove_from_cart(item_id):
     return redirect(url_for('users.cart'))
 
 
-@users.route('/ my_cart', methods=['GET', 'POST'])
+@users.route('/my_cart', methods=['GET', 'POST'])
 @login_required
 def cart():
     id = current_user.get_id()
@@ -151,6 +152,28 @@ def cart():
         return render_template('cart.html', users=users, items=lst, dict=dict, number=number_of_items)
     else:
         return render_template('cart.html', number=0)
+
+
+@users.route('/checkout/address', methods=['GET', 'POST'])
+@login_required
+def address():
+    form = DeliveryForm()
+    if form.validate_on_submit():
+        id = current_user.get_id()
+        a = {'name': form.name.data, 'address': form.address.data, 'state': form.state.data, 'city': form.city.data, 'pin_code': form.pin_code.data, 'phone_number': form.phone_number.data}
+        mongo.db.user.update_one(
+            {
+                '_id': ObjectId(id)
+            },
+            {
+                '$push':
+                {'list_address': a
+
+                 }
+            }
+        )
+        flash('Your address has been saved', 'success')
+    return render_template('delivery.html', form=form, title='address')
 
 
 @users.route('/reset_password', methods=['GET', 'POST'])

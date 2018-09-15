@@ -3,8 +3,10 @@
 {% block content %}
 <form>
   <input type="search" value="search">
-  <input type="submit"
+  <input type="submit">
 </form>
+</br>
+</br>
 {% for item in items.find() %}
 <article class="container" >
 <a href="{{ url_for('main.item', item_id=item['_id']) }}">

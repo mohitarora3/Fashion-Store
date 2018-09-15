@@ -116,8 +116,8 @@ def add():
          {"item.$.quantity": 4}
          }
     )
-    '''
-    item = mongo.db.user.find_one({"$and": {'item.item_id': '5b94e49ceaeeee1b1cad4b39'}, {'item.size': '44'}})
+
+    item = mongo.db.user.find_one( {"$and":{'item.item_id': '5b94e49ceaeeee1b1cad4b39'}, {'item.size': '44'}})
     print(item)
     if item is None:
         print('rnkn')
@@ -130,7 +130,33 @@ def add():
               }
              }
         )
+    '''
+    for i in mongo.db.user.find():
+        print(i)
+    '''
+    a = {'name': 'mohit', 'address': 'mohit', 'state': 'delhi', 'city': 'delhi', 'pin_code': 110033, 'phone_number': 9873959385}
+    mongo.db.user.update_one(
+        {
+            '_id': ObjectId('5b955a39eaeeee2c588a716a')
+        },
+        {
+            '$push':
+                {'list_address': a
 
+                 }
+        }
+    )
+    '''
+    for i in mongo.db.user.find():
+        print(i)
+
+    '''
+    mongo.db.user.update_one({'_id': ObjectId('5b955a39eaeeee2c588a716a')},
+                             {'$unset':
+                              {'list_address': 1}
+                              }
+                             )
+    '''
     for i in mongo.db.user.find():
         print(i)
 

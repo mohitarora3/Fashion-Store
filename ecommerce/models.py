@@ -12,8 +12,7 @@ class User(UserMixin, db.Document):
     email = db.EmailField(max_length=30)
     password = db.StringField()
     item = db.StringField()
-    size = db.StringField()
-    item_id = db.StringField()
+    list_address = db.StringField()
 
     def __rep__(self):
         return 'User({},{})'.format(self.username, self.email)
