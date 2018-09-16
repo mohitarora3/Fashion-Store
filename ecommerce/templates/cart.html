@@ -51,6 +51,7 @@
             <h5 class="text-muted">Bag Total  &emsp; &emsp;  Rs.{{dict["bag_mrp"]}}</h5>
             <h5 class="text-muted">Bag Discount  &emsp; &emsp; Rs.{{dict["bag_discount"]}}</h5>
             <h3>Order Total Rs.{{dict["bag_total"]}}</h3>
+            <a class="btn btn-success btn-md" href="{{ url_for('users.address') }}"> Place Order </a>
     </div>
   {% endif %}
 {% endblock content %}
