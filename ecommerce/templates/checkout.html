@@ -1,0 +1,44 @@
+<br><br><br>
+<div class="container">
+<div class="input-group col-sm-6  text-center" >
+      <input class="form-control py-2" type="search" value="search" id="example-search-input">
+      <span class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button">
+            <i class="fa fa-search"></i>
+        </button>
+      </span>
+</div>
+</div>
+{% extends "layout.html" %}
+{% block content %}
+
+<article class="col-lg-3 col-md-3 col-sm-6 col-xs-12" >
+
+{% for address in list_address %}
+
+  <div class="one-item">
+     <div class="box-1">
+          <p> {{address["name"] }}</p>
+            <small class="text-muted" id="des">{{address["address"]}} <br> {{address['city']}}-{{address['pin-code']}}<br>{{address['state']}}<br><br>Mobile: <b> {{address['phone_number']}}</b></small>
+            <br>
+            {{loop.index}}
+
+           <a class="btn btn-success btn-md" href="{{ url_for('users.remove_address', number=loop.index-1) }}">Remove</a>
+           <a class="btn btn-success btn-md" href="{{ url_for('users.update_address', number=loop.index-1) }}">Edit</a>
+    </div>
+  </div>
+</article>
+{% endfor %}
+<a href="{{ url_for('users.address') }}">Add New Address</a>
+</br></br>
+<div class="box-2">
+  <br>
+      <b>{{number}} ITEMS </b>
+        <h2>Price Details</h2>
+        <h5 class="text-muted">Bag Total  &emsp; &emsp;  Rs.{{dict["bag_mrp"]}}</h5>
+        <h5 class="text-muted">Bag Discount  &emsp; &emsp; Rs.{{dict["bag_discount"]}}</h5>
+        <h3>Order Total Rs.{{dict["bag_total"]}}</h3>
+        <a class="btn btn-success btn-md" href="{{ url_for('users.checkout') }}"> Place Order </a>
+</div>
+{% endblock content %}
+

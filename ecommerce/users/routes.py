@@ -11,7 +11,7 @@ from bson.objectid import ObjectId
 users = Blueprint('users', __name__)
 
 
-@users.route('/register', methods=['GET','POST'])
+@users.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
@@ -99,17 +99,18 @@ def update_cart(item_id, item_attr):
     return redirect(url_for('users.cart'))
 
 
-@users.route('/removing/<string:item_id>', methods=['GET', 'POST'])
+@users.route('/removing/<string:item_id>,<string:size>', methods=['GET', 'POST'])
 @login_required
-def remove_from_cart(item_id):
+def remove_from_cart(item_id, size):
     id = current_user.get_id()
     mongo.db.user.update_one(
-        {"_id": ObjectId(id)
+        {"_id": ObjectId(id),
          },
         {"$pull":
             {"item":
                 {
-                    "item_id": item_id
+                    "item_id": item_id,
+                    "size": size
                 }
              }
          }
@@ -118,10 +119,7 @@ def remove_from_cart(item_id):
     return redirect(url_for('users.cart'))
 
 
-@users.route('/my_cart', methods=['GET', 'POST'])
-@login_required
-def cart():
-    id = current_user.get_id()
+def cart_details(id):
     Items = mongo.db.user.find_one(
         {"_id": ObjectId(id)
          },
@@ -149,12 +147,34 @@ def cart():
         dict['bag_discount'] = bag_mrp - bag_price
         dict['bag_mrp'] = bag_mrp
         dict['bag_total'] = bag_price
-        return render_template('cart.html', users=users, items=lst, dict=dict, number=number_of_items)
+        return lst, dict, number_of_items
+
+
+@users.route('/my_cart', methods=['GET', 'POST'])
+@login_required
+def cart():
+    id = current_user.get_id()
+    lst, dict, number_of_items = cart_details(id)
+    if number_of_items > 0:
+        return render_template('cart.html', items=lst, dict=dict, number=number_of_items)
     else:
         return render_template('cart.html', number=0)
 
 
-@users.route('/checkout/address', methods=['GET', 'POST'])
+@users.route('/checkout/address')
+@login_required
+def checkout():
+    id = current_user.get_id()
+    count = mongo.db.user.find({'$and': [{'_id': ObjectId(id)}, {'list_address': {'$exists': 'true'}}]}).count()
+    if count == 0:
+        return redirect(url_for('users.address'))
+    else:
+        lst, dict, number_of_items = cart_details(id)
+        address = mongo.db.user.find_one({'_id': ObjectId(id)}, {'_id': 0, 'list_address': 1})
+        return render_template('checkout.html', list_address=address['list_address'], lst=lst, dict=dict, number=number_of_items)
+
+
+@users.route('/user/address', methods=['GET', 'POST'])
 @login_required
 def address():
     form = DeliveryForm()
@@ -173,7 +193,46 @@ def address():
             }
         )
         flash('Your address has been saved', 'success')
-    return render_template('delivery.html', form=form, title='address')
+        return redirect(url_for('users.checkout'))
+    return render_template('address.html', form=form, title='address')
+
+
+@users.route('/user/address/remove/<string:number>')
+@login_required
+def remove_address(number):
+    id = current_user.get_id()
+    list_address_number = 'list_address.' + number
+    mongo.db.user.update_one(
+        {"_id": ObjectId(id)
+         },
+        {"$unset":
+            {list_address_number: 1
+             }
+         }
+    )
+    mongo.db.user.update_one({'_id': ObjectId(id)},
+                             {'$pull':
+                              {
+                                  'list_address': 'Null'
+                              }
+                              }
+                             )
+    return redirect(url_for('users.checkout'))
+
+
+@users.route('/user/address/update')
+@login_required
+def update_address(address):
+    id = current_user.get_id()
+    mongo.db.user.update_one(
+        {"_id": ObjectId(id)
+         },
+        {"$pull":
+            {"list_address": address
+             }
+         }
+    )
+    return redirect(url_for('users.address'))
 
 
 @users.route('/reset_password', methods=['GET', 'POST'])

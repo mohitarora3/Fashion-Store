@@ -35,6 +35,20 @@
                     {% endif %}
                 </div>
                 <div class="form-group">
+                    {{ form.state.label(class="form-control-label") }}
+                    {% if form.state.errors %}
+                        {{ form.state(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                                {% for error in form.state.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.city(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
                     {{ form.city.label(class="form-control-label") }}
                     {% if form.city.errors %}
                         {{ form.city(class="form-control form-control-lg is-invalid") }}

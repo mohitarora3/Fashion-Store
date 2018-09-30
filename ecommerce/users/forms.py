@@ -1,9 +1,9 @@
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from ecommerce.models import User
+#from ecommerce.models import User
 from flask_login import current_user
-from ecommerce import mongo
+#from ecommerce import mongo
 
 
 class RegistrationForm(FlaskForm):
@@ -11,6 +11,7 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+
     submit = SubmitField('Sign Up')
 
     def validate_username(self, username):
@@ -39,12 +40,13 @@ class DeliveryForm(FlaskForm):
     city = StringField('City', validators=[DataRequired()])
     state = StringField('State', validators=[DataRequired()])
     pin_code = IntegerField('Pin Code', validators=[DataRequired()])
-    phone_number = IntegerField('Mobile Number', validators=[DataRequired()])
+    phone_number = StringField('Mobile Number', validators=[DataRequired(), Length(10)])
     submit = SubmitField('Save')
 
 
 class RequestResetForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
+    recaptcha = RecaptchaField()
     submit = SubmitField('Request Reset Password')
 
     def validate_email(self, email):
