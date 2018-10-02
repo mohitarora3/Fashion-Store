@@ -20,11 +20,11 @@ a = 'list_address.' + number
 mongo.db.user.update_one({"_id": ObjectId('5b955a39eaeeee2c588a716a')
                           },
                          {"$unset":
-                          {a: 1}
+                          {'list_address': 1}
                           }
                          )
 
-'''
+
 mongo.db.user.update_one({"_id": ObjectId('5b955a39eaeeee2c588a716a'), "list_address": ""},
                          {"$pull":
                           {"list_address.$": None
@@ -34,8 +34,28 @@ mongo.db.user.update_one({"_id": ObjectId('5b955a39eaeeee2c588a716a'), "list_add
                          )
 
 
-for i in mongo.db.user.find():
+
+dict_items_info = mongo.db.user.find_one({'_id': ObjectId('5b955a39eaeeee2c588a716a')}, {'_id': 0, 'item': 1, 'list_address': 1})
+
+lst_items_info = dict_items_info['item']
+for item_info in lst_items_info:
+  item_size = 'Size.' + item_info['size']
+  mongo.db.items.update_one({'_id': ObjectId(item_info['item_id'])},
+                            {'$inc':
+                             {item_size: -item_info['quantity']
+                              }
+                             }
+                            )
+
+a = dict_items_info['list_address']
+print(a[2])
+
+'''
+for i in mongo.db.items.find():
   print(i)
+for i in mongo.db.order.find():
+  print(i)
+
 
 '''
 if address>0:

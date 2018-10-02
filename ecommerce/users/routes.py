@@ -74,7 +74,7 @@ def add_to_cart(item_id):
 @login_required
 def update_cart(item_id, item_attr):
     id = current_user.get_id()
-    #item=mongo.db.items.find_one({'_id': ObjectId(item_id)}, {"_id": 0, "Size": 1})
+    # item=mongo.db.items.find_one({'_id': ObjectId(item_id)}, {"_id": 0, "Size": 1})
     # size=item["Size"]
     if('qt' in request.form):
         mongo.db.user.update_one(
@@ -154,8 +154,9 @@ def cart_details(id):
 @login_required
 def cart():
     id = current_user.get_id()
-    lst, dict, number_of_items = cart_details(id)
-    if number_of_items > 0:
+    cart_status = mongo.db.user.find({'$and': [{'_id': ObjectId(id)}, {'item': {'$exists': 'true'}}]}).count()
+    if cart_status:
+        lst, dict, number_of_items = cart_details(id)
         return render_template('cart.html', items=lst, dict=dict, number=number_of_items)
     else:
         return render_template('cart.html', number=0)
@@ -172,6 +173,32 @@ def checkout():
         lst, dict, number_of_items = cart_details(id)
         address = mongo.db.user.find_one({'_id': ObjectId(id)}, {'_id': 0, 'list_address': 1})
         return render_template('checkout.html', list_address=address['list_address'], lst=lst, dict=dict, number=number_of_items)
+
+
+@users.route('/checkout/place_order', methods=['GET', 'POST'])
+@login_required
+def place_order():
+    lst_items=[]
+    id = current_user.get_id()
+    number = int(request.form['address_number'])
+    dict_items_info = mongo.db.user.find_one({'_id': ObjectId(id)}, {'_id': 0, 'item': 1, 'list_address': 1})
+    lst_items_info = dict_items_info['item']
+    lst_address_details = dict_items_info['list_address']
+    for item_info in lst_items_info:
+        item_size = 'Size.' + item_info['size']
+        mongo.db.items.update_one({'_id': ObjectId(item_info['item_id'])},
+                                  {'$inc':
+                                   {item_size: -int(item_info['quantity'])
+                                    }
+                                   }
+                                  )
+        item=mongo.db.items.find_one({'_id':ObjectId(item_info['item_id'])},{'_id':0,'Mrp':1,'Discount':1})
+        item_info['mrp']=item['Mrp']
+        item_info['discount']=item['Discount']
+        lst_items.append(item_info)
+    mongo.db.order.insert_one({'user_id': id, 'item_details': lst_items, 'delivery_details': lst_address_details[number]})
+    mongo.db.user.update_one({'_id': ObjectId(id)}, {'$unset': {'item': 1}})
+    return render_template('order_placed.html', title='Order Placed')
 
 
 @users.route('/user/address', methods=['GET', 'POST'])

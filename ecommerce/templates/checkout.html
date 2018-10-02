@@ -11,14 +11,13 @@
 </div>
 {% extends "layout.html" %}
 {% block content %}
-
+<form name="a" action="{{ url_for('users.place_order') }}" method="post">
 <article class="col-lg-3 col-md-3 col-sm-6 col-xs-12" >
-
 {% for address in list_address %}
 
   <div class="one-item">
      <div class="box-1">
-          <p> {{address["name"] }}</p>
+          <input type="radio" value={{loop.index-1}} name="address_number" required><p> {{address["name"] }}</p>
             <small class="text-muted" id="des">{{address["address"]}} <br> {{address['city']}}-{{address['pin-code']}}<br>{{address['state']}}<br><br>Mobile: <b> {{address['phone_number']}}</b></small>
             <br>
             {{loop.index}}
@@ -38,7 +37,9 @@
         <h5 class="text-muted">Bag Total  &emsp; &emsp;  Rs.{{dict["bag_mrp"]}}</h5>
         <h5 class="text-muted">Bag Discount  &emsp; &emsp; Rs.{{dict["bag_discount"]}}</h5>
         <h3>Order Total Rs.{{dict["bag_total"]}}</h3>
-        <a class="btn btn-success btn-md" href="{{ url_for('users.checkout') }}"> Place Order </a>
+        <br>
+        <input type=submit value="Place Your Order Now" class="btn btn-success btn-md" >
+</form>
 </div>
 {% endblock content %}
 
