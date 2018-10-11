@@ -2,15 +2,13 @@ from flask import Flask
 from flask_pymongo import PyMongo
 from jsonmerge import merge
 from bson.objectid import ObjectId
-from users.forms import DeliveryForm
+# from users.forms import DeliveryForm
 import pprint
 from flask import request
 import json
 
 app = Flask(__name__)
 app.config['MONGO_URI'] = "mongodb://localhost:27017/myDatabase"
-
-
 mongo = PyMongo(app)
 
 
@@ -20,7 +18,7 @@ a = 'list_address.' + number
 mongo.db.user.update_one({"_id": ObjectId('5b955a39eaeeee2c588a716a')
                           },
                          {"$unset":
-                          {'list_address': 1}
+                          {'item': 1}
                           }
                          )
 
@@ -51,28 +49,40 @@ a = dict_items_info['list_address']
 print(a[2])
 
 '''
-for i in mongo.db.items.find():
-  print(i)
-for i in mongo.db.order.find():
-  print(i)
-
+# for i in mongo.db.items.find():
+# print(i)
+# mongo.db.order.delete_many({})
 
 '''
-if address>0:
-  address=mongo.db.user.find({'_id':ObjectId('5b9d51f2eaeeee281c933160')
 
-a = address['list_address']
+a = mongo.db.order.aggregate([
+    {'$match': {'user_id': '5bb5f391eaeeee21f4c15bba'}},
+    #{'$unwind': '$item_details'},
+    {'$lookup':
+     {
+         'from': 'items',
+         'localField': 'item_details.item_id',
+         'foreignField': '_id',
+         'as': 'item_info'
+     }
+     },
+    {'$project': {'item_info._id': 1, 'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1, 'item_details.mrp': 1, 'item_details.discount': 1, 'item_details.quantity': 1, 'date': 1, 'delivery_details': 1}}
+    #{'$unwind': '$item_info'}
+
+
+
+
+])
+
 for i in a:
-  print(i)
+    print(i)
 
+        n = len(i['item_details'])
+    for j in range(n):
+        i['item_details'][j] = {**i['item_details'][j], **i['item_info'][j]}
+        #print(i)
+    '''
 
-
-form4 = DeliveryForm([('name', 'jerry'), ('address', 'jerry@mail.com'), ('city', "Delhi"), ('state', 'Delhi'), ('pin_code', '110033')])
-
-
-mongo.db.user.update_one({'_id': ObjectId('5b955a39eaeeee2c588a716a')},
-                         {'$unset':
-                          {'list_address': 1}
-                          }
-                         )
-'''
+# mongo.db.order.delete_many({})
+for i in mongo.db.order.find():
+    print(i)

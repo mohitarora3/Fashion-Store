@@ -1,0 +1,44 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<script type="text/javascript" src="script.js"></script>
+    <article class="container">
+        {% for order in dict_order_details %}
+            Order Id:{{order["_id"]}}
+                {% for item in order["item_info"] %}
+                    <h2> {{ item["Brand"] }} </h2>
+                    <div class="img-zoom-container">
+                    <img class="rounded article-image" id="image" width="100" height="100" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}">
+                    <!--<div id="myresult" class="img-zoom-result"></div> -->
+                    </div>
+
+                    <small class="text-muted">{{ item["Short Description"] }}</small>
+                    <div class="price">
+                       Price <small> {{order["item_details"][loop.index-1]["price"] }}
+                    </div>
+                    Quantity{{ order["item_details"][loop.index-1]["quantity"]}}
+                 {% endfor %}
+                 <h5> Order Placed on:{{order["date"].day }} {{order["date"].strftime("%B")}} {{order["date"].year}} </h5>
+                <div>
+                    Order total:{{order["order_total"]   }}
+                </div>
+                <a class="button" href=" {{url_for('users.cancel_order',order_id=order['_id']) }}">Cancel Order</a>
+                <div>
+                    <b>Shipping Address  </b>
+                    {{order["delivery_details"]["address"]}}
+                    <br>
+                    {{order["delivery_details"]["state"]}}
+                    <br>
+                    {{order["delivery_details"]["city"]}}
+                    <br>
+                    {{order["delivery_details"]["pin_code"]}}
+                    <br>
+                </div>
+
+                {% endfor %}
+
+    </article>
+    <script type="text/javascript" src="script.js">
+        imageZoom("image", "myresult");
+    </script>
+{% endblock content %}

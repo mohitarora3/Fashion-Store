@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-#from ecommerce.models import User
+from ecommerce.models import User
 from flask_login import current_user
-#from ecommerce import mongo
+from ecommerce import mongo
 
 
 class RegistrationForm(FlaskForm):

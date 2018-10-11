@@ -1,3 +1,4 @@
+import datetime, math
 from flask import render_template, redirect, url_for, Blueprint, flash, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
@@ -55,7 +56,7 @@ def add_to_cart(item_id):
     id = current_user.get_id()
     item = mongo.db.user.find_one({'_id': ObjectId(id), 'item.item_id': item_id, 'item.size': request.form['si']})
     if item is None:
-        a = {"item_id": item_id, "size": request.form['si'], "quantity": 1}
+        a = {"item_id":ObjectId(item_id), "size": request.form['si'], "quantity": 1}
         mongo.db.user.update_one(
             {"_id": ObjectId(id)
              },
@@ -79,7 +80,7 @@ def update_cart(item_id, item_attr):
     if('qt' in request.form):
         mongo.db.user.update_one(
             {"_id": ObjectId(id),
-             "item.item_id": item_id,
+             "item.item_id": ObjectId(item_id),
              "item.size": item_attr
              },
             {"$set":
@@ -89,7 +90,7 @@ def update_cart(item_id, item_attr):
     elif('si' in request.form):
         mongo.db.user.update_one(
             {"_id": ObjectId(id),
-             "item.item_id": item_id,
+             "item.item_id": ObjectId(item_id),
              "item.quantity": item_attr
              },
             {"$set":
@@ -109,7 +110,7 @@ def remove_from_cart(item_id, size):
         {"$pull":
             {"item":
                 {
-                    "item_id": item_id,
+                    "item_id": ObjectId(item_id),
                     "size": size
                 }
              }
@@ -179,6 +180,8 @@ def checkout():
 @login_required
 def place_order():
     lst_items=[]
+    price=0
+    order_total=0
     id = current_user.get_id()
     number = int(request.form['address_number'])
     dict_items_info = mongo.db.user.find_one({'_id': ObjectId(id)}, {'_id': 0, 'item': 1, 'list_address': 1})
@@ -192,14 +195,45 @@ def place_order():
                                     }
                                    }
                                   )
-        item=mongo.db.items.find_one({'_id':ObjectId(item_info['item_id'])},{'_id':0,'Mrp':1,'Discount':1})
-        item_info['mrp']=item['Mrp']
-        item_info['discount']=item['Discount']
+        item=mongo.db.items.find_one({'_id':item_info['item_id']},{'_id':0,'Mrp':1,'Discount':1})
+        #item_info['mrp']=item['Mrp']
+        #item_info['discount']=item['Discount']
+        price=item['Mrp']-item['Mrp']*item['Discount']/100
+        item_info['price']=price
+        order_total+=price
         lst_items.append(item_info)
-    mongo.db.order.insert_one({'user_id': id, 'item_details': lst_items, 'delivery_details': lst_address_details[number]})
+    order_total=math.floor(order_total)
+    mongo.db.order.insert_one({'date': datetime.datetime.now(), 'user_id': id, 'item_details': lst_items,'delivery_details': lst_address_details[number], 'order_total':order_total})
     mongo.db.user.update_one({'_id': ObjectId(id)}, {'$unset': {'item': 1}})
     return render_template('order_placed.html', title='Order Placed')
 
+@users.route('/my_orders/')
+@login_required
+def orders():
+    id=current_user.get_id()
+    dict_order_details= mongo.db.order.aggregate([
+    {'$match': {'user_id': id}},
+    {'$lookup':
+     {
+         'from': 'items',
+         'localField': 'item_details.item_id',
+         'foreignField': '_id',
+         'as': 'item_info'
+     }
+     },
+    #{'$replaceRoot': {'newRoot': {'$mergeObjects': [{'$arrayElemAt': ["$item_info", 0]}, "$$ROOT"]}}},
+    {'$project': {'item_info._id': 1, 'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1, 'item_details.price': 1,  'item_details.quantity': 1, 'item_details.size':1, 'date': 1, 'delivery_details': 1, 'order_total':1}}
+])
+    return render_template('orders.html',title='My Orders',dict_order_details=dict_order_details)
+
+@users.route('/my_orders/cancel_order<string:order_id>')
+@login_required
+def cancel_order(order_id):
+    id=current_user.get_id()
+    user_order=mongo.db.order.find({'_id':ObjectId(order_id), 'user_id':id}).count()
+    if user_order:
+        mongo.db.order.delete_one({'_id':ObjectId(order_id)})
+    return redirect(url_for('users.orders'))
 
 @users.route('/user/address', methods=['GET', 'POST'])
 @login_required
