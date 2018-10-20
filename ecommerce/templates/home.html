@@ -1,4 +1,8 @@
-<br><br><br>
+
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
 <div class="container">
 <div class="input-group col-sm-6  text-center" >
       <input class="form-control py-2" type="search" value="search" id="example-search-input">
@@ -9,11 +13,9 @@
       </span>
 </div>
 </div>
-{% extends "layout.html" %}
-{% block content %}
+<br>
 
 <article class="col-lg-3 col-md-3 col-sm-6 col-xs-12" >
-
 {% for item in items.find() %}
 
   <div class="one-item">
@@ -32,6 +34,9 @@
     </div>
   </div>
 </article>
+
 {% endfor %}
+</div>
+<br><br><br>
 {% endblock content %}
 
