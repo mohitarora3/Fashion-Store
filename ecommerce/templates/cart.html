@@ -1,20 +1,58 @@
-
+<br><br>
 {% extends "layout.html" %}
 {% block content %}
-{% for item_des in items %}
-  {% for item in mongo.db.find({'item_des[0]'})}
-        <article class="container" >
-             <img class="rounded article-image" width="250" height="250" src= " {{ url_for('static', filename='shirts/' +) }}">
-            <div class="box-1">
-                  <h5> <a href="{{ url_for('main.item',item_id=item['_id'] ) }}">{{ item["Brand"] }} </a> </h5>
-                    <small class="text-muted">{{ item["Description"] }}</small>
-                    <div class="price">
-                        <small> {{item["Price"] }} <strike> {{item["Mrp"] }} </strike> <div class="text-danger" > {{item["Discount"] }}% Off </div> </small>
-                    </div>
-                   <a class="button" href="url_for('remove_from_cart',item['_id'])">Remove</a>
+  {% if number == 0 %}
+    <h4>Your shopping cart is empty. </h4>
+  {% else %}
+    <h3>Total items ({{number}})</h3>
+    {% for item in items %}
+        <img class="rounded article-image" width="150" height="150" src= " {{ url_for('static', filename='shirts/' +item['Image'][0]) }}">
+              <div class="box-1">
+                    <h5> <a href="{{ url_for('main.item',item_id=item['_id'] ) }}">{{ item["Brand"] }} </a> </h5>
+                      <small class="text-muted">{{ item["Description"] }}</small>
+                      <div class="price">
+                          <small> {{item['quantity']*item["Price"] }} <strike> {{item['quantity']*item["Mrp"] }} </strike> <div class="text-danger" > {{item["Discount"] }}% Off </div> </small>
+                      </div>
+                      <mark>Size: {{item["size"]}}</mark>
+                      <form name="si" action=" {{ url_for('users.update_cart', item_id=item['_id'], item_attr=item['quantity'] ) }}" method='post' >
+                        <select name='si' onchange="this.form.submit()">
+                          {% for key,value in item['Size'].items() %}
+                            {% if value|int > 0 %}
+                              <option value={{key}} >{{key}}</option>
+                            {% endif %}
+                          {% endfor %}
+                        </select>
+                        <noscript><input type="submit" value="Submit"></noscript>
+                        </form>
+                      <mark>Qty:  {{item["quantity"]}}</mark>
+                      <form name="qt" action=" {{ url_for('users.update_cart', item_id=item['_id'] ,item_attr=item['size']) }}" method='post' >
+                        <select name='qt' onchange='this.form.submit()'>
+                          {% if item["Size"][item['size']] > 10 %}
+                            {% for q in range(1,11) %}
+                              <option value={{q}} >{{q}}</option>
+                            {% endfor %}
+                          {% else %}
+                            {% for q in range(1,item["Size"][ item['size'] ] ) %}
+                              <option value={{q}} >{{q}}</option>
+                            {% endfor %}
+                          {% endif %}
 
-                </div>
-            </div>
-        </article>
+                        </select>
+                      </form>
+                    </br>
+                     <a class="button" href=" {{url_for('users.remove_from_cart',item_id=item['_id'], size=item['size']) }}">Remove</a>
+              </div>
+            </br>
+          </article>
+
+     {% endfor %}
+    <div class="box-2">
+            <h2>Price Details</h2>
+            <h5 class="text-muted">Bag Total  &emsp; &emsp;  Rs.{{dict["bag_mrp"]}}</h5>
+            <h5 class="text-muted">Bag Discount  &emsp; &emsp; Rs.{{dict["bag_discount"]}}</h5>
+            <h3>Order Total Rs.{{dict["bag_total"]}}</h3>
+            <a class="btn btn-success btn-md" href="{{ url_for('users.checkout') }}"> Place Order </a>
+    </div>
+  {% endif %}
 {% endblock content %}
 

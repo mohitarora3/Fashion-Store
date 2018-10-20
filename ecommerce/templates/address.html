@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="Post" action="">
+            {{ form.hidden_tag()  }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">ADD NEW ADDRESS</legend>
+                <div class="form-group">
+                    {{ form.name.label(class="form-control-label")}}
+
+                    {% if form.name.errors %}
+                        {{ form.name(class="form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                                {% for error in form.name.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.name(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.address.label(class="form-control-label") }}
+
+                    {% if form.address.errors %}
+                        {{ form.address(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                                {% for error in form.address.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.address(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.state.label(class="form-control-label") }}
+                    {% if form.state.errors %}
+                        {{ form.state(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                                {% for error in form.state.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.city(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.city.label(class="form-control-label") }}
+                    {% if form.city.errors %}
+                        {{ form.city(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                                {% for error in form.city.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.city(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.pin_code.label(class="form-control-label") }}
+                    {% if form.pin_code.errors %}
+                        {{ form.pin_code(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                                {% for error in form.pin_code.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.pin_code(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.phone_number.label(class="form-control-label") }}
+                    {% if form.phone_number.errors %}
+                        {{ form.phone_number(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                                {% for error in form.phone_number.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.phone_number(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info")}}
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}
