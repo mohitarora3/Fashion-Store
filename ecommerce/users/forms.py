@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField,IntegerField, FileField, MultipleFileField, validators
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, FileField, MultipleFileField, validators
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms.widgets import TextArea
 from ecommerce.models import User
 from flask_login import current_user
 from ecommerce import mongo
@@ -79,9 +80,7 @@ class UpdateAccountForm(FlaskForm):
             if user:
                 raise ValidationError('This email is alreay taken. Please choose a different one.')
 
-    
-    
-    
+
 class ItemForm(FlaskForm):
     images = MultipleFileField(u'Image File', validators=[DataRequired()])
 
@@ -95,5 +94,4 @@ class ItemForm(FlaskForm):
     discount = IntegerField('Discount', validators=[DataRequired()])
     productDetails = StringField('Product Details', validators=[DataRequired(), Length(min=1, max=50)], widget=TextArea())
     material_Care = StringField('Material & Care', validators=[DataRequired(), Length(min=1, max=50)])
-    submit = SubmitField('Submit')        
-                
+    submit = SubmitField('Submit')
