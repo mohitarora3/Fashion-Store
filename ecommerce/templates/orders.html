@@ -12,30 +12,37 @@
                     <!--<div id="myresult" class="img-zoom-result"></div> -->
                     </div>
 
-                    <small class="text-muted">{{ item["Short Description"] }}</small>
+                    <a href="{{ url_for('main.item',item_id=item['_id'] ) }}"><small class="text-muted">{{ item["Short Description"] }}</small> </a>
                     <div class="price">
                        Price <small> {{order["item_details"][loop.index-1]["price"] }}
                     </div>
                     Quantity{{ order["item_details"][loop.index-1]["quantity"]}}
                  {% endfor %}
-                 <h5> Order Placed on:{{order["date"].day }} {{order["date"].strftime("%B")}} {{order["date"].year}} </h5>
+                 <br>
+                 {% if order['status'] == 'IN PROGRESS' %}
+                     <b>Estimated Delivery:</b>
+                {% else %}
+                    {{ order['status'] }}
+                    <b> Delivered on:</b>
+
+                {% endif %}
+                    <b>{{order["delivery_date"].strftime("%A") }}, {{order["delivery_date"].strftime("%B")}} {{order["delivery_date"].day }}  {{order["delivery_date"].year}} </b>
+                <br>
+                <br>
+                <br>
+                 <h5> Order Placed on:{{order["date"].strftime("%A")}},{{order["date"].strftime("%B")}}{{order["date"].day }}  {{order["date"].year}} </h5>
+
+
                 <div>
                     Order total:{{order["order_total"]   }}
                 </div>
-                <a class="button" href=" {{url_for('users.cancel_order',order_id=order['_id']) }}">Cancel Order</a>
-                <div>
-                    <b>Shipping Address  </b>
-                    {{order["delivery_details"]["address"]}}
-                    <br>
-                    {{order["delivery_details"]["state"]}}
-                    <br>
-                    {{order["delivery_details"]["city"]}}
-                    <br>
-                    {{order["delivery_details"]["pin_code"]}}
-                    <br>
-                </div>
-
+                {% if order["status"] == "IN PROGRESS" %}
+                    <a class="button" href=" {{url_for('users.cancel_order',order_id=order['_id']) }}">Cancel Order</a>
+                {% endif %}
                 {% endfor %}
+                <br>
+                <br>
+                <br>
 
     </article>
     <script type="text/javascript" src="script.js">

@@ -80,9 +80,29 @@ for i in a:
         n = len(i['item_details'])
     for j in range(n):
         i['item_details'][j] = {**i['item_details'][j], **i['item_info'][j]}
-        #print(i)
-    '''
+        # print(i)
 
 # mongo.db.order.delete_many({})
-for i in mongo.db.order.find():
-    print(i)
+from datetime import datetime
+a = datetime.now().date()
+# mongo.db.user.update_one({}, {'$unset': {'item': 1}})
+for i in mongo.db.items.find():
+  print(i)
+  item = mongo.db.user.find({'_id': ObjectId('5b955a39eaeeee2c588a716a'), 'item.item_id': item_id, 'item.size': request.form['si']}).count()
+'''
+dict_order_details = mongo.db.order.aggregate([
+    {'$match': {'user_id': '5bb5f391eaeeee21f4c15bba'}},
+    {'$lookup':
+     {
+         'from': 'items',
+         'localField': 'item_details.item_id',
+         'foreignField': '_id',
+         'as': 'item_info'
+     }
+     },
+    {'$project': {'item_info._id': 1, 'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1, 'item_details.price': 1, 'item_details.quantity': 1, 'item_details.size': 1, 'delivery_date': 1, 'date': 1, 'status': 1, 'order_total': 1}
+     }
+
+])
+for order in dict_order_details:
+  print(order)

@@ -17,3 +17,9 @@ def home():
 def item(item_id):
     item = mongo.db.items.find_one_or_404({"_id": ObjectId(item_id)})
     return render_template('item.html', item=item, title=item['Description'])
+
+
+@main.route('/seller')
+def seller():
+    return render_template('sellerdashboard.html')
+
