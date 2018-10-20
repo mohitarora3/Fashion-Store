@@ -194,3 +194,24 @@ h5{
   }
 }
 
+
+.wrapper {
+width:80%;
+margin : 0;
+border : solid 1px #000;
+border-radius: 25px;
+margin: 10px;
+}
+
+.sel_item_image_view{
+
+width:30%;
+margin : 0;
+float : left ;
+}
+
+.sel_item_info {
+width:30%;
+margin : 0;
+float : left ;
+}
