@@ -89,7 +89,7 @@ a = datetime.now().date()
 for i in mongo.db.items.find():
   print(i)
   item = mongo.db.user.find({'_id': ObjectId('5b955a39eaeeee2c588a716a'), 'item.item_id': item_id, 'item.size': request.form['si']}).count()
-'''
+
 dict_order_details = mongo.db.order.aggregate([
     {'$match': {'user_id': '5bb5f391eaeeee21f4c15bba'}},
     {'$lookup':
@@ -104,5 +104,15 @@ dict_order_details = mongo.db.order.aggregate([
      }
 
 ])
-for order in dict_order_details:
-  print(order)
+'''
+for i in mongo.db.items.find({}):
+  item_image = i["Image"]
+  for image in item_image:
+    print(image)
+
+'''
+mongo.db.items.createIndex({'Brand':'text','Short Description':'text','Description':'text'})
+a = mongo.db.items.find({'$text': {'$search': 'highlander'}})
+for i in a:
+  print(i)
+'''
