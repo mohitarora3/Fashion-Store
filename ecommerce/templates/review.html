@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="Post" action="">
+            {{ form.hidden_tag()  }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Create Review</legend>
+                <div class="form-group">
+                    <div class="img-zoom-container">
+                    <img class="rounded article-image" id="image" width="100" height="100" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}">
+                    </div>
+                    <b>{{ item["Brand"] }}</b>
+                    <br>
+                    <a href="{{ url_for('main.item',item_id=item['_id'] ) }}"><small class="text-muted">{{ item["Short Description"] }}</small> </a>
+                    <br> <br> <br>
+                    {{ form.overall_rating.label(class="form-control-label")}}
+
+                    {% if form.overall_rating.errors %}
+                        {{ form.overall_rating(class="form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                                {% for error in form.overall_rating.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.overall_rating(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.headline.label(class="form-control-label") }}
+
+                    {% if form.headline.errors %}
+                        {{ form.headline(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                                {% for error in form.headline.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.headline(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.review.label(class="form-control-label") }}
+
+                    {% if form.review.errors %}
+                        {{ form.review(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                                {% for error in form.review.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.review(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info")}}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

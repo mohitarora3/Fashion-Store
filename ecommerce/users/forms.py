@@ -7,6 +7,13 @@ from flask_login import current_user
 from ecommerce import mongo
 
 
+class ReviewForm(FlaskForm):
+    overall_rating = IntegerField('Overall Rating', validators=[DataRequired()])
+    headline = StringField('Add a headline', validators=[DataRequired()])
+    review = TextAreaField('Write your review', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=15)])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -79,4 +86,3 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(username=username.data).first()
             if user:
                 raise ValidationError('This email is alreay taken. Please choose a different one.')
-

@@ -16,10 +16,15 @@ def home():
 @main.route('/item/<string:item_id>')
 def item(item_id):
     item = mongo.db.items.find_one_or_404({"_id": ObjectId(item_id)})
-    return render_template('item.html', item=item, title=item['Description'])
+    reviews_exist = mongo.db.review.find({'item_id': ObjectId(item_id)}, {'_id': 0, 'reviews': 1}).count()
+    if reviews_exist:
+        reviews_dict = mongo.db.review.find_one({'item_id': ObjectId(item_id)}, {'_id': 0, 'item_id':1,'reviews': 1})
+        reviews = reviews_dict['reviews']
+    else:
+        reviews = None
+    return render_template('item.html', item=item, reviews=reviews, title=item['Description'])
 
 
 @main.route('/seller')
 def seller():
     return render_template('sellerdashboard.html')
-

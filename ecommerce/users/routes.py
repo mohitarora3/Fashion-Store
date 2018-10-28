@@ -3,7 +3,8 @@ from datetime import datetime, timedelta
 from flask import render_template, redirect, url_for, Blueprint, flash, request,  redirect, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
-from ecommerce.users.forms import RequestResetForm, ResetPasswordForm, RegistrationForm, LoginForm, DeliveryForm
+from ecommerce.users.forms import RequestResetForm, ResetPasswordForm, RegistrationForm, LoginForm, DeliveryForm, ReviewForm
+from ecommerce.seller.forms import ItemForm
 from ecommerce.users.utils import send_reset_email
 from ecommerce import db, bcrypt, mongo
 from ecommerce.models import User
@@ -13,6 +14,13 @@ import os
 
 users = Blueprint('users', __name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+@users.route('/seller/additem', methods=['GET', 'POST'])
+@login_required
+def additem():
+  form = ItemForm()
+  if(itemdetail(form)):
+    return viewupdate()
 
 @users.route('/register', methods=['GET', 'POST'])
 def register():
@@ -349,4 +357,80 @@ def reset_token(token):
 
     return render_template('reset_token.html', form=form)
 
+
+@users.route('/review/<string:item_id>', methods=['GET', 'POST'])
+@login_required
+def review(item_id):
+    user_already_reviewed=mongo.db.review.find({'item_id':ObjectId(item_id),'reviews.user_id':current_user.get_id()}).count()
+    if user_already_reviewed:
+        flash('You have aready reviewed on this item','danger')
+        return redirect(url_for('main.item',item_id=item_id))
+    form=ReviewForm()
+    if form.validate_on_submit():
+        name_dict=mongo.db.user.find_one({'_id':ObjectId(current_user.get_id())},{'_id':0,'username':1})
+        name=name_dict['username']
+        review={
+        'user_id':current_user.get_id(),
+        'user_name':name,
+        'rating':form.overall_rating.data,
+        'headline':form.headline.data,
+        'review':form.review.data
+        }
+        print(review)
+        count=mongo.db.review.find({'item_id':ObjectId(item_id)}).count()
+        if count:
+            mongo.db.review.update_one({'item_id':ObjectId(item_id)},
+                        {
+                        '$push':{
+                            'reviews':review
+                        }
+                        })
+        else:
+            mongo.db.review.insert_one({'item_id':ObjectId(item_id),'reviews':[review]})
+        flash('Your review has been submitted','success')
+        return redirect(url_for('main.item',item_id=item_id))
+    item=mongo.db.items.find_one({'_id':ObjectId(item_id)})
+    return render_template('review.html', title='Review', form=form,item=item)
+
+@users.route('/review/delete/<string:item_id>')
+@login_required
+def delete_review(item_id):
+    mongo.db.review.update_one({'item_id':ObjectId(item_id)},
+            {
+                '$pull':
+                    {
+                        'reviews':
+                        {
+                        'user_id':current_user.get_id()
+                        }
+                    }
+
+            })
+    flash('Your review has been deleted','success')
+    return redirect(url_for('main.item',item_id=item_id))
+
+
+@users.route('/review/update/<string:item_id>', methods=['GET', 'POST'])
+@login_required
+def update_review(item_id):
+    form=ReviewForm()
+    if form.validate_on_submit():
+        review={
+        'rating':form.overall_rating.data,
+        'headline':form.headline.data,
+        'review':form.review.data
+        }
+        mongo.db.review.update_one({'item_id':ObjectId(item_id), 'reviews.$.user_id':current_user.get_id()},
+                {
+                    '$set':
+                    {
+                        'reviews.$':review
+                    }
+                })
+        flash('Your review has been upated!', 'success')
+        return(redirect(url_for('main.item',item_id=item_id)))
+    elif request.method=='GET':
+        review=mongo.db.review.find_one({'item_id':ObjectId('item_id'), 'reviews.$.user_id':current_user.get_id()},{'reviews':1,'_id':0})
+    flash('Your review has been deleted','success')
+    return redirect(url_for('main.item',iem_id=item_id))
 

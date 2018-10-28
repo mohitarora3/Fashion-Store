@@ -5,8 +5,7 @@
     <article class="container">
         <div class="box-1">
             {% for image in item["Image"] %}
-            <img class="rounded article-image" width="50" height="50" src= " {{ url_for('static', filename='shirts/'+image) }}" onmouseover="document.getElementById('image').src=' {{ url_for("static", filename="shirts/"+image) }}'">
-
+             <img class="rounded article-image" width="50" height="50" src= " {{ url_for('static', filename='shirts/'+image) }}" onmouseover="document.getElementById('image').src=' {{ url_for("static", filename="shirts/"+image) }}'">
             {% endfor %}
             <div class="img-zoom-container">
 
@@ -48,7 +47,24 @@
             </p>
             </div>
         </div>
-    </article>
+        <a class="btn btn-success btn-md" href="{{ url_for('users.review',item_id=item['_id']) }}">Write a review</a>
+        {% if reviews %}
+            {% for review in reviews %}
+            <div>
+                <b>{{review['user_name']}}<b><br>
+                {{review['rating']}}<br>
+                {{review['headline']}}<br>
+                {{review['review']}}<br>
+            </div>
+                {% if review['user_id'] == current_user.get_id() %}
+
+                    <a class="btn btn-success btn-md" href="#">Update review</a>
+                    <a class="btn btn-success btn-md" href="{{ url_for('users.delete_review',item_id=item['_id']) }}">Delete review</a>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+            </article>
+
     <script type="text/javascript" src="script.js">
         imageZoom("image", "myresult");
     </script>

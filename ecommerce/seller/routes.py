@@ -1,8 +1,16 @@
 from ecommerce import db, bcrypt, mongo
-from forms import ItemForm
+from flask import render_template, redirect, url_for, Blueprint, flash, request, redirect, send_from_directory
+from ecommerce.seller.forms import ItemForm
+from flask_login import current_user, login_required, login_user, logout_user
+from ecommerce.models import User
+from bson.objectid import ObjectId
 
 
-@users.route('/seller/additem', methods=['GET', 'POST'])
+seller = Blueprint('seller', __name__)
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+
+@seller.route('/seller/additem', methods=['GET', 'POST'])
 @login_required
 def additem():
   form = ItemForm()
@@ -12,7 +20,7 @@ def additem():
   return render_template('sellerdash.html', title='ADD item', form=form, item={})
 
 
-@users.route('/seller/selvu')
+@seller.route('/seller/selvu')
 @login_required
 def viewupdate():
   print("executing viewupdate")
@@ -24,7 +32,7 @@ def viewupdate():
   return render_template('sellerviewupdate.html', title='youritems', items=items)
 
 
-@users.route('/seller/<string:item_id>', methods=['GET', 'POST'])
+@seller.route('/seller/<string:item_id>', methods=['GET', 'POST'])
 @login_required
 def selleritemview(item_id):
   print("executing seller item view")
@@ -43,7 +51,7 @@ def selleritemview(item_id):
   return render_template('sellerdash.html', title='Update Item', item=item, form=form)
 
 
-@users.route('/seller/delete/<string:item_id>', methods=['GET', 'POST'])
+@seller.route('/seller/delete/<string:item_id>', methods=['GET', 'POST'])
 @login_required
 def sellerdelete(item_id):
   sellerid = current_user.get_id()

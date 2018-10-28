@@ -104,13 +104,43 @@ dict_order_details = mongo.db.order.aggregate([
      }
 
 ])
-'''
+
 for i in mongo.db.items.find({}):
   item_image = i["Image"]
   for image in item_image:
     print(image)
-
 '''
+# mongo.db.review.delete_many({})
+'''
+review = {
+    'user_id': 'f;mtlt',
+    'rating': 5,
+    'headline': 'awesome',
+    'review': 'best'
+}
+count = mongo.db.review.find({'item_id': ObjectId('5b94e49ceaeeee1b1cad4b3c')}).count()
+if count:
+  print(count)
+  mongo.db.review.update_one({'item_id': ObjectId('5b94e49ceaeeee1b1cad4b3c')},
+                             {
+      '$push': {
+          'reviews': review
+      }
+  })
+else:
+  mongo.db.review.insert_one({'item_id': ObjectId('5b94e49ceaeeee1b1cad4b3c'), 'reviews': [review]})
+'''
+# mongo.db.review.delete_many({})
+
+for i in mongo.db.review.find():
+  print(i)
+
+review = mongo.db.review.find_one({'item_id': ObjectId('5b94e49ceaeeee1b1cad4b3c'), 'reviews.user_id': '5bb5f391eaeeee21f4c15bba'}, {'reviews.$': 1, '_id': 0})
+print(review)
+'''
+for i in mongo.db.user.find():
+  print(i)
+
 mongo.db.items.createIndex({'Brand':'text','Short Description':'text','Description':'text'})
 a = mongo.db.items.find({'$text': {'$search': 'highlander'}})
 for i in a:
