@@ -129,20 +129,58 @@ if count:
   })
 else:
   mongo.db.review.insert_one({'item_id': ObjectId('5b94e49ceaeeee1b1cad4b3c'), 'reviews': [review]})
-'''
-# mongo.db.review.delete_many({})
 
-for i in mongo.db.review.find():
+mongo.db.review.delete_many({})
+
+for i in mongo.db.user.find():
   print(i)
+ans = mongo.db.user.find_one({'_id': ObjectId('5bb5f391eaeeee21f4c15bba')},
+                             {
+    '_id': 0, 'list_address': 1
+})
+print(ans)
+
+review = {
+    'rating': 5,
+    'headline': 'Good',
+    'review': 'Size fit is nice'
+}
+mongo.db.review.update_one({'item_id': ObjectId('5b94e49ceaeeee1b1cad4b3c'), 'reviews.user_id': '5bb5f391eaeeee21f4c15bba'},
+                           {
+    '$set':
+    {
+        'reviews.$.rating': 5,
+    'reviews.$.headline': 'Good',
+    'reviews.$.review': 'Size fit is nice'
+    }
+})
+
 
 review = mongo.db.review.find_one({'item_id': ObjectId('5b94e49ceaeeee1b1cad4b3c'), 'reviews.user_id': '5bb5f391eaeeee21f4c15bba'}, {'reviews.$': 1, '_id': 0})
 print(review)
-'''
+
+review = mongo.db.review.aggregate([
+    {'$unwind': '$reviews'},
+    {'$match': {'item_id': ObjectId('5b94e49ceaeeee1b1cad4b39'), 'reviews.user_id': '5b955a39eaeeee2c588a716a'}},
+    {'$project': {'_id': 0, 'name': '$reviews.user_name', 'rating': '$reviews.rating', 'headline': '$reviews.headline', 'review': '$reviews.review'}}
+])
+for i in review:
+  print(i)
+
 for i in mongo.db.user.find():
   print(i)
 
-mongo.db.items.createIndex({'Brand':'text','Short Description':'text','Description':'text'})
+mongo.db.items.createIndex({'Brand': 'text', 'Short Description': 'text', 'Description': 'text'})
 a = mongo.db.items.find({'$text': {'$search': 'highlander'}})
 for i in a:
   print(i)
 '''
+# mongo.db.review.delete_many({})
+review = mongo.db.review.aggregate([{'$project':
+                                     {
+                                         'rating_avg': {'$avg': '$reviews.rating'},
+                                         'number': {'$size': '$reviews'},
+                                         'reviews': '$reviews'
+                                     }}])
+for i in review:
+  print(i)

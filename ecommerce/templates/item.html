@@ -47,25 +47,52 @@
             </p>
             </div>
         </div>
-        <a class="btn btn-success btn-md" href="{{ url_for('users.review',item_id=item['_id']) }}">Write a review</a>
-        {% if reviews %}
-            {% for review in reviews %}
-            <div>
-                <b>{{review['user_name']}}<b><br>
-                {{review['rating']}}<br>
-                {{review['headline']}}<br>
-                {{review['review']}}<br>
-            </div>
-                {% if review['user_id'] == current_user.get_id() %}
+        <h4> Review this product</h4>
+        <small> Share your thoughts with other customers </small>
+        <br>
+        <a class="btn btn-success btn-md" href="{{ url_for('users.review',item_id=item['_id']) }}">Write a product review</a>
+        {% if reviews_cursor %}
+            {% for reviews in reviews_cursor %}
+                <h4>{{reviews['number']}} customer reviews</h4>
+                {% for number in range(0,reviews['rating_avg']|int) %}
+                            <span class="fa fa-star" style="font-size:24px;color:orange"></span>
+                {% endfor %}
+                {% for number in range(reviews['rating_avg']|int,5) %}
+                            <span class="fa fa-star" style="font-size:24px"></span>
+                {% endfor %} &nbsp; {{reviews['rating_avg']|round(1,'floor') }} out of 5 stars
 
-                    <a class="btn btn-success btn-md" href="#">Update review</a>
-                    <a class="btn btn-success btn-md" href="{{ url_for('users.delete_review',item_id=item['_id']) }}">Delete review</a>
-                {% endif %}
+                {% for review in reviews['reviews'] %}
+                    <br><br>
+                    <div>
+                        <div class="w3-jumbo w3-teal"><i class="material-icons w3-jumbo"  style="font-size:24px">person</i> {{review['user_name']}}
+                        </div>
+                        <b>
+                            {% for number in range(0,review['rating']) %}
+                                <span class="fa fa-star" style="font-size:24px;color:orange"></span>
+                            {% endfor %}
+                            {% for number in range(review['rating'],5) %}
+                                <span class="fa fa-star" style="font-size:24px"></span>
+                            {% endfor %}
+                            &nbsp;nknkn
+                        {{review['headline']}}<br>
+                        <small>{{review['date'].day}} {{review['date'].strftime("%B")}} {{review['date'].year}} </small>
+                        <br>
+                        {{review['review']}}<br>
+                    </div>
+                        {% if review['user_id'] == current_user.get_id() %}
+
+                            <a class="btn btn-success btn-md" href="{{url_for('users.update_review', item_id=item['_id']) }}">Update review</a>
+                            <a class="btn btn-success btn-md" href="{{ url_for('users.delete_review',item_id=item['_id']) }}">Delete review</a>
+                            <br> <br><br>
+                        {% endif %}
+                {% endfor %}
             {% endfor %}
+            {% else %}
+            <h3>No customer reviews </h3>
         {% endif %}
-            </article>
+    </article>
 
-    <script type="text/javascript" src="script.js">
-        imageZoom("image", "myresult");
-    </script>
+<script type="text/javascript" src="script.js">
+    imageZoom("image", "myresult");
+</script>
 {% endblock content %}

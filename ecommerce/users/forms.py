@@ -8,14 +8,18 @@ from ecommerce import mongo
 
 
 class ReviewForm(FlaskForm):
-    overall_rating = IntegerField('Overall Rating', validators=[DataRequired()])
+    rating = IntegerField('Overall Rating', validators=[DataRequired()])
+
+    def validate_rating(self, rating):
+        if rating.data < 1 or rating.data > 5:
+            raise ValidationError('Rating should be in between 1 and 5')
     headline = StringField('Add a headline', validators=[DataRequired()])
-    review = TextAreaField('Write your review', validators=[DataRequired()])
+    review = TextAreaField('Write your review')
     submit = SubmitField('Submit')
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=15)])
+    username = StringField('Full Name', validators=[DataRequired(), Length(min=2, max=15)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])

@@ -18,11 +18,16 @@ def item(item_id):
     item = mongo.db.items.find_one_or_404({"_id": ObjectId(item_id)})
     reviews_exist = mongo.db.review.find({'item_id': ObjectId(item_id)}, {'_id': 0, 'reviews': 1}).count()
     if reviews_exist:
-        reviews_dict = mongo.db.review.find_one({'item_id': ObjectId(item_id)}, {'_id': 0, 'item_id':1,'reviews': 1})
-        reviews = reviews_dict['reviews']
+        reviews_dict_cursor = mongo.db.review.aggregate([{'$project':
+                                                          {
+                                                              'rating_avg': {'$avg': '$reviews.rating'},
+                                                              'number': {'$size': '$reviews'},
+                                                              'reviews': '$reviews'
+                                                          }
+                                                          }])
     else:
-        reviews = None
-    return render_template('item.html', item=item, reviews=reviews, title=item['Description'])
+        reviews_dict_cursor = None
+    return render_template('item.html', item=item, reviews_cursor=reviews_dict_cursor, title=item['Description'])
 
 
 @main.route('/seller')

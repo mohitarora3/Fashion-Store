@@ -307,21 +307,33 @@ def remove_address(number):
                              )
     return redirect(url_for('users.checkout'))
 
-
+'''
 @users.route('/user/address/update')
 @login_required
 def update_address(address):
     id = current_user.get_id()
-    mongo.db.user.update_one(
-        {"_id": ObjectId(id)
-         },
-        {"$pull":
-            {"list_address": address
-             }
-         }
-    )
-    return redirect(url_for('users.address'))
+    form=DeliveryForm()
+    if form.validate_on_submit():
+        address={
+            'name':form.name.data,
+            'address':form.address.data,
+            'state':form.state.data,
+            'city':form.city.data,
+            'pin_code':form.pin_code.data,
+                   }
+        mongo.db.user.update_one({'_id':ObjectId(id)},
+            {
+            '$set':
+            {
+            'list_address.n':address
+            }
+            })
+        flash('Your address has been updated','success')
+        return redirect(url_for('users.checkout'))
+    elif request.method=='GET':
 
+    return redirect(url_for('users.address'))
+'''
 
 @users.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
@@ -363,8 +375,8 @@ def reset_token(token):
 def review(item_id):
     user_already_reviewed=mongo.db.review.find({'item_id':ObjectId(item_id),'reviews.user_id':current_user.get_id()}).count()
     if user_already_reviewed:
-        flash('You have aready reviewed on this item','danger')
-        return redirect(url_for('main.item',item_id=item_id))
+        flash('You have aready reviewed on this item','success')
+        return redirect(url_for('users.update_review',item_id=item_id))
     form=ReviewForm()
     if form.validate_on_submit():
         name_dict=mongo.db.user.find_one({'_id':ObjectId(current_user.get_id())},{'_id':0,'username':1})
@@ -372,7 +384,8 @@ def review(item_id):
         review={
         'user_id':current_user.get_id(),
         'user_name':name,
-        'rating':form.overall_rating.data,
+        'date':datetime.now(),
+        'rating':form.rating.data,
         'headline':form.headline.data,
         'review':form.review.data
         }
@@ -390,47 +403,63 @@ def review(item_id):
         flash('Your review has been submitted','success')
         return redirect(url_for('main.item',item_id=item_id))
     item=mongo.db.items.find_one({'_id':ObjectId(item_id)})
-    return render_template('review.html', title='Review', form=form,item=item)
+    return render_template('review.html', title='Review',Legend='Create Review', form=form,item=item)
 
 @users.route('/review/delete/<string:item_id>')
 @login_required
 def delete_review(item_id):
-    mongo.db.review.update_one({'item_id':ObjectId(item_id)},
-            {
-                '$pull':
-                    {
-                        'reviews':
+    user_already_reviewed=mongo.db.review.find({'item_id':ObjectId(item_id),'reviews.user_id':current_user.get_id()}).count()
+    if user_already_reviewed==0:
+        flash("You don't have permissions to delete this review","danger")
+        return redirect(url_for('main.item', item_id=item_id))
+    else:
+        mongo.db.review.update_one({'item_id':ObjectId(item_id)},
+                {
+                    '$pull':
                         {
-                        'user_id':current_user.get_id()
+                            'reviews':
+                            {
+                            'user_id':current_user.get_id()
+                            }
                         }
-                    }
 
-            })
-    flash('Your review has been deleted','success')
-    return redirect(url_for('main.item',item_id=item_id))
+                })
+        flash('Your review has been deleted','success')
+        return redirect(url_for('main.item',item_id=item_id))
 
 
 @users.route('/review/update/<string:item_id>', methods=['GET', 'POST'])
 @login_required
 def update_review(item_id):
-    form=ReviewForm()
-    if form.validate_on_submit():
-        review={
-        'rating':form.overall_rating.data,
-        'headline':form.headline.data,
-        'review':form.review.data
-        }
-        mongo.db.review.update_one({'item_id':ObjectId(item_id), 'reviews.$.user_id':current_user.get_id()},
-                {
-                    '$set':
+    user_already_reviewed=mongo.db.review.find({'item_id':ObjectId(item_id),'reviews.user_id':current_user.get_id()}).count()
+    if user_already_reviewed==0:
+        flash("You don't have permissions to delete this review","danger")
+        return redirect(url_for('main.item', item_id=item_id))
+    else:
+        form=ReviewForm()
+        if form.validate_on_submit():
+            mongo.db.review.update_one({'item_id':ObjectId(item_id), 'reviews.user_id':current_user.get_id()},
                     {
-                        'reviews.$':review
-                    }
-                })
-        flash('Your review has been upated!', 'success')
-        return(redirect(url_for('main.item',item_id=item_id)))
-    elif request.method=='GET':
-        review=mongo.db.review.find_one({'item_id':ObjectId('item_id'), 'reviews.$.user_id':current_user.get_id()},{'reviews':1,'_id':0})
-    flash('Your review has been deleted','success')
-    return redirect(url_for('main.item',iem_id=item_id))
+                        '$set':
+                        {
+                            'reviews.$.rating':form.rating.data,
+                            'reviews.$.date':datetime.now(),
+                            'reviews.$.headline':form.headline.data,
+                            'reviews.$.review':form.review.data
+                        }
+                    })
+            flash('Your review has been upated!', 'success')
+            return(redirect(url_for('main.item',item_id=item_id)))
+        elif request.method=='GET':
+            user_reviews = mongo.db.review.aggregate([
+                                {'$unwind': '$reviews'},
+                                {'$match': {'item_id': ObjectId(item_id), 'reviews.user_id': current_user.get_id()}},
+                                {'$project': {'_id': 0, 'name':'$reviews.user_name','date':'$reviews.date','rating':'$reviews.rating', 'headline':'$reviews.headline', 'review':'$reviews.review'}}
+                            ])
+            for user_review in user_reviews:
+                form.rating.data=user_review['rating']
+                form.headline.data=user_review['headline']
+                form.review.data=user_review['review']
+            item=mongo.db.items.find_one({'_id':ObjectId(item_id)})
+        return render_template('review.html',title='Update Review',Legend='Update Review',item=item, form=form)
 
