@@ -1,0 +1,48 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+<div class="container">
+<div class="input-group col-sm-6  text-center" >
+    <form  action="{{url_for('main.search') }}" style="margin:auto;max-width:300px"method="post">
+        <span class="input-group-append">
+           <input type="text" placeholder="Search.." name="search">
+        <button type="submit"><i class="fa fa-search"></i></button>
+
+      </span>
+    </form>
+</div>
+</div>
+<br>
+
+<article class="col-lg-3 col-md-3 col-sm-6 col-xs-12" >
+{% if count == 0 %}
+  <h3>We couldn't found any matches</h3>
+  <small>Please check the spelling or try searching something else</small>
+{% else %}
+  {{count}} items
+  {% for item in search_results %}
+
+    <div class="one-item">
+      <a href="{{ url_for('main.item', item_id=item['_id']) }}">
+        <img class="rounded article-image" width="250" height="250" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}">
+      </a>
+       <div class="box-1">
+            <h5> <a  id="br" href="{{ url_for('main.item',item_id=item['_id'] ) }}">{{item["Brand"] }}</a> </h5>
+              <small class="text-muted" id="des">{{item["Short Description"]}}</small>
+              <div class="price">
+                  <small id="pr">Rs.{{item["Price"]}} <strike id="mr">{{item["Mrp"]}}</strike></small>
+                  <p> <div class="text-danger" id="di" > {{item["Discount"]}}%OFF </div> </p>
+              </div>
+             <a class="btn btn-success btn-md" href="{{ url_for('users.cart') }}">Buy Now</a>
+             <a class="btn btn-success btn-md" href="{{ url_for('users.add_to_cart',item_id=item['_id']) }}">Add To Cart</a>
+      </div>
+    </div>
+  {% endfor %}
+{% endif %}
+</article>
+</div>
+<br><br><br>
+{% endblock content %}
+

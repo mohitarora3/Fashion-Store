@@ -2,6 +2,18 @@
 {% extends "layout.html" %}
 {% block content %}
 <script type="text/javascript" src="script.js"></script>
+<div class="container">
+<div class="input-group col-sm-6  text-center" >
+    <form  action="{{url_for('main.search') }}" style="margin:auto;max-width:300px"method="post">
+        <span class="input-group-append">
+           <input type="text" placeholder="Search.." name="search">
+        <button type="submit"><i class="fa fa-search"></i></button>
+
+      </span>
+    </form>
+</div>
+</div>
+
     <article class="container">
         <div class="box-1">
             {% for image in item["Image"] %}

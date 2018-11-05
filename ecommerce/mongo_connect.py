@@ -164,7 +164,7 @@ review = mongo.db.review.aggregate([
     {'$match': {'item_id': ObjectId('5b94e49ceaeeee1b1cad4b39'), 'reviews.user_id': '5b955a39eaeeee2c588a716a'}},
     {'$project': {'_id': 0, 'name': '$reviews.user_name', 'rating': '$reviews.rating', 'headline': '$reviews.headline', 'review': '$reviews.review'}}
 ])
-for i in review:
+for i in review:b
   print(i)
 
 for i in mongo.db.user.find():
@@ -174,7 +174,7 @@ mongo.db.items.createIndex({'Brand': 'text', 'Short Description': 'text', 'Descr
 a = mongo.db.items.find({'$text': {'$search': 'highlander'}})
 for i in a:
   print(i)
-'''
+
 # mongo.db.review.delete_many({})
 review = mongo.db.review.aggregate([{'$project':
                                      {
@@ -183,4 +183,17 @@ review = mongo.db.review.aggregate([{'$project':
                                          'reviews': '$reviews'
                                      }}])
 for i in review:
+  for
+  print(i)
+
+'''
+#mongo.db.items.update({}, {'$set': {'Type': 'Shirt', 'Category': 'Men'}}, {'$multi': 'true'})
+for i in mongo.db.items.find({}):
+  print(i)
+# mongo.db.items.create_index([('Brand': 'text')])
+#results = mongo.db.command('text', 'items', search='Campus')
+
+print("rsults")
+search_results = mongo.db.items.find({'$text': {'$search': "\"highlander white\""}})
+for i in search_results:
   print(i)

@@ -23,7 +23,7 @@
             {{loop.index}}
 
            <a class="btn btn-success btn-md" href="{{ url_for('users.remove_address', number=loop.index-1) }}">Remove</a>
-           <a class="btn btn-success btn-md" href="{{ url_for('users.update_address', number=loop.index-1) }}">Edit</a>
+           <a class="btn btn-success btn-md" href="#">Edit</a>
     </div>
   </div>
 </article>
@@ -50,3 +50,4 @@
 </div>
 {% endblock content %}
 
+a
