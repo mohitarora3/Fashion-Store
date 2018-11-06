@@ -17,11 +17,11 @@
     <article class="container">
         <div class="box-1">
             {% for image in item["Image"] %}
-             <img class="rounded article-image" width="50" height="50" src= " {{ url_for('static', filename='shirts/'+image) }}" onmouseover="document.getElementById('image').src=' {{ url_for("static", filename="shirts/"+image) }}'">
+             <img class="rounded article-image" width="50" height="50" src= " {{ url_for('static', filename=item['Category'] +'/'+image) }}" onmouseover="document.getElementById('image').src=' {{ url_for("static", filename=item["Category"]+"/"+image) }}'">
             {% endfor %}
             <div class="img-zoom-container">
 
-                <img class="rounded article-image" id="image" width="500" height="500" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}">
+                <img class="rounded article-image" id="image" width="500" height="500" src= " {{ url_for('static', filename=item['Category']+'/'+item['Image'][0]) }}">
                 <!--<div id="myresult" class="img-zoom-result"></div> -->
             </div>
             <h1> {{ item["Brand"] }} </h1>
