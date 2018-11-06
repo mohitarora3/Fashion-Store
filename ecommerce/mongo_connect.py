@@ -186,7 +186,7 @@ for i in review:
   for
   print(i)
 
-'''
+
 #mongo.db.items.update({}, {'$set': {'Type': 'Shirt', 'Category': 'Men'}}, {'$multi': 'true'})
 for i in mongo.db.items.find({}):
   print(i)
@@ -197,3 +197,26 @@ print("rsults")
 search_results = mongo.db.items.find({'$text': {'$search': "\"highlander white\""}})
 for i in search_results:
   print(i)
+'''
+mongo.db.items.insert_one({
+    "Image": ['1.1.jpg', '1.2.jpg', '1.3.jpg', '1.4.jpg'],
+    "Type": "Bedsheets",
+    "Category": "Home & Living",
+    "Brand": "SEJ by Nisha Gupta",
+    "Color": "Cream",
+    "Short Description": "",
+    "Description": "SEJ by Nisha Gupta Cream-Coloured 240 TC Cotton Double Bedsheet with 2 Pillow Covers",
+    "Mrp": 1999,
+    "Discount": 55,
+    "Price": 899,
+    "Size": {'XXL': 100},
+    "Product Details": "Set content: 1 bedsheet with 2 pillow covers\n \
+                        Size: Double bed (king size)\n\
+                        Quality: Fine, cotton\n\
+                        Thread count: 240 TC\n\
+                        Colour: Multicoloured\n\
+                        Print/pattern: Floral\n\
+                        Features: Flat",
+    "Material & Care": ['100% cotton', 'Machine-wash'],
+    "Complete The Look": "Revel in the comfort of a nice and cosy bed with the new collection of bedsheets from SEJ by Nisha Gupta. Styled with an enthralling design and pattern, it will flaunt the rich taste in your bed linen collection."
+})

@@ -37,7 +37,7 @@ Brand
 
   <div class="one-item">
     <a href="{{ url_for('main.item', item_id=item['_id']) }}">
-      <img class="rounded article-image" width="250" height="250" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}">
+      <img class="rounded article-image" width="250" height="250" src= " {{ url_for('static', filename='bed_sheets/'+item['Image'][0]) }}">
     </a>
 	 <div class="box-1">
     	  <h5> <a  id="br" href="{{ url_for('main.item',item_id=item['_id'] ) }}">{{item["Brand"] }}</a> </h5>
@@ -47,6 +47,16 @@ Brand
                 <p> <div class="text-danger" id="di" > {{item["Discount"]}}%OFF </div> </p>
             </div>
            <a class="btn btn-success btn-md" href="{{ url_for('users.cart') }}">Buy Now</a>
+           <div class="dropup">
+            <button class="dropbtn">Add to cart</button>
+              <div class="dropup-content">
+                {% for key,value in item["Size"].items() %}
+                            {% if value>0 %}
+                                <input type="radio" value={{key}} name="si" required>{{key}}
+                            {% endif %}
+                        {% endfor %}
+                        <input type="submit"class="btn btn-success" value="Add To Cart">
+
            <a class="btn btn-success btn-md" href="{{ url_for('users.add_to_cart',item_id=items['_id']) }}">Add To Cart</a>
     </div>
   </div>
