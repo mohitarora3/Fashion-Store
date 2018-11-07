@@ -7,7 +7,7 @@
                 <legend class="border-bottom mb-4">{{Legend}}</legend>
                 <div class="form-group">
                     <div class="img-zoom-container">
-                    <img class="rounded article-image" id="image" width="100" height="100" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}">
+                    <img class="rounded article-image" id="image" width="100" height="100" src= " {{ url_for('static', filename=item['Category']+'/'+item['Image'][0]) }}">
                     </div>
                     <b>{{ item["Brand"] }}</b>
                     <br>

@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 	{% if title %}
 		<title> Ecommerce - {{ title }} </title>
 	{% else %}
@@ -62,11 +63,11 @@
 	    			{% endfor %}
 				{% endif %}
 	    	{% endwith %}
-
+	    </div>
 	      		{% block content %}{% endblock %}
 
 
-	</div>
+
 	<br><br><br>
 	<div class="footer">
  		<p>Footer</p>
