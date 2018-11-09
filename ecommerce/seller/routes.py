@@ -6,7 +6,6 @@ from ecommerce.models import User
 from bson.objectid import ObjectId
 import os
 
-
 seller = Blueprint('seller', __name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
