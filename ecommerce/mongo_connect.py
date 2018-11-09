@@ -203,7 +203,7 @@ item = mongo.db.items.find_one({"_id": ObjectId('5be1a25deaeeee255c987c5c')})
 similar_products = mongo.db.items.find({'Category': item['Category'], 'Type': item['Type'], '_id': {'$not': item['_id']}}).limit(3)
 for item in similar_products:
   print(item)
-'''
+
 brands = mongo.db.items.distinct('Price', {'Type': 'Bedsheet'})
 brands.sort()
 print(brands)
@@ -215,3 +215,9 @@ While(i < len(brands)):
   price.append(brands[i])
   i = i + n
 print(price)
+'''
+
+
+mongo.db.user.delete_many({})
+for i mongo.db.users.find():
+  print(i)
