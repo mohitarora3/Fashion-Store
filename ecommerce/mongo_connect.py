@@ -9,7 +9,7 @@ from flask import request
 import json
 
 app = Flask(__name__)
-app.config['MONGO_URI'] = "mongodb://localhost:27017/myDatabase"
+#app.config['MONGO_URI'] = "mongodb://localhost:27017/myDatabase"
 mongo = PyMongo(app)
 
 
