@@ -23,14 +23,16 @@ def create_app(config_class=Config):
     mongo.init_app(app)
     mail.init_app(app)
     bcrypt.init_app(app)
-    connect(db='myDatabase')
+    connect('mydatabase', host='mongodb://vidulkumar:New2mlab@ds157493.mlab.com:57493/mydatabase')
     db.init_app(app)
     login_manager.init_app(app)
 
     from ecommerce.main.routes import main
     from ecommerce.users.routes import users
+    from ecommerce.seller.routes import seller
 
     app.register_blueprint(main)
     app.register_blueprint(users)
+    app.register_blueprint(seller)
 
     return app
