@@ -9,7 +9,7 @@ from flask import request
 import json
 
 app = Flask(__name__)
-app.config['MONGO_URI'] = "mongodb://localhost:27017/myDatabase"
+app.config['MONGO_URI'] = "mongodb://vidulkumar:New2mlab@ds157493.mlab.com:57493/mydatabase"
 mongo = PyMongo(app)
 
 
@@ -211,7 +211,7 @@ n = math.ceil(len(brands) / 3)
 print(n)
 i = 0
 price = []
-While(i < len(brands)):
+while(i < len(brands)):
   price.append(brands[i])
   i = i + n
 print(price)
