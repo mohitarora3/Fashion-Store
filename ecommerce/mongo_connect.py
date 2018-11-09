@@ -217,5 +217,7 @@ While(i < len(brands)):
 print(price)
 '''
 
-c = mongo.db.items.distinct('Color', {'Type': 'Bedsheet'})
-print(c)
+
+mongo.db.user.delete_many({})
+for i mongo.db.users.find():
+  print(i)
