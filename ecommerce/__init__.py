@@ -23,6 +23,7 @@ def create_app(config_class=Config):
     mongo.init_app(app)
     mail.init_app(app)
     bcrypt.init_app(app)
+    connect('mydatabase', host='mongodb://vidulkumar:New2mlab@ds157493.mlab.com:57493/mydatabase')
     #connect(db='myDatabase')
     db.init_app(app)
     login_manager.init_app(app)
