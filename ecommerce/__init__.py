@@ -29,8 +29,10 @@ def create_app(config_class=Config):
 
     from ecommerce.main.routes import main
     from ecommerce.users.routes import users
+    from ecommerce.seller.routes import seller
 
     app.register_blueprint(main)
     app.register_blueprint(users)
+    app.register_blueprint(seller)
 
     return app

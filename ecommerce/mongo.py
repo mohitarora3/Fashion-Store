@@ -9,7 +9,7 @@ app=Flask(__name__)
 def index():
     return "Hello, World!"
 
-app.config['MONGO_URI'] = 'mongodb://<user>:<password>@<url>:27017/dev?authSource=admin'
+#app.config['MONGO_URI'] = 'mongodb://<user>:<password>@<url>:27017/dev?authSource=admin'
 
 mongo = PyMongo(app)
 
