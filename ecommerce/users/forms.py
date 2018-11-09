@@ -1,13 +1,25 @@
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, FileField, MultipleFileField, validators
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-#from ecommerce.models import User
+from wtforms.widgets import TextArea
+from ecommerce.models import User
 from flask_login import current_user
-#from ecommerce import mongo
+from ecommerce import mongo
+
+
+class ReviewForm(FlaskForm):
+    rating = IntegerField('Overall Rating', validators=[DataRequired()])
+
+    def validate_rating(self, rating):
+        if rating.data < 1 or rating.data > 5:
+            raise ValidationError('Rating should be in between 1 and 5')
+    headline = StringField('Add a headline', validators=[DataRequired()])
+    review = TextAreaField('Write your review')
+    submit = SubmitField('Submit')
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=15)])
+    username = StringField('Full Name', validators=[DataRequired(), Length(min=2, max=15)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])

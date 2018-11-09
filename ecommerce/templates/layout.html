@@ -8,8 +8,11 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 	{% if title %}
 		<title> Ecommerce - {{ title }} </title>
 	{% else %}
@@ -35,7 +38,7 @@
 	        <div class="navbar-nav">
 	          {% if current_user.is_authenticated %}
 	          	<a class="nav-item nav-link" href="{{url_for('users.cart') }}" >Cart</a>
-	          	<a class="nav-item nav-link" href='#'>My Account</a>
+	          	<a class="nav-item nav-link" href="{{ url_for('users.orders') }} ">My Orders</a>
 	          	<a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
 	          {% else %}
 	          	<a class="nav-item nav-link" href="{{ url_for('users.login') }}">Login</a>
@@ -60,11 +63,12 @@
 	    			{% endfor %}
 				{% endif %}
 	    	{% endwith %}
-	    	<div class="row">
+	    </div>
 	      		{% block content %}{% endblock %}
-	      	</div>
 
-	</div>
+
+
+	<br><br><br>
 	<div class="footer">
  		<p>Footer</p>
 	</div>
