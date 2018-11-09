@@ -4,7 +4,7 @@ from ecommerce.seller.forms import ItemForm
 from flask_login import current_user, login_required, login_user, logout_user
 from ecommerce.models import User
 from bson.objectid import ObjectId
-
+import os
 
 seller = Blueprint('seller', __name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))

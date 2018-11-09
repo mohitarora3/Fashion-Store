@@ -10,6 +10,7 @@ import json
 
 app = Flask(__name__)
 app.config['MONGO_URI'] = "mongodb://vidulkumar:New2mlab@ds157493.mlab.com:57493/mydatabase"
+#app.config['MONGO_URI'] = "mongodb://localhost:27017/myDatabase"
 mongo = PyMongo(app)
 
 
@@ -203,7 +204,7 @@ item = mongo.db.items.find_one({"_id": ObjectId('5be1a25deaeeee255c987c5c')})
 similar_products = mongo.db.items.find({'Category': item['Category'], 'Type': item['Type'], '_id': {'$not': item['_id']}}).limit(3)
 for item in similar_products:
   print(item)
-'''
+
 brands = mongo.db.items.distinct('Price', {'Type': 'Bedsheet'})
 brands.sort()
 print(brands)
@@ -215,3 +216,9 @@ while(i < len(brands)):
   price.append(brands[i])
   i = i + n
 print(price)
+'''
+
+
+mongo.db.user.delete_many({})
+for i mongo.db.users.find():
+  print(i)
