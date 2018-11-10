@@ -1,4 +1,7 @@
 <br><br><br>
+
+{% extends "layout.html" %}
+{% block content %}
 <div class="container">
 <div class="input-group col-sm-6  text-center" >
       <input class="form-control py-2" type="search" value="search" id="example-search-input">
@@ -8,29 +11,23 @@
         </button>
       </span>
 </div>
-</div>
-{% extends "layout.html" %}
-{% block content %}
-<form name="a" action="{{ url_for('users.place_order') }}" method="post">
-<article class="col-lg-3 col-md-3 col-sm-6 col-xs-12" >
-{% for address in list_address %}
-
-  <div class="one-item">
-     <div class="box-1">
+  <form name="a" action="{{ url_for('users.place_order') }}" method="post">
+  <div class="eighty">
+  {% for address in list_address %}
+    <div class="equal-container">
           <input type="radio" value={{loop.index-1}} name="address_number" required><p> {{address["name"] }}</p>
             <small class="text-muted" id="des">{{address["address"]}} <br> {{address['city']}}-{{address['pin-code']}}<br>{{address['state']}}<br><br>Mobile: <b> {{address['phone_number']}}</b></small>
             <br>
-            {{loop.index}}
-
-           <a class="btn btn-success btn-md" href="{{ url_for('users.remove_address', number=loop.index-1) }}">Remove</a>
+            <a class="btn btn-success btn-md" href="{{ url_for('users.remove_address', number=loop.index-1) }}">Remove</a>
            <a class="btn btn-success btn-md" href="#">Edit</a>
+      </div>
+{% endfor %}
+    <div class="equal-container">
+        <h2><a class="btn btn-default btn-circle btn-lg" href="{{ url_for('users.address') }}"><b>+</b></h2></a> <a  href="{{ url_for('users.address') }}">Add new address</a>
     </div>
   </div>
-</article>
-{% endfor %}
-<a href="{{ url_for('users.address') }}">Add New Address</a>
-</br></br>
-<div class="box-2">
+
+  <div class="twenty">
   <br>
   <h2>Estimated Delivery:{{delivery_date.strftime("%A") }}, {{delivery_date.strftime("%B")}} {{delivery_date.day }}  {{delivery_date.year}}</h2>
   <br>
@@ -39,15 +36,15 @@
 
         <h5 class="text-muted">Bag Total  &emsp; &emsp;  Rs.{{dict["bag_mrp"]}}</h5>
         <h5 class="text-muted">Bag Discount  &emsp; &emsp; Rs.{{dict["bag_discount"]}}</h5>
-        <h3>Order Total Rs.{{dict["bag_total"]}}</h3>
+        <h3>Order Total Rs.{{dict["order_total"]}}</h3>
         <br>
         <input type=submit value="Place Your Order Now" class="btn btn-success btn-md" >
 
         <br>
         <br>
-
-</form>
+  </form>
+  </div>
 </div>
 {% endblock content %}
 
-a
+

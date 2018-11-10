@@ -217,8 +217,6 @@ while(i < len(brands)):
   i = i + n
 print(price)
 '''
-
-
-mongo.db.user.delete_many({})
-for i mongo.db.users.find():
+ans = mongo.db.items.find()
+for i in ans:
   print(i)

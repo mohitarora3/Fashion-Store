@@ -14,13 +14,17 @@
 </div>
 </div>
 <div class="twenty text-center">
+<form action="{{ url_for('main.filter') }}" method="post">
 <h3><b>Filters</b></h3>
 <hr>
-
 <b>Brand</b>
-{% for brand in brands %}
-  <br><small class="text-muted">{{brand}}</small>
-{% endfor %}
+  {% for brand in brands %}
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-checkbox-input" id="1" value={{brand}} onchange="this.form.submit()" name={{brand}}>
+      <label class="custom-control-label" for="1"> <br><small class="text-muted">{{brand}}</small></label>
+    </div>
+  {% endfor %}
+</form>
 <hr>
 <b>Discount Range</b>
   <br><small class="text-muted">10% and above</small>
@@ -45,7 +49,7 @@
 
   <div class="box">
     <a href="{{ url_for('main.item', item_id=item['_id']) }}">
-            <img class="rounded article-image" width="250" height="250" src= " {{ url_for('static', filename=item['Category']+'/'+item['Image'][0]) }}">
+            <img class="rounded article-image" width="200" height="200" src= " {{ url_for('static', filename=item['Category']+'/'+item['Image'][0]) }}">
     </a>
     <h5><b>{{item["Brand"] }}</b></h5>
             <small class="text-muted" id="des">{{item["Short Description"]}}</small><br>
@@ -58,7 +62,7 @@
 {% endfor %}
 </div>
 <br><br><br>
-<div class="container text-muted">
+<div class="container0 text-muted">
   <h4 class="text-center"><b>BUY BED SHEETS STORE ONLINE</b></h4>
   <div class="col_3">
     <p><b>CHOOSE A BED SHEET THAT MATCHES YOUR PERSONALITY</b><br><br>
@@ -80,6 +84,40 @@ If you want to buy a bed sheet online, Myntra is your perfect destination. We ha
   3. If the walls of your room are decorated with <b>wall art</b>, you should choose a plain sheet. Make sure your room has some fancy furniture and colourful vases. If you have no décor on your walls and the furniture of your room is plain, you should go for printed sheets to add some liveliness to your room.<br><br>
   4. When you are choosing the pattern of your bed sheet, go for a pattern that you can identify with. Florals are great for people who love flowers and nature. Abstract prints are great for artistic people. Stripes and checks suit people with a vivacious personality.<br><br>
   A beautiful bed sheet can magically transform the look of your room. Log on to Myntra right away and make the right choice for your bedroom.</p>
+</div>
+
+<h4 class="text-center"><b>BUY SHIRTS FOR MEN & WOMEN</b></h4>
+  <div class="col_3">
+    <p><b>FABULOUS SHIRTS FOR THE FASHION-FORWARD</b><br><br>
+      Gone are the days when shirts were considered apt only for a formal environment. Aware of this change in fashion choices, Myntra brings you a line of smart shirts online for fashion-forward women, men, boys and girls. Be it regular work wear, a boardroom presentation, a semi-formal party, a dinner date or a trip to your favourite holiday destinations; Myntra has the perfect option for you. At Myntra, you are offered a wide variety of shirts with price options that are quite affordable. While you are checking out our collection of shirts online, you can also look for a sharp pair of trousers, <b>jeans</b> and suits to stock up on ensemble options in one go.<br><br>
+<b>THE SHIRTS ONLINE SHOPPING GUIDE</b>
+<br>
+At Myntra, our exclusive collection of shirt brands features a wide number of patterns, colours, cuts and styles. In terms of fabrics, our collection of shirts online include great options in cotton, poly-cotton, crepe, georgette, linen, chiffon, polyester, satin, silk and more. You can even buy shirts in the kind of fit that you would like such as regular, boxy, skinny, tailored or slim-fit versions.<br><br>
+We now progress towards the most important stage of your shirt shopping journey - the selection of right patterns that suit you the most. Checks, solids and stripes are the most popular options, with men and women opting for one of them as their oft-repeated personal style. You can figure out yours as well. You can also look at faded, printed and self-design shirts online which offer you many popular ensemble alternatives.
+
+ </p>
+</div>
+<div class="col_3">
+  <p>If you thought that the popular button-down collars were the only options for your neckline, think again. Browse through Myntra’s range of Peter Pan collars, cutaway and wingtip collars which offer smart alternatives. The mandarin collar shirts with their eastern appeal are versatile enough to be worn for both formal and casual occasions. For a preppy look, opt for hooded collars with drawstrings. Club collars, as the name suggests, are great for creating a standout image at parties. Or you can simply go collarless with our collection of cool casual shirts online.<br><br>
+  <b>UNLIMITED STYLE OPTIONS WITH SMART SHIRTS ONLINE</b><br><br>
+ Shirts are quite versatile when worn the right way. Here are some style suggestions on how to wear shirts for different occasions:<br><br>
+
+Plaid or checked shirts for men can be worn in a number of ways to achieve both casual and formal looks. Simply pair them up with jeans and loafers for a summer outing. Or try a laid-back winter look; choose a layered option with <b>T-shirts</b> and jackets. A pair of light blue or faded jeans and trainers, along with a messenger bag offer, give your look a neat finish.<br><br>
+
+Denim shirts for men are classics which shall always remain trendy. Make your own casual statement with a long denim shirt with folded up sleeves, along with dark coloured jeans. Pair the outfit with dark boots and top it off with a skull cap. You can even wear a cardigan on top of your <b>denim shirt</b> for chilly weather.<br><br>
+
+Ladies out there, confused on how to get ready in a snap for an impromptu outing with friends? Choose your favourite shirt and wear them untucked with a pair of skinny jeans. Wear round-toe flats and jazz it  </p>
+</div>
+<div class="col_3">
+  <p>up with chunky bangles or bracelets. Carry your valuables in your favourite tote and you are done. This outfit provides you with the best of both worlds when it comes to comfort and style.<br><br>
+
+Take your pick from some of the stylish formal shirt brands to make a smart statement at work. One style option you can opt for is mandarin neck collars that are paired with your favourite pencil skirt and strappy block heels. Or opt for a bright solid shirt and wear it with dark trousers and pumps. Women can also go for matte-finish makeup for a sharp look. To give your formal look a sharp finish, choose studs from Myntra’s stunning collection of earrings online.<br><br>
+
+Myntra’s collection of shirts online also include cute options for kids. You can select any casual, formal or party shirts for your little boys and girls. Go all out with their style preferences and pick their favourite from different varieties of prints, checks, stripes and patterns.<br><br>
+<b>BUY SHIRTS ONLINE WITH EASE</b><br><br>
+<p>
+  If there is one place where you can buy shirts online with complete convenience, it is at Myntra. Myntra brings to you simplified browsing and payment processes that ensure an enjoyable shopping experience without any hindrances. The fantastic array of shirt brands Myntra offers feature multiple style options which cater to several different needs, so you find shirts that perfectly suit your personal style. While you are doing so, you can also check out at other interesting varieties from our clothing range including T-shirts, dresses, skirts, <b>jackets</b>, sweaters, sweatshirts and more.
+ </p>
 </div>
 
 {% endblock content %}

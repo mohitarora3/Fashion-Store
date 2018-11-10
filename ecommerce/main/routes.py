@@ -6,12 +6,31 @@ import json
 main = Blueprint('main', __name__)
 
 
+def ret_brands():
+  brands = mongo.db.items.distinct('Brand', {'Type': 'Bedsheet'})
+  return brands
+
+
 @main.route('/')
 @main.route('/home')
 def home():
-  items = mongo.db.items.find({'Type':'Bedsheet'})
-  brands=mongo.db.items.distinct('Brand',{'Type':'Bedsheet'})
-  return render_template('home.html', items=items,brands=brands)
+  items = mongo.db.items.find({'Type': 'Bedsheet'})
+  brands = ret_brands()
+  return render_template('home.html', items=items, brands=brands)
+
+
+@main.route('/home/filter', methods=['POST'])
+def filter():
+  Trident_checked = "Trident" in request.form
+  Spaces_checked = "Spaces" in request.form
+  if Trident_checked:
+    items_count = mongo.db.items.find({'Brand': 'Trident'}).count()
+    if items_count > 0:
+      items = mongo.db.items.find({'Brand': 'Trident'})
+    else:
+      items = None
+  brands = ret_brands()
+  return render_template('home.html', items=items, brands=brands)
 
 
 @main.route('/item/<string:item_id>')

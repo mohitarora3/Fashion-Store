@@ -66,6 +66,7 @@ def add_to_cart(item_id):
     id = current_user.get_id()
     item = mongo.db.user.find({'_id': ObjectId(id), 'item.item_id': ObjectId(item_id), 'item.size': request.form['si']}).count()
     if item==0:
+        print(request.form['si'])
         a = {"item_id":ObjectId(item_id), "size": request.form['si'], "quantity": 1}
         mongo.db.user.update_one(
             {"_id": ObjectId(id)
@@ -158,6 +159,11 @@ def cart_details(id):
         dict['bag_discount'] = bag_mrp - bag_price
         dict['bag_mrp'] = bag_mrp
         dict['bag_total'] = bag_price
+        if bag_price<999:
+            delivery=149
+        else:
+            delivery=0
+        dict['order_total']=int(bag_price*0.05+delivery+bag_price)
         return lst, dict, number_of_items
 
 

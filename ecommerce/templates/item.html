@@ -2,7 +2,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <script type="text/javascript" src="script.js"></script>
-<div class="container">
+
 <div class="input-group col-sm-6  text-center">
     <form  action="{{url_for('main.search') }}" style="margin:auto;max-width:300px"method="post">
         <span class="input-group-append">
@@ -12,7 +12,7 @@
       </span>
     </form>
 </div>
-</div>
+
     <div class="coloumn1">
             {% for image in item["Image"] %}
             <div class="image">
@@ -37,8 +37,9 @@
         <div class="btn-group" data-toggle="buttons">
         {% for key,value in item["Size"].items() %}
             {% if value>0 %}
+                {{key}}
                 <label class="btn btn-default btn-circle btn-lg">
-                    <input type="radio" name="si" value={{key}} required ="required" > {{key}}
+                    <input type="radio" name="si" value='{{key}}' required ="required" > {{key}}
                 </label>
                 &nbsp;
           {% endif %}

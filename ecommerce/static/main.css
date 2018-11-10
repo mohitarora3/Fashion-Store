@@ -48,8 +48,22 @@ div.normal{
 .container0{
   float: left;
   width:100%;
-  padding-left:20px;
+  padding: 30px;
+}
+.equal-container{
+  float:left;
+  width:50%;
+  height: 250px;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: inset;
   padding: 10px;
+
+}
+.equal-container a{
+  text-align: center;
 }
 .coloumn1
 {
@@ -70,9 +84,10 @@ div.normal{
 }
 .twenty
 {
-  width:15%;
+  width:25%;
   float:left;
   padding:10px;
+  border: 2px solid yellow;
 
 }
 .eighty
@@ -101,15 +116,59 @@ div.normal{
 
 
 }
+.btn.btn-primary:hover,
+.btn.btn-primary:focus,
+.btn.btn-primary:active,
+.btn.btn-primary.active {
+  color: #ffffff;
+  background-color: pink;
+  border-color: pink;
+}
 .image{
   width:50%;
   padding:5px;
   float: left;
 
 }
+.cart-right{
+  float: right;
+  font-size: small;
+  border: 2px solid red;
+  overflow: auto;
+
+}
+.cart-left{
+  float:left;
+  border: 2px solid green;
+}
+.full-box
+{
+   border-left: 2px solid green;
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: inset;
+  border-width: 1px;
+  padding: 5px;
+
+}
+.box-1{
+    width:80%;
+    float:left;
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+    padding: 5px;
+}
 .box{
   width:20%;
-  padding-left:10px;
+  padding:10px;
   float:left;
 }
 .col_3{
@@ -195,11 +254,15 @@ div.price
 {
   font-size: xx-large;
 }
+
 #search1{
   width: 50%;
   margin: auto;
 }
-
+a
+{
+  color: black;
+}
 h5{
   color:#333;
 }

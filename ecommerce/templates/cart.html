@@ -1,59 +1,103 @@
 <br><br>
 {% extends "layout.html" %}
 {% block content %}
+<div class="container">
+  <div class="full-box text-muted">
+      <b>Offers</b>
+      <ul>
+        <li>Free delievery on orders above 999</li>
+        <li>10% off on min spend of Rs 1499.</li>
+        <li>Additional 5% off on min spend of Rs 2,999.</li>
+      </ul>
+  </div>
   {% if number == 0 %}
     <h4>Your shopping cart is empty. </h4>
   {% else %}
-    <h3>Total items ({{number}})</h3>
+  <div class="eighty">
+    <h3><b>My Shopping Bag ({{number}} item)</b></h3>
     {% for item in items %}
-        <img class="rounded article-image" width="150" height="150" src= " {{ url_for('static', filename='shirts/' +item['Image'][0]) }}">
-              <div class="box-1">
-                    <h5> <a href="{{ url_for('main.item',item_id=item['_id'] ) }}">{{ item["Brand"] }} </a> </h5>
-                      <small class="text-muted">{{ item["Description"] }}</small>
-                      <div class="price">
-                          <small> {{item['quantity']*item["Price"] }} <strike> {{item['quantity']*item["Mrp"] }} </strike> <div class="text-danger" > {{item["Discount"] }}% Off </div> </small>
-                      </div>
-                      <mark>Size: {{item["size"]}}</mark>
-                      <form name="si" action=" {{ url_for('users.update_cart', item_id=item['_id'], item_attr=item['quantity'] ) }}" method='post' >
-                        <select name='si' onchange="this.form.submit()">
-                          {% for key,value in item['Size'].items() %}
-                            {% if value|int > 0 %}
-                              <option value={{key}} >{{key}}</option>
-                            {% endif %}
-                          {% endfor %}
-                        </select>
-                        <noscript><input type="submit" value="Submit"></noscript>
-                        </form>
-                      <mark>Qty:  {{item["quantity"]}}</mark>
-                      <form name="qt" action=" {{ url_for('users.update_cart', item_id=item['_id'] ,item_attr=item['size']) }}" method='post' >
-                        <select name='qt' onchange='this.form.submit()'>
-                          {% if item["Size"][item['size']] > 10 %}
-                            {% for q in range(2,10) %}
-                              <option value={{q}} >{{q}}</option>
-                            {% endfor %}
-                          {% else %}
-                            {% for q in range(1,item["Size"][ item['size'] ] ) %}
-                              <option value={{q}} >{{q}}</option>
-                            {% endfor %}
-                          {% endif %}
+     <div class="box-1">
+      <div class="cart-left">
+        <img class="rounded article-image" width="150" height="150" src= " {{ url_for('static', filename=item['Category'] +'/'+item['Image'][0]) }}">
+      </div>
+      <b> <a href="{{ url_for('main.item',item_id=item['_id'] ) }}">{{ item["Short Description"] }} </a> </b>
+      <div class="cart-right">
+           <strong> Rs.{{item["Price"] }} </strong>
+      </div><br>
+      <small class="text-muted">Sold By:<b>{{item["Seller"]}}</b></small>
+      <div class="cart-right">
+      {% if item["Discount"] !=0 %}
+         <small class="text-muted">({{item["Discount"]}}% OFF)</small>|
+        <font  color="#FF4500"><strike> Rs.{{item["Mrp"] }}</strike></font>
+      {% endif %}
+      </div><br>
+      <form name="si" action=" {{ url_for('users.update_cart', item_id=item['_id'], item_attr=item['quantity'] ) }}" method='post' >
+              <select name='si' onchange="this.form.submit()">
+                {% for key,value in item['Size'].items() %}
+                  {% if value|int > 0 %}
+                    Size:<option value={{key}} >{{key}}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+              <noscript><input type="submit" value="Submit"></noscript>
+              </form>
 
-                        </select>
-                      </form>
-                    </br>
-                     <a class="button" href=" {{url_for('users.remove_from_cart',item_id=item['_id'], size=item['size']) }}">Remove</a>
-              </div>
-            </br>
-          </article>
+            <form name="qt" action=" {{ url_for('users.update_cart', item_id=item['_id'] ,item_attr=item['size']) }}" method='post' >
+              <select name='qt' onchange='this.form.submit()'>
+                {% if item["Size"][item['size']] > 10 %}
+                  {% for q in range(2,10) %}
+                    Quantity:<option value={{q}} >{{q}}</option>
+                  {% endfor %}
+                {% else %}
+                  {% for q in range(1,item["Size"][ item['size'] ] ) %}
+                    Quantity:<option value={{q}} >{{q}}</option>
+                  {% endfor %}
+                {% endif %}
 
-     {% endfor %}
-    <div class="box-2">
-            <h2>Price Details</h2>
-            <h5 class="text-muted">Bag Total  &emsp; &emsp;  Rs.{{dict["bag_mrp"]}}</h5>
-            <h5 class="text-muted">Bag Discount  &emsp; &emsp; Rs.{{dict["bag_discount"]}}</h5>
-            <h3>Order Total Rs.{{dict["bag_total"]}}</h3>
-    </div>
-    <a class="btn btn-success btn-md" href="{{ url_for('users.checkout') }}"> Place Order </a>
+              </select>
+            </form>
+            <a class="button" href=" {{url_for('users.remove_from_cart',item_id=item['_id'], size=item['size']) }}">Remove</a>
+          </br>
+             </div>
+  </br>
+</article>
+  {% endfor %}
+</div>
+    <div class="twenty text-muted">
+      <h3 class="text-centred"><b>Price Details</b></h3>
+      <div class="cart-left">
+
+          <h5 class=>Bag Total</h5>
+          <h5>Bag Discount</h5>
+          <h5>Estimated Tax</h5>
+          <h5>Delivery Charges</h5>
+          <hr>
+          <h3><b>Order Total</b></h3>
+
+      </div>
+      <div class="cart-right">
+
+        <h5>Rs.{{dict["bag_mrp"]}}</h5>
+        <h5>-Rs.{{dict["bag_discount"]}}</h5>
+        {% set tax=(0.05*dict["bag_total"])|int %}
+        <h5>Rs.{{tax}}</h5>
+        {% if dict["bag_total"] < 999 %}
+        {% set delivery=149 %}
+        {% else %}
+        {% set delivery=0 %}
+        {% endif %}
+        {% if delivery==0 %}
+        <h5>Free</h5>
+        {% else %}
+        <h5>Rs.{{delivery}}</h5>
+        {% endif %} <hr>
+        <h3><b>Rs.{{ tax+delivery+dict["bag_total"]}}</b></h3>
+      </div>
+      <a class="btn btn-primary btn-block text-centred" href="{{ url_for('users.checkout') }}"> Place Order </a>
+
+  </div>
 
   {% endif %}
+</div>
 {% endblock content %}
 
