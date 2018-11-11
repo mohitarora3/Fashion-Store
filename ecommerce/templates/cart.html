@@ -1,7 +1,25 @@
 <br><br>
-{% extends "layout.html" %}
+{% extends "style.html" %}
 {% block content %}
 <div class="container">
+<ul class="inline font-weight">
+  <span class="left">
+    <li>Smart Shop</li>
+   </span>
+   <span class="right">
+      <i class="fa fa-lock grey" style="font-size:24px"></i> <small class="text-muted"> 100%  SECURE</small>
+    </span>
+   <div class="center">
+    <li class="underline"><a href="#">Bag</a></li>
+    <li>........</li>
+    <li >Delivery</li>
+    <li>........</li>
+    <li>Payment</li>
+    </div>
+
+</ul>
+<hr>
+<br>
   <div class="full-box text-muted">
       <b>Offers</b>
       <ul>
@@ -65,7 +83,7 @@
 </div>
     <div class="twenty text-muted">
       <h3 class="text-centred"><b>Price Details</b></h3>
-      <div class="cart-left">
+      <span class="cart-left">
 
           <h5 class=>Bag Total</h5>
           <h5>Bag Discount</h5>
@@ -74,8 +92,8 @@
           <hr>
           <h3><b>Order Total</b></h3>
 
-      </div>
-      <div class="cart-right">
+      </span>
+      <span class="cart-right">
 
         <h5>Rs.{{dict["bag_mrp"]}}</h5>
         <h5>-Rs.{{dict["bag_discount"]}}</h5>
@@ -92,7 +110,7 @@
         <h5>Rs.{{delivery}}</h5>
         {% endif %} <hr>
         <h3><b>Rs.{{ tax+delivery+dict["bag_total"]}}</b></h3>
-      </div>
+      </span>
       <a class="btn btn-primary btn-block text-centred" href="{{ url_for('users.checkout') }}"> Place Order </a>
 
   </div>

@@ -10,7 +10,43 @@ body{
   height:100%;
 
 }
-
+.inline li{
+padding:25px;
+display: inline;
+}
+.left{
+float:left;
+}
+.center{
+width: 100%;
+text-align: center;
+}
+.right{
+float:right;
+}
+.grey{
+color:silver;
+}
+a{
+text-decoration:none;
+font-size: large;
+}
+a:link{
+  color:black;
+}
+a:visited{
+color:limegreen;
+}
+a:hover{
+color:palegreen;
+}
+a:active{
+color:lime;
+}
+.underline{
+  text-decoration: underline;
+  color: limegreen;
+}
 .btn-circle {
         width: 30px;
         height: 30px;
@@ -58,11 +94,10 @@ div.normal{
   margin-bottom: 0.5em;
   margin-left: auto;
   margin-right: auto;
-  border-style: inset;
-  padding: 10px;
+  padding: 20px;
 
 }
-.equal-container a{
+.center{
   text-align: center;
 }
 .coloumn1
@@ -133,17 +168,16 @@ div.normal{
 .cart-right{
   float: right;
   font-size: small;
-  border: 2px solid red;
   overflow: auto;
 
 }
 .cart-left{
   float:left;
-  border: 2px solid green;
+
 }
 .full-box
 {
-   border-left: 2px solid green;
+  border-left: 2px solid pink;
   display: block;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
