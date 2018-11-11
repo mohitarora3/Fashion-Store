@@ -77,9 +77,8 @@
             <a class="button" href=" {{url_for('users.remove_from_cart',item_id=item['_id'], size=item['size']) }}">Remove</a>
           </br>
              </div>
+             {% endfor %}
   </br>
-</article>
-  {% endfor %}
 </div>
     <div class="twenty text-muted">
       <h3 class="text-centred">Price Details</b></h3>
@@ -96,23 +95,16 @@
       <span class="cart-right"> <h5>Rs.{{dict["bag_mrp"]}}</h5></span>
         <span class="cart-right"><h5>-Rs.{{dict["bag_discount"]}}</h5></span>
         {% set tax=(0.05*dict["bag_total"])|int %}
-        <span class="cart-right"> <h5>{{tax}}</h5></span>
-        {% if dict["bag_total"] < 999 %}
-            {% set delivery=149 %}
-            {% else %}
-            {% set delivery=0 %}
-            {% endif %}
-            {% if delivery==0 %}
+        <span class="cart-right"> <h5>{{dict['tax']}}</h5></span>
+        {% if dict['delivery']==0 %}
               <span class="cart-right"><h5>Free</h5></span>
-            {%else%}
-              <span class="cart-right"><h5>Rs.149</h5></span>
-            {% endif %}
-          {% endif %}
-     <hr>
-    <span class="cart-right"><h5>Rs.{{ tax+delivery+dict["bag_total"]}}</h5></span>
+         {% else %}
+             <span class="cart-right"><h5>{{dict['delivery']}}</h5></span>
+        {% endif %}
+    <span class="cart-right"><h3><b>Rs.{{ tax+delivery+dict["bag_total"]}}</b></h3></span>
     <br>
      <a class="btn btn-primary btn-block" style="margin-top:200px" href="{{url_for('users.checkout')}}">Place Order </a>
-  </div>
+    </div>
 </div>
 {% endblock content %}
 

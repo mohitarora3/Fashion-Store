@@ -25,19 +25,32 @@
 	<header class="site-header">
 	  <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
 	    <div class="container">
-	      <a class="navbar-brand mr-4" href="/"> Ecommerce </a>
+	      <a class="navbar-brand mr-4" href="/"> Smart Shop </a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="navbar-toggler-icon"></span>
 	      </button>
 	      <div class="collapse navbar-collapse" id="navbarToggle">
 	        <div class="navbar-nav mr-auto">
 	          <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Home</a>
+	          <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Men</a>
+	          <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Women</a>
+	          <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Home & Living</a>
+
 	          <a class="nav-item nav-link" href='#''>About</a>
 	        </div>
 	        <!-- Navbar Right Side -->
-	        <div class="navbar-nav">
+	        <div class="input-group col-sm-6  text-center">
+			    <form  action="{{url_for('main.search') }}" style="margin:auto;max-width:300px"method="post">
+			        <span class="input-group-append">
+			           <input type="text" placeholder="Search.." name="search">
+			        <button type="submit"><i class="fa fa-search"></i></button>
+
+			      </span>
+			    </form>
+			</div>
+			<div class="navbar-nav">
 	          {% if current_user.is_authenticated %}
-	          	<a class="nav-item nav-link" href="{{url_for('users.cart') }}" >Cart</a>
+	          	<a class="nav-item nav-link" href="{{url_for('users.cart') }}" ><i class="fa fa-shopping-cart" style="font-size:36px; color:pink"></i></a>
 	          	<a class="nav-item nav-link" href="{{ url_for('users.orders') }} ">My Orders</a>
 	          	<a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
 	          {% else %}
