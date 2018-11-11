@@ -6,21 +6,17 @@ from flask_login import current_user, login_required, login_user, logout_user
 from ecommerce.users.forms import RequestResetForm, ResetPasswordForm, RegistrationForm, LoginForm, DeliveryForm, ReviewForm
 from ecommerce.seller.forms import ItemForm
 from ecommerce.users.utils import send_reset_email
-from ecommerce import db, bcrypt, mongo
+from ecommerce import  db,bcrypt, mongo
 from ecommerce.models import User
 import json
 from bson.objectid import ObjectId
 import os
+from flask_pymongo import PyMongo
 
 users = Blueprint('users', __name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-@users.route('/seller/additem', methods=['GET', 'POST'])
-@login_required
-def additem():
-  form = ItemForm()
-  if(itemdetail(form)):
-    return viewupdate()
+
 
 @users.route('/register', methods=['GET', 'POST'])
 def register():
@@ -31,11 +27,14 @@ def register():
         existing_user = User.objects(email=form.email.data).first()
         if existing_user is None:
             hashpass = generate_password_hash(form.password.data, method='sha256')
-            hey = User(form.username.data, form.email.data, hashpass).save()
+            a='customer'
+            if form.seller.data:
+                a='seller'
+            hey = User(form.username.data, form.email.data,hashpass,a).save()
+
             flash('Your account has been created. You are now able to log in.', 'success')
         return redirect(url_for('users.login'))
     return render_template('register.html', title='register', form=form)
-
 
 @users.route('/login', methods=['GET', 'POST'])
 def login():
@@ -66,8 +65,8 @@ def add_to_cart(item_id):
     id = current_user.get_id()
     item = mongo.db.user.find({'_id': ObjectId(id), 'item.item_id': ObjectId(item_id), 'item.size': request.form['si']}).count()
     if item==0:
-        print(request.form['si'])
-        a = {"item_id":ObjectId(item_id), "size": request.form['si'], "quantity": 1}
+        itemdetail=mongo.db.items.find_one({'_id':ObjectId(item_id)})
+        a = {"item_id":ObjectId(item_id), "size": request.form['si'], "quantity": 1,"SellerId":itemdetail['SellerId']}
         mongo.db.user.update_one(
             {"_id": ObjectId(id)
              },
@@ -159,11 +158,6 @@ def cart_details(id):
         dict['bag_discount'] = bag_mrp - bag_price
         dict['bag_mrp'] = bag_mrp
         dict['bag_total'] = bag_price
-        if bag_price<999:
-            delivery=149
-        else:
-            delivery=0
-        dict['order_total']=int(bag_price*0.05+delivery+bag_price)
         return lst, dict, number_of_items
 
 
