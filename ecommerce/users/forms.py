@@ -1,6 +1,5 @@
-from flask import Flask, session
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, FileField, MultipleFileField, validators, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, FileField, MultipleFileField, validators
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from wtforms.widgets import TextArea
 from ecommerce.models import User
@@ -8,22 +7,34 @@ from flask_login import current_user
 from ecommerce import mongo
 
 
+class ReviewForm(FlaskForm):
+    rating = IntegerField('Overall Rating', validators=[DataRequired()])
+
+    def validate_rating(self, rating):
+        if rating.data < 1 or rating.data > 5:
+            raise ValidationError('Rating should be in between 1 and 5')
+    headline = StringField('Add a headline', validators=[DataRequired()])
+    review = TextAreaField('Write your review')
+    submit = SubmitField('Submit')
+
+
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=15)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    seller = BooleanField('Register as Seller')
 
     submit = SubmitField('Sign Up')
 
     def validate_username(self, username):
-        users = mongo.db.users
+        users = mongo.db.customers
         user = users.find_one({'username': username.data})
         if user:
             raise ValidationError('That username is alreay taken. Please choose a different one')
 
     def validate_email(self, email):
-        users = mongo.db.users
+        users = mongo.db.customers
         user = users.find_one({'email': email.data})
         if user:
             raise ValidationError('That email is already taken. Please choose a different one.')
@@ -80,19 +91,3 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(username=username.data).first()
             if user:
                 raise ValidationError('This email is alreay taken. Please choose a different one.')
-
-
-class ItemForm(FlaskForm):
-    images = MultipleFileField(u'Image File', validators=[DataRequired()])
-
-    def validate_image(form, field):
-        if field.data:
-            field.data = re.sub(r'[^a-z0-9_.-]', '_', field.data)
-    brand = StringField('Brand', validators=[DataRequired(), Length(min=1, max=20)])
-    short_Description = StringField('Short Description', validators=[DataRequired(), Length(min=1, max=20)])
-    description = StringField('Description', validators=[DataRequired(), Length(min=1, max=50)], widget=TextArea())
-    mrp = IntegerField('M R P', validators=[DataRequired()])
-    discount = IntegerField('Discount', validators=[DataRequired()])
-    productDetails = StringField('Product Details', validators=[DataRequired(), Length(min=1, max=50)], widget=TextArea())
-    material_Care = StringField('Material & Care', validators=[DataRequired(), Length(min=1, max=50)])
-    submit = SubmitField('Submit')

@@ -7,10 +7,27 @@
             <fieldset class="form-group">
 
                 <legend class="border-bottom mb-4">Item details</legend>
+
+
+
                 <div class="form-group" >
 
                     {{form.images(  accept="image/*", multiple="")}}
                     <div id="msg"></div>
+                </div>
+                <div class="form-group">
+                    {{ form.category.label(class="form-control-label") }}
+
+                    {% if form.category.errors %}
+                        {{ form.category(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                                {% for error in form.Category.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.category(class="form-control form-control-lg",value=item['Brand']) }}
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     {{ form.brand.label(class="form-control-label") }}
@@ -39,6 +56,7 @@
                         {{ form.short_Description(class="form-control form-control-lg",value=item['Short Description']) }}
                     {% endif %}
                 </div>
+
                 <div class="form-group">
                     {{ form.description.label(class="form-control-label") }}
                     {% if form.description.errors %}

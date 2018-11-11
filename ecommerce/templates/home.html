@@ -2,41 +2,97 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="row">
 <div class="container">
 <div class="input-group col-sm-6  text-center" >
-      <input class="form-control py-2" type="search" value="search" id="example-search-input">
-      <span class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button">
-            <i class="fa fa-search"></i>
-        </button>
-      </span>
-</div>
-</div>
-<br>
+    <form  action="{{url_for('main.search') }}" style="margin:auto;max-width:300px"method="post">
+        <span class="input-group-append">
+           <input type="text" placeholder="Search.." name="search">
+        <button type="submit"><i class="fa fa-search"></i></button>
 
-<article class="col-lg-3 col-md-3 col-sm-6 col-xs-12" >
-{% for item in items.find() %}
+      </span>
+    </form>
+</div>
+</div>
+<h3><b>Filters</b></h3>
+<hr>
+<div class="twenty">
+<b>Brand</b>
+{% for brand in brands %}
+  <br><small class="text-muted">{{brand}}</small>
+{% endfor %}
+<hr>
+<b>Discount Range</b>
+  <br><small class="text-muted">10% and above</small>
+  <br><small class="text-muted">20% and above</small>
+  <br><small class="text-muted">30% and above</small>
+  <br><small class="text-muted">40% and above</small>
+  <br><small class="text-muted">50% and above</small>
+<hr>
+</div>
+<div class="eighty ">
+<div class="row">
+  <div class="container">
+
+
+{% for item in items %}
 
   <div class="one-item">
-    <a href="{{ url_for('main.item', item_id=item['_id']) }}">
-      <img class="rounded article-image" width="250" height="250" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}">
-    </a>
-	 <div class="box-1">
-    	  <h5> <a  id="br" href="{{ url_for('main.item',item_id=item['_id'] ) }}">{{item["Brand"] }}</a> </h5>
-      		<small class="text-muted" id="des">{{item["Short Description"]}}</small>
-            <div class="price">
-                <small id="pr">Rs.{{item["Price"]}} <strike id="mr">{{item["Mrp"]}}</strike></small>
-                <p> <div class="text-danger" id="di" > {{item["Discount"]}}%OFF </div> </p>
-            </div>
-           <a class="btn btn-success btn-md" href="{{ url_for('users.cart') }}">Buy Now</a>
-           <a class="btn btn-success btn-md" href="{{ url_for('users.add_to_cart',item_id=items['_id']) }}">Add To Cart</a>
-    </div>
-  </div>
-</article>
+           <a href="{{ url_for('main.item', item_id=item['_id']) }}">
+            <img class="rounded article-image" width="250" height="250" src= " {{ url_for('static', filename=item['Category']+'/'+item['Image'][0]) }}">
+            </a>
+            <div class="box-1">
+            <h3> <a  id="br" href="{{ url_for('main.item',item_id=item['_id'] ) }}"><b>{{item["Brand"] }}</b></a> </h3>
+            <small class="text-muted" id="des">{{item["Short Description"]}}</small><br>
+             <strong> Rs.{{item["Price"] }} </strong>
+            {% if item["Discount"] !=0 %}
+                <strike class="text-muted"> <small>Rs.{{item["Mrp"] }} </small></strike>  &nbsp;
+              <font  color="#FF4500" >  ({{item["Discount"]}}% OFF)</font>
+            {% endif %}
+            <a class="btn btn-success btn-md" href="{{ url_for('users.cart') }}">Buy Now</a>
+           <div class="dropup">
+            <button class="dropbtn">Add to cart</button>
+              <div class="dropup-content">
+                {% for key,value in item["Size"].items() %}
+                            {% if value>0 %}
+                                <input type="radio" value={{key}} name="si" required>{{key}}
+                            {% endif %}
+                        {% endfor %}
+                        <input type="submit"class="btn btn-success" value="Add To Cart">
 
+                      <a class="btn btn-success btn-md" href="{{ url_for('users.add_to_cart',item_id=item['_id']) }}">Add To Cart</a>
+              </div>
+            </div>
+            </div>
+    </div>
 {% endfor %}
+
+</div>
+</div>
 </div>
 <br><br><br>
+<div class="container text-muted">
+  <h4 class="text-center"><b>BUY BED SHEETS STORE ONLINE</b></h4>
+  <div class="col_3">
+    <p><b>CHOOSE A BED SHEET THAT MATCHES YOUR PERSONALITY</b><br><br>
+      A bed sheet can speak volumes about your personality and your taste in home décor. A bed sheet transforms the look of a bedroom in a beautiful way. They are made of various fabrics, such as cotton, linen, synthetics, and silk. History says that the first bed sheets were made of linen, which was derived from the flax plant. Egyptians have been cultivating and weaving linen for centuries. It is lustrous and softer than cotton. This is the reason why linen sheeting was so popular in the earlier days.<br><br>
+<b>THE TYPES OF BED SHEETS</b>
+<br>
+If you want to buy a bed sheet online, Myntra is your perfect destination. We have bedspreads in various colours, designs, and fabrics. We have sheets for single beds, double beds and king-sized beds. The sheet sets comprise of a bed sheet and matching pillow covers. You should never compromise on quality when you are buying sheets for your bed.
+</p>
+</div>
+<div class="col_3">
+  <p>Cotton is the most commonly used fabric in bed sheets because of its durability and softness. The highest quality of cotton is the Egyptian cotton. You can find a wide range of Egyptian cotton sheets on Myntra in vibrant colours and designs. The most popular designs are floral prints, geometric prints, Disney prints, stripes and abstract prints.<br><br>
+  <b>TIPS FOR BUYING THE RIGHT BED SHEET</b><br><br>
+  Although there are various designs available in the market, you should choose a bed sheet that matches your taste and personality. You don’t need a <b>fountain</b> in your house to show your taste in <b>home décor</b>. Your bedding is a reflection of your personality. Here are some tips for buying the right bed sheet:<br><br>
+  1. At first, you need to consider the size of your bed. Measure your mattress and see if you need a king, single or double bed sheet. When you are buying cotton sheets, make sure to buy a bigger size as cotton shrinks with every wash. You should also invest in good quality <b>comforters</b> for your bedding.<br><br>
+  2. The next thing that you need to consider is the fabric of the sheet. Cotton sheets are preferred </p>
+</div>
+<div class="col_3">
+  <p>by most people in India as they are comfortable and cool. If you want to buy a premium bed sheet, you can check out the collection of Egyptian cotton sheets on Myntra. If you are looking for affordable options, you can opt for pure polyester. Silk sheets are very smooth and shiny. You can use them on special occasions.<br><br>
+  3. If the walls of your room are decorated with <b>wall art</b>, you should choose a plain sheet. Make sure your room has some fancy furniture and colourful vases. If you have no décor on your walls and the furniture of your room is plain, you should go for printed sheets to add some liveliness to your room.<br><br>
+  4. When you are choosing the pattern of your bed sheet, go for a pattern that you can identify with. Florals are great for people who love flowers and nature. Abstract prints are great for artistic people. Stripes and checks suit people with a vivacious personality.<br><br>
+  A beautiful bed sheet can magically transform the look of your room. Log on to Myntra right away and make the right choice for your bedroom.</p>
+</div>
+
 {% endblock content %}
 

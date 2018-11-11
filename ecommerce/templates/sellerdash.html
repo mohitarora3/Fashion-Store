@@ -7,10 +7,37 @@
             <fieldset class="form-group">
 
                 <legend class="border-bottom mb-4">Item details</legend>
+                <div class="form-group">
+                    {{ form.category.label(class="form-control-label") }}
+
+                    {% if form.category.errors %}
+                        {{ form.category(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                                {% for error in form.brand.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.category(class="form-control form-control-lg",value=item['Brand']) }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.typeofitem.label(class="form-control-label") }}
+
+                    {% if form.typeofitem.errors %}
+                        {{ form.typeofitem(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                                {% for error in form.typeofitem.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.typeofitem(class="form-control form-control-lg",value=item['Brand']) }}
+                    {% endif %}
+                </div>
+
                 <div class="form-group" >
-                    {%for i in range(0,4)%}
-                     <img class="rounded article-image" width="100" height="100" src= " {{ url_for('static', filename='shirts/'+item['Image'][i]) }}">
-                     {%endfor%}
+
                     {{form.images(  accept="image/*", multiple="" ,value='shirts/' )}}
                     <div id="msg"></div>
                 </div>
@@ -81,6 +108,19 @@
                     {% endif %}
                 </div>
                 <div class="form-group">
+                    {{ form.sizenqty.label(class="form-control-label") }}
+                    {% if form.sizenqty.errors %}
+                        {{ form.sizenqty(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                                {% for error in form.sizenqty.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.sizenqty(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
                     {{ form.productDetails.label(class="form-control-label") }}
                     {% if form.productDetails.errors %}
                         {{ form.productDetails(class="form-control form-control-lg is-invalid") }}
@@ -103,7 +143,20 @@
                                 {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.material_Care(class="form-control form-control-lg",cols="35", rows="5", value=item['Material & Care'][0]) }}
+                        {{ form.material_Care(class="form-control form-control-lg",cols="35", rows="5", ) }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.tags.label(class="form-control-label") }}
+                    {% if form.tags.errors %}
+                        {{ form.tags(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                                {% for error in form.tags.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.tags(class="form-control form-control-lg" ) }}
                     {% endif %}
                 </div>
             </fieldset>
