@@ -217,6 +217,6 @@ while(i < len(brands)):
   i = i + n
 print(price)
 '''
-ans = mongo.db.items.find()
+ans = mongo.db.order.find()
 for i in ans:
   print(i)

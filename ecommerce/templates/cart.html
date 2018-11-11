@@ -82,40 +82,37 @@
   {% endfor %}
 </div>
     <div class="twenty text-muted">
-      <h3 class="text-centred"><b>Price Details</b></h3>
-      <span class="cart-left">
+      <h3 class="text-centred">Price Details</b></h3>
 
-          <h5 class=>Bag Total</h5>
-          <h5>Bag Discount</h5>
-          <h5>Estimated Tax</h5>
-          <h5>Delivery Charges</h5>
-          <hr>
-          <h3><b>Order Total</b></h3>
+      <div class="cart-left">
 
-      </span>
-      <span class="cart-right">
-
-        <h5>Rs.{{dict["bag_mrp"]}}</h5>
-        <h5>-Rs.{{dict["bag_discount"]}}</h5>
+            <h5>Bag Total</h5>
+            <h5>Bag Discount</h5>
+            <h5>Estimated Tax</h5>
+            <h5>Delivery Charges</h5>
+            <hr>
+            <h3><b>Order Total</b></h3>
+       </div>
+      <span class="cart-right"> <h5>Rs.{{dict["bag_mrp"]}}</h5></span>
+        <span class="cart-right"><h5>-Rs.{{dict["bag_discount"]}}</h5></span>
         {% set tax=(0.05*dict["bag_total"])|int %}
-        <h5>Rs.{{tax}}</h5>
+        <span class="cart-right"> <h5>{{tax}}</h5></span>
         {% if dict["bag_total"] < 999 %}
-        {% set delivery=149 %}
-        {% else %}
-        {% set delivery=0 %}
-        {% endif %}
-        {% if delivery==0 %}
-        <h5>Free</h5>
-        {% else %}
-        <h5>Rs.{{delivery}}</h5>
-        {% endif %} <hr>
-        <h3><b>Rs.{{ tax+delivery+dict["bag_total"]}}</b></h3>
-      </span>
-      <a class="btn btn-primary btn-block text-centred" href="{{ url_for('users.checkout') }}"> Place Order </a>
-
+            {% set delivery=149 %}
+            {% else %}
+            {% set delivery=0 %}
+            {% endif %}
+            {% if delivery==0 %}
+              <span class="cart-right"><h5>Free</h5></span>
+            {%else%}
+              <span class="cart-right"><h5>Rs.149</h5></span>
+            {% endif %}
+          {% endif %}
+     <hr>
+    <span class="cart-right"><h5>Rs.{{ tax+delivery+dict["bag_total"]}}</h5></span>
+    <br>
+     <a class="btn btn-primary btn-block" style="margin-top:200px" href="{{url_for('users.checkout')}}">Place Order </a>
   </div>
-
-  {% endif %}
 </div>
 {% endblock content %}
 

@@ -159,18 +159,27 @@ def cart_details(id):
         dict['bag_discount'] = bag_mrp - bag_price
         dict['bag_mrp'] = bag_mrp
         dict['bag_total'] = bag_price
-        if bag_price<999:
-            delivery=149
+        if bag_price>=1499:
+            if bag_price>=2999:
+                offer_discount=bag_price*0.1*0.05
+            else:
+                offer_discount=bag_price*0.1
         else:
-            delivery=0
-        dict['order_total']=int(bag_price*0.05+delivery+bag_price)
+            offer_discount=0
+        dict['bag_offer_discount']=offer_discount
+        if bag_price<999:
+            dict['delivery']=149
+        else:
+            dict['delivery']=0
+        dict['tax']=0.05*bag_price
+        dict['order_total']=int(dict['tax']+dict['delivery']+bag_price-offer_discount)
         return lst, dict, number_of_items
 
 
 @users.route('/my_cart', methods=['GET', 'POST'])
-@login_required
+
 def cart():
-    id = current_user.get_id()
+    id = '5be6b480eaeeee29e026fd1b'
     cart_status = mongo.db.user.find({'$and': [{'_id': ObjectId(id)}, {'item': {'$exists': 'true'}}]}).count()
     if cart_status:
         lst, dict, number_of_items = cart_details(id)
@@ -180,9 +189,9 @@ def cart():
 
 
 @users.route('/checkout/address')
-@login_required
+
 def checkout():
-    id = current_user.get_id()
+    id = '5be6b480eaeeee29e026fd1b'
     count = mongo.db.user.find({'$and': [{'_id': ObjectId(id)}, {'list_address': {'$exists': 'true'}}]}).count()
     if count == 0:
         return redirect(url_for('users.address'))
@@ -194,12 +203,13 @@ def checkout():
 
 
 @users.route('/checkout/place_order', methods=['GET', 'POST'])
-@login_required
 def place_order():
     lst_items=[]
     price=0
     order_total=0
-    id = current_user.get_id()
+    id = '5be6b480eaeeee29e026fd1b'
+    lst, dict, number_of_items = cart_details(id)
+
     number = int(request.form['address_number'])
     dict_items_info = mongo.db.user.find_one({'_id': ObjectId(id)}, {'_id': 0, 'item': 1, 'list_address': 1})
     lst_items_info = dict_items_info['item']
@@ -212,13 +222,13 @@ def place_order():
                                     }
                                    }
                                   )
-        item=mongo.db.items.find_one({'_id':item_info['item_id']},{'_id':0,'Mrp':1,'Discount':1})
+        #item=mongo.db.items.find_one({'_id':item_info['item_id']},{'_id':0,'Mrp':1,'Discount':1})
         #item_info['mrp']=item['Mrp']
         #item_info['discount']=item['Discount']
-        price=item['Mrp']-item['Mrp']*item['Discount']/100
-        item_info['price']=price*int(item_info['quantity'])
-        order_total+=price+int(item_info['quantity'])
-        lst_items.append(item_info)
+        #price=item['Mrp']-item['Mrp']*item['Discount']/100
+        #item_info['price']=price*int(item_info['quantity'])
+        #order_total+=price+int(item_info['quantity'])
+        #lst_items.append(item_info)
     order_total=math.floor(order_total)
     mongo.db.order.insert_one({'date': datetime.now(), 'delivery_date':datetime.now() +timedelta(days=7),'user_id': id, 'item_details': lst_items,'delivery_details': lst_address_details[number], 'order_total':order_total, 'status':'IN PROGRESS'})
     mongo.db.user.update_one({'_id': ObjectId(id)}, {'$unset': {'item': 1}})

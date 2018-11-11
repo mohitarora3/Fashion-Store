@@ -4,6 +4,11 @@
 <title>Font Awesome Icons</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 <style>
     .inline li{
     padding:25px;
@@ -25,7 +30,9 @@
     a{
       text-decoration: none;
 
+
     }
+
     a:link{
         color:black;
         text-decoration: true;
@@ -39,7 +46,33 @@
     a:active{
       color:lime;
     }
+    .cart-right{
+float: right;
+height: 30px;
+clear:right;
 
+}
+.cart-left{
+
+  float:left;
+
+}
+.full-box
+{
+
+  border-style: dotted;
+  border-width: 5px grey;
+  height:270px;
+  foat:left;
+  overflow: auto;
+  clear:both;
+  width: 100%;
+
+}
+.full-box a{
+      display: block;
+      margin-bottom: 250px;
+    }
 
 </style>
 </head>
@@ -61,7 +94,30 @@
 </div>
 
 </ul>
+<br><br>
+<div class="full-box">
+  <h3 class="text-centred">Price Details</b></h3>
 
+  <div class="cart-left">
 
+            <h5>Bag Total</h5>
+            <h5>Bag Discount</h5>
+            <h5>Estimated Tax</h5>
+            <h5>Delivery Charges</h5>
+            <hr>
+            <h3><b>Order Total</b></h3>
+
+  </div>
+  <div class="cart-right">
+    <span class="cart-right"> <h5>Rs.10000</h5></span>
+    <span class="cart-right"><h5>-Rs.2000</h5></span>
+<span class="cart-right"> <h5>Rs.120</h5></span>
+<span class="cart-right"><h5>Rs.149</h5></span>
+<hr>
+<span class="cart-right"><h3><b>Rs.22222</b></h3></span>
+  </div>
+  <br>
+  <a class="btn btn-primary btn-block" style="margin-top:210px" href="{{{url_for('users.checkout')}}">Place Order </a>
+</div>
 </body>
 </html>
