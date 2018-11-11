@@ -62,9 +62,10 @@ color:lime;
         height: 50px;
         text-align: center;
         padding: 13px 0;
-        font-size: 12px;
+        font-size: 20px;
         line-height: 1.33;
         border-radius: 25px;
+        border-color: black;
       }
 .img-zoom-container {
   position: relative;
