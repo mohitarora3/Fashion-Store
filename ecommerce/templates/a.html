@@ -5,11 +5,41 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 
 
 
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 <style>
+.btn-circle {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        padding: 6px 0;
+        font-size: 12px;
+        line-height: 1.428571429;
+        border-radius: 15px;
+        border-color: black;
+      }
+
+.btn-circle.btn-lg {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        padding: 13px 0;
+        font-size: 20px;
+        line-height: 1.33;
+        border-radius: 25px;
+        border-color: black;
+      }
+
+.equal-container{
+  float:left;
+  width:50%;
+  height: 250px;
+  border: 2px outset;
+  padding: 10px;
+
+}
     .inline li{
     padding:25px;
     display: inline;
@@ -52,9 +82,13 @@ height: 30px;
 clear:right;
 
 }
+.right{
+  text-align: right;
+}
 .cart-left{
 
   float:left;
+  width: 100%;
 
 }
 .full-box
@@ -68,6 +102,9 @@ clear:right;
   clear:both;
   width: 100%;
 
+}
+.orange{
+  color:orange;
 }
 .full-box a{
       display: block;
@@ -95,29 +132,31 @@ clear:right;
 
 </ul>
 <br><br>
-<div class="full-box">
+<div class="equal-container">
   <h3 class="text-centred">Price Details</b></h3>
 
-  <div class="cart-left">
 
-            <h5>Bag Total</h5>
-            <h5>Bag Discount</h5>
-            <h5>Estimated Tax</h5>
-            <h5>Delivery Charges</h5>
+
+            <h5>Bag Total<span class="right">Rs.10000</span></h5>
+            <h5>Bag Discount <span class="right orange">-Rs.2000</span></h5>
+            <h5>Estimated Tax<span class="right"> Rs.120</span></h5>
+            <h5>Delivery Charges<span class="right orange">Rs.149</span></h5>
             <hr>
-            <h3><b>Order Total</b></h3>
+            <h3><b>Order Total</b><span class="right"><b>Rs.22222</b></span></h3>
 
-  </div>
-  <div class="cart-right">
-    <span class="cart-right"> <h5>Rs.10000</h5></span>
-    <span class="cart-right"><h5>-Rs.2000</h5></span>
-<span class="cart-right"> <h5>Rs.120</h5></span>
-<span class="cart-right"><h5>Rs.149</h5></span>
-<hr>
-<span class="cart-right"><h3><b>Rs.22222</b></h3></span>
+
+
+
+
+
+
   </div>
   <br>
-  <a class="btn btn-primary btn-block" style="margin-top:210px" href="{{{url_for('users.checkout')}}">Place Order </a>
+  <label class="btn btn-default btn-circle ">
+                12  </label>
+  <label class="btn btn-default btn-circle btn-lg">
+                  13 </label>
+
 </div>
 </body>
 </html>

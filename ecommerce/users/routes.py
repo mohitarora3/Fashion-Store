@@ -88,7 +88,10 @@ def update_cart(item_id, item_attr):
     id = current_user.get_id()
     # item=mongo.db.items.find_one({'_id': ObjectId(item_id)}, {"_id": 0, "Size": 1})
     # size=item["Size"]
+    print(item_id)
+    print(item_attr)
     if('qt' in request.form):
+        print(request.form['qt'])
         mongo.db.user.update_one(
             {"_id": ObjectId(id),
              "item.item_id": ObjectId(item_id),
@@ -161,17 +164,17 @@ def cart_details(id):
         dict['bag_total'] = bag_price
         if bag_price>=1499:
             if bag_price>=2999:
-                offer_discount=bag_price*0.1*0.05
+                offer_discount=bag_price*0.1+bag_price*0.05
             else:
                 offer_discount=bag_price*0.1
         else:
             offer_discount=0
-        dict['bag_offer_discount']=offer_discount
+        dict['bag_offer_discount']=round(offer_discount,2)
         if bag_price<999:
             dict['delivery']=149
         else:
             dict['delivery']=0
-        dict['tax']=0.05*bag_price
+        dict['tax']=round(0.05*bag_price,2)
         dict['order_total']=int(dict['tax']+dict['delivery']+bag_price-offer_discount)
         return lst, dict, number_of_items
 
@@ -207,8 +210,9 @@ def place_order():
     lst_items=[]
     price=0
     order_total=0
+    status="IN PROGRESS"
     id = '5be6b480eaeeee29e026fd1b'
-    lst, dict, number_of_items = cart_details(id)
+    _, dict, number_of_items = cart_details(id)
 
     number = int(request.form['address_number'])
     dict_items_info = mongo.db.user.find_one({'_id': ObjectId(id)}, {'_id': 0, 'item': 1, 'list_address': 1})
@@ -222,22 +226,23 @@ def place_order():
                                     }
                                    }
                                   )
-        #item=mongo.db.items.find_one({'_id':item_info['item_id']},{'_id':0,'Mrp':1,'Discount':1})
-        #item_info['mrp']=item['Mrp']
-        #item_info['discount']=item['Discount']
-        #price=item['Mrp']-item['Mrp']*item['Discount']/100
-        #item_info['price']=price*int(item_info['quantity'])
-        #order_total+=price+int(item_info['quantity'])
-        #lst_items.append(item_info)
+        item=mongo.db.items.find_one({'_id':item_info['item_id']},{'_id':0,'Mrp':1,'Discount':1})
+        item_info['mrp']=item['Mrp']
+        item_info['discount']=item['Discount']
+        price=item['Mrp']-item['Mrp']*item['Discount']/100
+        item_info['price']=price*int(item_info['quantity'])
+        item_info['status']=status
+        order_total+=price+int(item_info['quantity'])
+        lst_items.append(item_info)
     order_total=math.floor(order_total)
-    mongo.db.order.insert_one({'date': datetime.now(), 'delivery_date':datetime.now() +timedelta(days=7),'user_id': id, 'item_details': lst_items,'delivery_details': lst_address_details[number], 'order_total':order_total, 'status':'IN PROGRESS'})
+    mongo.db.order.insert_one({'date': datetime.now(), 'delivery_date':datetime.now() +timedelta(days=7),'user_id': id, 'item_details': lst_items,'delivery_details': lst_address_details[number], 'order_info':dict})
     mongo.db.user.update_one({'_id': ObjectId(id)}, {'$unset': {'item': 1}})
     return render_template('order_placed.html', title='Order Placed')
 
 @users.route('/my_orders/')
-@login_required
+
 def orders():
-    id=current_user.get_id()
+    id = '5be6b480eaeeee29e026fd1b'
     user_orders=mongo.db.order.find({'user_id':id})
     for user_order in user_orders:
         if user_order['status']=='IN PROGRESS':
@@ -254,7 +259,7 @@ def orders():
          'as': 'item_info'
      }
      },
-    {'$project': {'item_info._id': 1, 'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1, 'item_details.price': 1,  'item_details.quantity': 1, 'item_details.size':1,'delivery_date':1, 'date': 1, 'status':1, 'order_total':1}}
+    {'$project': {'item_info._id': 1, 'item_info.Type':1,'item_info.Category':1,'item_info.Color':1,'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1, 'item_details.status':1,'item_details.price': 1,  'item_details.quantity': 1, 'item_details.size':1,'delivery_date':1, 'date': 1, 'order_total':1}}
 ])
     return render_template('orders.html',title='My Orders',dict_order_details=dict_order_details)
 

@@ -2,7 +2,7 @@
 {% extends "style.html" %}
 {% block content %}
 <div class="container">
-<ul class="inline font-weight">
+<ul class="inline font-weight-bold">
   <span class="left">
     <li>Smart Shop</li>
    </span>
@@ -10,7 +10,7 @@
       <i class="fa fa-lock grey" style="font-size:24px"></i> <small class="text-muted"> 100%  SECURE</small>
     </span>
    <div class="center">
-    <li class="underline"><a href="#">Bag</a></li>
+    <li ><a href="#" class="underline orange">Bag</a></li>
     <li>........</li>
     <li >Delivery</li>
     <li>........</li>
@@ -40,13 +40,14 @@
       </div>
       <b> <a href="{{ url_for('main.item',item_id=item['_id'] ) }}">{{ item["Short Description"] }} </a> </b>
       <div class="cart-right">
-           <strong> Rs.{{item["Price"] }} </strong>
+           {{ item['quantity']}}
+           <strong> Rs.{{item['quantity']*item["Price"] }} </strong>
       </div><br>
       <small class="text-muted">Sold By:<b>{{item["Seller"]}}</b></small>
       <div class="cart-right">
       {% if item["Discount"] !=0 %}
          <small class="text-muted">({{item["Discount"]}}% OFF)</small>|
-        <font  color="#FF4500"><strike> Rs.{{item["Mrp"] }}</strike></font>
+        <font  color="#FF4500"><strike> Rs.{{item['quantity']*item["Mrp"] }}</strike></font>
       {% endif %}
       </div><br>
       <form name="si" action=" {{ url_for('users.update_cart', item_id=item['_id'], item_attr=item['quantity'] ) }}" method='post' >
@@ -57,54 +58,41 @@
                   {% endif %}
                 {% endfor %}
               </select>
-              <noscript><input type="submit" value="Submit"></noscript>
-              </form>
-
-            <form name="qt" action=" {{ url_for('users.update_cart', item_id=item['_id'] ,item_attr=item['size']) }}" method='post' >
-              <select name='qt' onchange='this.form.submit()'>
-                {% if item["Size"][item['size']] > 10 %}
-                  {% for q in range(2,10) %}
-                    Quantity:<option value={{q}} >{{q}}</option>
-                  {% endfor %}
-                {% else %}
-                  {% for q in range(1,item["Size"][ item['size'] ] ) %}
-                    Quantity:<option value={{q}} >{{q}}</option>
-                  {% endfor %}
-                {% endif %}
-
-              </select>
-            </form>
-            <a class="button" href=" {{url_for('users.remove_from_cart',item_id=item['_id'], size=item['size']) }}">Remove</a>
-          </br>
-             </div>
-             {% endfor %}
-  </br>
-</div>
-    <div class="twenty text-muted">
-      <h3 class="text-centred">Price Details</b></h3>
-
-      <div class="cart-left">
-
-            <h5>Bag Total</h5>
-            <h5>Bag Discount</h5>
-            <h5>Estimated Tax</h5>
-            <h5>Delivery Charges</h5>
-            <hr>
-            <h3><b>Order Total</b></h3>
-       </div>
-      <span class="cart-right"> <h5>Rs.{{dict["bag_mrp"]}}</h5></span>
-        <span class="cart-right"><h5>-Rs.{{dict["bag_discount"]}}</h5></span>
-        {% set tax=(0.05*dict["bag_total"])|int %}
-        <span class="cart-right"> <h5>{{dict['tax']}}</h5></span>
-        {% if dict['delivery']==0 %}
-              <span class="cart-right"><h5>Free</h5></span>
-         {% else %}
-             <span class="cart-right"><h5>{{dict['delivery']}}</h5></span>
+            <select name='qt' onchange='this.form.submit()'>
+        {% if item["Size"][item['size']] > 10 %}
+          {% for q in range(0,10) %}
+            Quantity:<option value={{q}} >{{q}}</option>
+          {% endfor %}
+        {% else %}
+          {% for q in range(1,item["Size"][ item['size'] ] ) %}
+            Quantity:<option value={{q}} >{{q}}</option>
+          {% endfor %}
         {% endif %}
-    <span class="cart-right"><h3><b>Rs.{{ tax+delivery+dict["bag_total"]}}</b></h3></span>
-    <br>
-     <a class="btn btn-primary btn-block" style="margin-top:200px" href="{{url_for('users.checkout')}}">Place Order </a>
+
+      </select>
+      </form>
+      <a class="button" href=" {{url_for('users.remove_from_cart',item_id=item['_id'], size=item['size']) }}">Remove</a></br>
     </div>
+    {% endfor %} <br>
+  </div>
+  <div class="twenty text-muted">
+    <h3 class="text-centred">Price Details</b></h3>
+      <h5>Bag Total<span class="right">Rs.{{dict["bag_mrp"]}}</span></h5>
+      <h5>Bag Discount <span class="right">-Rs.{{dict["bag_discount"]}}</span></h5>
+      <h5>Estimated Tax<span class="right"> {{dict['tax']}}</span></h5>
+      {% if dict['delivery']==0 %}
+        <h5>Delivery Charges<span class="right">Free</span></h5>
+      {% else %}
+        <h5>Delivery Charges<span class="right">{{dict['delivery']}}</span></h5>
+      {% endif %}
+      {% if dict['bag_offer_discount']!=0 %}
+         <h5>Offer Discount <span class="right">-Rs.{{dict["bag_offer_discount"]}}</span></h5>
+      {% endif %}
+      <hr>
+      <h3><b>Order Total</b><span class="right"><b>Rs.{{dict['order_total']}}</b></span></h3>
+       <a class="btn btn-primary btn-block"  href="{{url_for('users.checkout')}}">Place Order </a>
+  </div>
 </div>
+  {%endif%}
 {% endblock content %}
 

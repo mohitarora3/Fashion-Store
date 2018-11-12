@@ -217,6 +217,17 @@ while(i < len(brands)):
   i = i + n
 print(price)
 '''
+id = '5be6b480eaeeee29e026fd1b'
+
+mongo.db.user.update_one(
+    {"_id": ObjectId(id),
+     "item.item_id": ObjectId('5be5d455eaeeee0ef45458a0'),
+     "item.size": 'Double King'
+     },
+    {"$set":
+     {"item.$.quantity": 5}
+     }
+)
 ans = mongo.db.order.find()
 for i in ans:
   print(i)

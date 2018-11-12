@@ -54,9 +54,13 @@
         <br>
         <h4><b> PRODUCT DETAILS</b></h4>
         <hr>
+        {%if item['Type']=='Bedsheet'%}
         {% for details in item["Product Details"] %}
             <br>{{ details}}
         {% endfor %}
+        {% else %}
+            <p>{{item['Product Details']}}</p>
+        {% endif %}
         <br>
         <br>
         <b> Material & Care</b>

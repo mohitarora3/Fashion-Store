@@ -13,16 +13,18 @@
    <div class="center">
     <li><a href="{{url_for('users.cart')}}">Bag</a></li>
     <li>........</li>
-    <li class="underline"><a href="#">Delivery</a></li>
+    <li class="underline orange"><a href="#">Delivery</a></li>
     <li>........</li>
     <li>Payment</li>
     </div>
 
 </ul>
+<hr>
   <form name="a" action="{{ url_for('users.place_order') }}" method="post">
   <div class="eighty">
+  <h5 class="font-weight-bold">Select Delivery Address</h5>
   {% for address in list_address %}
-    <div class="equal-container">
+    <div class="equal-container" id="box-hover">
           <input type="radio" value={{loop.index-1}} name="address_number" required><p> {{address["name"] }}</p>
             <small class="text-muted" id="des">{{address["address"]}} <br> {{address['city']}}-{{address['pin-code']}}<br>{{address['state']}}<br><br>Mobile: <b> {{address['phone_number']}}</b></small>
             <br>
@@ -31,24 +33,38 @@
       </div>
 {% endfor %}
     <div class="equal-container">
-      <div class="center">
+      <span class="center">
         <h2><a class="btn btn-default btn-circle" href="{{ url_for('users.address') }}"><b>+</b></h2></a> <a  href="{{ url_for('users.address') }}">Add new address</a>
-      </div>
+      </span>
     </div>
   </div>
 
-  <div class="twenty">
+  <div class="twenty" style="margin-top:30px" >
   <br>
-  <h4>Estimated Delivery:{{delivery_date.day }} {{delivery_date.strftime("%B")}}  {{delivery_date.year}}</h4>
+  <small class="text-muted">Estimated Delivery:{{delivery_date.day }} {{delivery_date.strftime("%B")}}  {{delivery_date.year}}</small>
   <br>
-      <b>{{number}} ITEMS </b>
-                      <h2>Price Details</h2>
-
-        <h5 class="text-muted">Bag Total  &emsp; &emsp;  Rs.{{dict["bag_mrp"]}}</h5>
-        <h5 class="text-muted">Bag Discount  &emsp; &emsp; Rs.{{dict["bag_discount"]}}</h5>
-        <h3>Order Total Rs.{{dict["order_total"]}}</h3>
-        <br>
-        <input type=submit value="Place Your Order Now" class="btn btn-success btn-md" >
+      <b>{{number}}
+      {% if number==1 %}
+        ITEM
+      {% else %}
+        ITEMS
+      {% endif %}
+      </b>
+      <hr>
+      <h5>Bag Total<span class="right">Rs.{{dict["bag_mrp"]}}</span></h5>
+      <h5>Bag Discount <span class="right">-Rs.{{dict["bag_discount"]}}</span></h5>
+      <h5>Estimated Tax<span class="right"> {{dict['tax']}}</span></h5>
+      {% if dict['delivery']==0 %}
+        <h5>Delivery Charges<span class="right">Free</span></h5>
+      {% else %}
+        <h5>Delivery Charges<span class="right">{{dict['delivery']}}</span></h5>
+      {% endif %}
+      {% if dict['bag_offer_discount']!=0 %}
+         <h5>Offer Discount <span class="right">-Rs.{{dict["bag_offer_discount"]}}</span></h5>
+      {% endif %}
+      <hr>
+      <h3><b>Total Payable</b><span class="right"><b>Rs.{{dict['order_total']}}</b></span></h3>
+        <input type=submit value="Place Your Order Now" class="btn btn-success btn-block btn-md" >
 
         <br>
         <br>
