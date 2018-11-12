@@ -245,10 +245,12 @@ def orders():
     id = '5be6b480eaeeee29e026fd1b'
     user_orders=mongo.db.order.find({'user_id':id})
     for user_order in user_orders:
-        if user_order['status']=='IN PROGRESS':
-            current_date=datetime.now().date()
-            if current_date >= user_order["delivery_date"].date():
-                mongo.db.order.update_one({'_id':user_order['_id']},{'$set':{'status':'DELIVERED'}})
+        item_details=user_order['item_details']
+        for item_detail in item_details:
+            if item_detail['status']=='IN PROGRESS':
+                    current_date=datetime.now().date()
+                    if current_date >= user_order["delivery_date"].date():
+                        mongo.db.order.update_one({'_id':user_order['_id'],'item_details.item_id':item_detail['item_id'],'item_details.size':item_detail['size']},{'$set':{'status':'DELIVERED'}})
     dict_order_details= mongo.db.order.aggregate([
     {'$match': {'user_id': id}},
     {'$lookup':
@@ -259,7 +261,7 @@ def orders():
          'as': 'item_info'
      }
      },
-    {'$project': {'item_info._id': 1, 'item_info.Type':1,'item_info.Category':1,'item_info.Color':1,'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1, 'item_details.status':1,'item_details.price': 1,  'item_details.quantity': 1, 'item_details.size':1,'delivery_date':1, 'date': 1, 'order_total':1}}
+    {'$project': {'item_info._id': 1, 'item_info.Type':1,'item_info.Category':1,'item_info.Color':1,'item_info.Seller':1,'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1, 'item_details.status':1,'item_details.price': 1,  'item_details.quantity': 1, 'item_details.size':1,'delivery_date':1, 'date': 1, 'order_total':1}}
 ])
     return render_template('orders.html',title='My Orders',dict_order_details=dict_order_details)
 

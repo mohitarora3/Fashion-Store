@@ -16,8 +16,9 @@
              <span class="middle-price">Price <small> Rs.{{order["item_details"][loop.index-1]["price"]}}</small></span><br>
             <a href="{{ url_for('main.item',item_id=item['_id'] ) }}"><small class="text-muted">{{ item["Short Description"] }}</small> </a><br>
             Quantity{{ order["item_details"][loop.index-1]["quantity"]}}<br>
-
-
+            {% if order["item_details"][loop.index-1]["status"] == "IN PROGRESS" %}
+                <a class="button" href=" {{url_for('users.cancel_order',order_id=order['_id']) }}">Cancel Order</a>
+            {% endif %}
         </div>
         {% endfor %}
          <br>
@@ -36,9 +37,7 @@
         <br>
          <h5> Order Placed on:{{order["date"].strftime("%A")}},{{order["date"].strftime("%B")}}{{order["date"].day }}  {{order["date"].year}} </h5>
         Order total:{{order["order_total"]   }}
-        {% if order["status"] == "IN PROGRESS" %}
-            <a class="button" href=" {{url_for('users.cancel_order',order_id=order['_id']) }}">Cancel Order</a>
-        {% endif %}
+
     </div>
     {% endfor %}
     <br>

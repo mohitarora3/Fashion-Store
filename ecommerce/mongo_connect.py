@@ -218,7 +218,7 @@ while(i < len(brands)):
 print(price)
 '''
 id = '5be6b480eaeeee29e026fd1b'
-
+'''
 mongo.db.user.update_one(
     {"_id": ObjectId(id),
      "item.item_id": ObjectId('5be5d455eaeeee0ef45458a0'),
@@ -228,6 +228,9 @@ mongo.db.user.update_one(
      {"item.$.quantity": 5}
      }
 )
+'''
+mongo.db.order.update_one({'_id': ObjectId('5be9b79ceaeeee26c4004967'), 'item_details.item_id': ObjectId('5be5d455eaeeee0ef4545898')}, {'$set': {'item_details.$.status': 'DELIVERED'}})
+
 ans = mongo.db.order.find()
 for i in ans:
   print(i)
