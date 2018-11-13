@@ -11,6 +11,8 @@ class User(UserMixin, db.Document):
     username = db.StringField(max_length=30)
     email = db.EmailField(max_length=30)
     password = db.StringField()
+    role = db.StringField()
+    isactive = db.BooleanField()
     item = db.StringField()
     list_address = db.StringField()
 
