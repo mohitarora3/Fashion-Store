@@ -15,12 +15,7 @@ import os
 users = Blueprint('users', __name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-@users.route('/seller/additem', methods=['GET', 'POST'])
-@login_required
-def additem():
-  form = ItemForm()
-  if(itemdetail(form)):
-    return viewupdate()
+
 
 @users.route('/register', methods=['GET', 'POST'])
 def register():
@@ -31,7 +26,11 @@ def register():
         existing_user = User.objects(email=form.email.data).first()
         if existing_user is None:
             hashpass = generate_password_hash(form.password.data, method='sha256')
-            hey = User(form.username.data, form.email.data, hashpass).save()
+            a='customer'
+            if form.seller.data:
+                a='seller'
+            hey = User(form.username.data, form.email.data,hashpass,a).save()
+
             flash('Your account has been created. You are now able to log in.', 'success')
         return redirect(url_for('users.login'))
     return render_template('register.html', title='register', form=form)
@@ -66,8 +65,8 @@ def add_to_cart(item_id):
     id = current_user.get_id()
     item = mongo.db.user.find({'_id': ObjectId(id), 'item.item_id': ObjectId(item_id), 'item.size': request.form['si']}).count()
     if item==0:
-        print(request.form['si'])
-        a = {"item_id":ObjectId(item_id), "size": request.form['si'], "quantity": 1}
+        itemdetail=mongo.db.items.find_one({'_id':ObjectId(item_id)})
+        a = {"item_id":ObjectId(item_id), "size": request.form['si'], "quantity": 1,"SellerId":itemdetail['SellerId']}
         mongo.db.user.update_one(
             {"_id": ObjectId(id)
              },
