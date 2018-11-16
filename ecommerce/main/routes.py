@@ -13,6 +13,16 @@ def home():
   brands = mongo.db.items.distinct('Brand', {'Type': 'Bedsheet'})
   return render_template('home.html', items=items, brands=brands)
 
+@main.route('/newhome')
+def newhome():
+  itemsb = mongo.db.items.find({'Type': 'Bedsheet'}).limit(12)
+  itemst = mongo.db.items.find({'Type': 'Top'}).limit(12)
+  itemsd = mongo.db.items.find({'Type': 'Dress'}).limit(12)
+  itemss = mongo.db.items.find({'Type': 'Shirt'}).limit(12)
+
+  return render_template('newhome.html', itemsb=itemsb, itemst=itemst, itemsd=itemsd, itemss=itemss)
+
+
 
 @main.route('/item/<string:item_id>')
 def item(item_id):
