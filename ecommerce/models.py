@@ -14,6 +14,7 @@ class User(UserMixin, db.Document):
     role = db.StringField()
     isactive = db.BooleanField()
     item = db.StringField()
+    wishlist = db.StringField()
     list_address = db.StringField()
 
     def __rep__(self):

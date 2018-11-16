@@ -31,7 +31,6 @@
         </span>
         <br>
         <br>
-        <br>
          <h5> Order Placed on:{{order["date"].strftime("%A")}},{{order["date"].strftime("%B")}}{{order["date"].day }}  {{order["date"].year}} </h5>
         Order total:{{order["order_total"]   }}
         {% if order["status"] == "IN PROGRESS" %}

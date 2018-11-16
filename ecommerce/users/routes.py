@@ -1,6 +1,6 @@
 import math
 from datetime import datetime, timedelta
-from flask import render_template, redirect, url_for, Blueprint, flash, request,  redirect, send_from_directory
+from flask import render_template, redirect, url_for, Blueprint, flash, request, redirect, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 from ecommerce.users.forms import RequestResetForm, ResetPasswordForm, RegistrationForm, LoginForm, DeliveryForm, ReviewForm
@@ -16,7 +16,6 @@ users = Blueprint('users', __name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
-
 @users.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -26,10 +25,10 @@ def register():
         existing_user = User.objects(email=form.email.data).first()
         if existing_user is None:
             hashpass = generate_password_hash(form.password.data, method='sha256')
-            a='customer'
+            a = 'customer'
             if form.seller.data:
-                a='seller'
-            hey = User(form.username.data, form.email.data,hashpass,a).save()
+                a = 'seller'
+            hey = User(form.username.data, form.email.data, hashpass, a).save()
 
             flash('Your account has been created. You are now able to log in.', 'success')
         return redirect(url_for('users.login'))
@@ -63,24 +62,62 @@ def logout():
 @login_required
 def add_to_wishlist(item_id):
     id = current_user.get_id()
-    item = mongo.db.user.find({'_id': ObjectId(id), 'wish.item_id': ObjectId(item_id)}).count()
-    if item==0:
-        itemdetail=mongo.db.items.find_one({'_id':ObjectId(item_id)})
-        a = {"item_id":ObjectId(item_id), "size": request.form['si'], "quantity": 1,"SellerId":itemdetail['SellerId']}
+    item = mongo.db.user.find({'_id': ObjectId(id), 'wishlist.item_id': ObjectId(item_id)}).count()
+    if item == 0:
+        itemdetail = mongo.db.items.find_one({'_id': ObjectId(item_id)})
+        a = {"item_id": ObjectId(item_id)}
         mongo.db.user.update_one(
             {"_id": ObjectId(id)
              },
             {"$push":
-             {"item": a
+             {"wishlist": a
               }
              }
         )
-        flash('This item has been successfully added to cart', 'success')
+        flash('This item has been successfully added to yor wishlist', 'success')
     else:
-        flash('This item is already present in your cart', 'success')
+        flash('This item is already present in your wishlist', 'success')
     return redirect(url_for('main.home'))
 
 
+@users.route('/my_wishlist', methods=['GET', 'POST'])
+@login_required
+def wishlist():
+    id = current_user.get_id()
+    result_cursor = mongo.db.user.aggregate([{'$match': {'_id': ObjectId("5be6b480eaeeee29e026fd1b")}},
+                                  {'$project':
+                                   {'_id': 0, 'wishlist': 1, 'count':
+                                    {'$size': '$wishlist'}
+                                    }
+                                   }
+                                  ])
+    for result in result_cursor:
+        if result['count']>0:
+            count=result['count']
+            print(count)
+            items = mongo.db.user.aggregate([
+                {'$match': {'_id': ObjectId("5be6b480eaeeee29e026fd1b")}},
+                {'$lookup':
+                 {
+                     'from': 'items',
+                     'localField': 'wishlist.item_id',
+                     'foreignField': '_id',
+                     'as': 'item_info'
+                 }
+                 },
+                {'$project': {'_id':0,'item_info.Category':1,'item_info._id': 1, 'item_info.Type': 1, 'item_info.Category': 1, 'item_info.Color': 1, 'item_info.Seller': 1, 'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1},
+                 }
+            ])
+            break
+        else:
+            count=0
+            items=None
+            print(count)
+            break
+
+    for i in items:
+        print(i)
+    return render_template('wishlist.html',items_dict=items,count=count)
 @users.route('/saving/<string:item_id>', methods=['GET', 'POST'])
 @login_required
 def add_to_cart(item_id):
@@ -210,7 +247,7 @@ def cart_details(id):
 @users.route('/my_cart', methods=['GET', 'POST'])
 
 def cart():
-    id = '5be6b480eaeeee29e026fd1b'
+    id = current_user.get_id()
     cart_status = mongo.db.user.find({'$and': [{'_id': ObjectId(id)}, {'item': {'$exists': 'true'}}]}).count()
     if cart_status:
         lst, dict, number_of_items = cart_details(id)
@@ -222,7 +259,7 @@ def cart():
 @users.route('/checkout/address')
 
 def checkout():
-    id = '5be6b480eaeeee29e026fd1b'
+    id = current_user.get_id()
     count = mongo.db.user.find({'$and': [{'_id': ObjectId(id)}, {'list_address': {'$exists': 'true'}}]}).count()
     if count == 0:
         return redirect(url_for('users.address'))
@@ -270,7 +307,7 @@ def place_order():
 @users.route('/my_orders/')
 
 def orders():
-    id = '5be6b480eaeeee29e026fd1b'
+    id = current_user.get_id()
     user_orders=mongo.db.order.find({'user_id':id})
     for user_order in user_orders:
         item_details=user_order['item_details']
