@@ -19,6 +19,17 @@ def home(type):
   types = mongo.db.items.distinct('Type')
   return render_template('home.html', items=items, brands=brands, type=type.title(), types=types)
 
+@main.route('/newhome')
+def newhome():
+  itemsb = mongo.db.items.find({'Type': 'Bedsheet'}).limit(12)
+  itemst = mongo.db.items.find({'Type': 'Top'}).limit(12)
+  itemsd = mongo.db.items.find({'Type': 'Dress'}).limit(12)
+  itemss = mongo.db.items.find({'Type': 'Shirt'}).limit(12)
+
+  return render_template('newhome.html', itemsb=itemsb, itemst=itemst, itemsd=itemsd, itemss=itemss)
+
+
+
 
 @main.route('/home/filter', methods=['POST'])
 def filter():
