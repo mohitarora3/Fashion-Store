@@ -7,6 +7,9 @@ import pprint
   mongo.db.items.insert_many([{
       "Image": ['1.1.jpg', '1.2.jpg', '1.3.jpg', '1.4.jpg'],
       "Brand": "Highlander",
+      "Type":"Shirt",
+      "Category":"Men",
+      "Seller":"Blumentor",
       "Short Description": "Slim Casual Shirt",
       "Description": "White Slim Fit Casual Shirt",
       "Mrp": 999,
@@ -14,11 +17,15 @@ import pprint
       "Price": 549,
       "Size": {'38': 0, '40': 25, '42': 10, '44': 6},
       "Product Details": "White casual shirt, has a spread collar, a full button placket, a patch pocket, long sleeves with roll-up button tabs, a curved hemline",
-      "Material & Care": ['100% cotton', 'Machine-wash warm']
+      "Material & Care": ['100% cotton', 'Machine-wash warm'],
+       "Complete The Look": "This casual shirt from Highlander is the perfect pick for this season. Team it with a pair of jeans and sneakers to complete your look."
   },
       {
       "Image": ['2.1.jpg', '2.2.jpg', '2.3.jpg', '2.4.jpg'],
       "Brand": "Campus Sutra",
+      "Type":"Shirt",
+      "Category":"Men",
+      "Seller":"Blumentor",
       "Short Description": "Men Regular Fit Casual Shirt",
       "Description": "Campus Sutra Men Blue Standard Regular Fit Self Design Casual Shirt",
       "Mrp": 1399,
@@ -26,11 +33,15 @@ import pprint
       "Price": 489,
       "Size": {'38': 0, '40': 25, '42': 10, '44': 6},
       "Product Details": "Blue self-design casual shirt, has a cutaway collar, button placket, 1 pocket, long sleeves, curved hem",
-      "Material & Care": ['Cotton', 'Machine-wash']
+      "Material & Care": ['Cotton', 'Machine-wash'],
+      "Complete The Look": "Keep warm on the coldest of days with this top-of-the-line shirt by Campus Sutra. This blue piece can be worn with dark wash jeans and Chelsea boots when youre going to an after-work happy hour."
   },
-      {
+  {
       "Image": ['3.1.jpg', '3.2.jpg', '3.3.jpg', '3.4.jpg'],
       "Brand": "Hire&Now",
+      "Type":"Shirt",
+      "Category":"Men",
+      "Seller":"Unistand",
       "Short Description": "Men Regular Fit Casual Shirt",
       "Description": "HERE&NOW Men Grey & Black Regular Fit Checked Casual Shirt",
       "Mrp": 1399,
@@ -38,11 +49,15 @@ import pprint
       "Price": 979,
       "Size": {'38': 0, '40': 25, '42': 10, '44': 6},
       "Product Details": "Grey and black checked casual shirt, has a spread collar, button placket, 1 pocket, long sleeves, curved hem",
-      "Material & Care": ['100% Cotton', 'Machine-wash']
+      "Material & Care": ['100% Cotton', 'Machine-wash'],
+      "Complete The Look":"Cozy up with this in-style HERE&NOW shirt this season. A pair of sneakers and slim denim are the perfect additions to this blue piece when you're going outside for a day in the park."
   },
-      {
+  {
       "Image": ['4.1.jpg', '4.2.jpg', '4.3.jpg', '4.4.jpg'],
       "Brand": "Nautica",
+      "Type":"Shirt",
+      "Category":"Men",
+      "Seller":"Coracle Marketing  and Services OPC Pvt Ltd",
       "Short Description": "Men Regular Fit Casual Shirt",
       "Description": "Nautica Men Blue & Grey Regular Fit Checked Casual Shirt",
       "Mrp": 1499,
@@ -50,11 +65,15 @@ import pprint
       "Price": 524,
       "Size": {'38': 0, '40': 25, '42': 10, '44': 6},
       "Product Details": "Blue and grey checked casual shir",
-      "Material & Care": ['Linen', 'Machine-wash']
+      "Material & Care": ['Linen', 'Machine-wash'],
+      "Complete The Look":"You'll love the design of this high-fashion Nautica shirt. This blue piece can be teamed with distressed denims and canvas shoes when you're grabbing lunch with the guys."
   },
   {
       "Image": [ '5.1.jpg', '5.2.jpg', '5.3.jpg', '5.4.jpg' ],
       "Brand": "GAP",
+      "Type":"Shirt",
+      "Category":"Men",
+      "Seller":"Proleague",
       "Short Description": "Pattern Oxford Shirt",
       "Description": "Men's Maroon Pattern Oxford Shirt In Stretch",
       "Mrp": 2499,
@@ -62,11 +81,14 @@ import pprint
       "Price": 2249,
       "Size": {'S': 0, 'M': 25, 'L': 10, 'XL': 6},
       "Product Details": "GAP is one of the world's most iconic apparel and accessories brands and the authority on American casual style. Today, GAP continues to be the best destination for wardrobe essentials such as denim, tees, hoodies and great-fitting pants.Smooth, stretch oxford weave. Long sleeves with button cuffs. Button collar, button front. Patch pocket at chest. Curved shirttail hem",
-      "Material & Care": ['98% Cotton, 2% Spandex', 'Machine wash cold']
+      "Material & Care": ['98% Cotton, 2% Spandex', 'Machine wash cold'],
   },
   {
       "Image": [ '6.1.jpg', '6.2.jpg', '6.3.jpg', '6.4.jpg' ],
       "Brand": "GAP",
+      "Type":"Shirt",
+      "Category":"Men",
+      "Seller":"Proleague",
       "Short Description": "Black Oxford Shirt",
       "Description": "Men's Black Pattern Oxford Shirt In Stretch",
       "Mrp": 2499,
@@ -79,6 +101,9 @@ import pprint
   {
       "Image": [ '7.1.jpg', '7.2.jpg', '7.3.jpg', '7.4.jpg' ],
       "Brand": "GAP",
+      "Type":"Shirt",
+      "Category":"Men",
+      "Seller":"Proleague",
       "Short Description": "Striped Polo T Shirt",
       "Description": "Men's Grey Striped Polo Tshirt",
       "Mrp": 1499,
@@ -91,6 +116,9 @@ import pprint
   {
       "Image": [ '8.1.jpg', '8.2.jpg', '8.3.jpg', '8.4.jpg' ],
       "Brand": "GAP",
+      "Type":"Shirt",
+      "Category":"Men",
+      "Seller":"Proleague",
       "Short Description": "Slim Fit Denim Western Shirt",
       "Description": "Men's Blue Slim Fit Denim Western Shirt",
       "Mrp": 3799,
@@ -103,6 +131,9 @@ import pprint
   {
       "Image": [ '9.1.jpg', '9.2.jpg', '9.3.jpg', '9.4.jpg' ],
       "Brand": "GAP",
+      "Type":"Shirt",
+      "Category":"Men",
+      "Seller":"Proleague",
       "Short Description": "Poplin Shirt in Stretch",
       "Description": "Men's Brown & White Pattern Poplin Shirt in Stretch",
       "Mrp": 2499,
@@ -115,6 +146,9 @@ import pprint
   {
       "Image": [ '10.1.jpg', '10.2.jpg', '10.3.jpg', '10.4.jpg' ],
       "Brand": "GAP",
+      "Type":"Shirt",
+      "Category":"Men",
+      "Seller":"Proleague",
       "Short Description": "Striped Logo Tee",
       "Description": "Men's Blue & White Striped Logo Tee",
       "Mrp": 1499,
@@ -126,8 +160,11 @@ import pprint
   },
   {
       "Image": ['20.1.jpg', '20.2.jpg', '20.3.jpg', '20.4.jpg'],
-      "Brand": "Elixirnet",
-      "Short Description": "Women Pink Straight Regular Fit Solid Casual Shirt",
+      "Brand": "Popnetic",
+      "Type":"Shirt",
+      "Category":"Women",
+      "Seller":"Wiztech Corp",
+      "Short Description": "Regular Fit Solid Casual Shirt",
       "Description": "Pink solid casual shirt, has a cutaway collar, button placket, na pockets, long sleeves, curved hem",
       "Mrp": 2759,
       "Discount": 40,
@@ -136,9 +173,12 @@ import pprint
       "Product Details": "Pink solid casual shirt, has a cutaway collar, button placket, na pockets, long sleeves, curved hem.Complete The Look - This cotton tee from Jaipur Kurti will add an extra layer of warmth to your outfit. Create a chic look for your next date by pairing this shirt with slim jeans and patent pumps",
       "Material & Care": ['Cotton', 'Hand-wash']
   },
-  {
-      "Image": ['21.1.jpg', '21.2.jpg', '21.3.jpg', '21.4.jpg' ],
+      {
+      "Image": ['21.1.jpg', '21.2.jpg', '21.3.jpg', '21.4.jpg'],
       "Brand": "La Zorie",
+      "Type":"Top",
+      "Category":"Women",
+      "Seller":"Blumentor",
       "Short Description": "Women Dusty Pink Solid Top",
       "Description": "Dusty Pink solid woven regular top, has a tie-up neck, three-quarter sleeves",
       "Mrp": 699,
@@ -148,22 +188,28 @@ import pprint
       "Product Details": "La Zorie Dusty Pink solid woven regular top, has a tie-up neck, three-quarter sleeves.Spruce up your wardrobe with this high-quality long-sleeve top from La Zoire. This pink top is a great addition to your cool-weather wardrobe and looks great with your favourite pair of jeans for a laid-back lunch date look.",
       "Material & Care": ['Linen', 'Machine-wash']
   },
-  {
-      "Image": [ '22.1.jpg', '22.2.jpg', '22.3.jpg', '22.4.jpg' ],
+      {
+      "Image": ['22.1.jpg', '22.2.jpg', '22.3.jpg', '22.4.jpg'],
       "Brand": "Harpa",
+      "Type":"Top",
+      "Category":"Women",
+      "Seller":"Blumentor",
       "Short Description": "Women Burgundy Solid Top",
       "Description": "Burgundy solid woven regular top, has a V-neck, three-quarter sleeves",
       "Mrp": 1199,
       "Discount": 55,
       "Price": 539,
-      "Size": { 'S': 0, 'M': 25, 'L': 10, 'XL': 6 },
+      "Size": {'S': 0, 'M': 25, 'L': 10, 'XL': 6},
       "Product Details": "Harpa Burgundy solid woven regular top, has a V-neck, three-quarter sleeves.Increase your style quotient with this top-notch three-quarter sleeve top by Harpa. Grab a casual bite to eat outside in this burgundy piece with worn jeans and comfortable shoes.",
       "Material & Care": ['100% Polyester', 'Hand-wash']
   },
-  {
-      "Image": [ '23.1.jpg', '23.2.jpg', '23.3.jpg', '23.4.jpg' ],
+      {
+      "Image": ['23.1.jpg', '23.2.jpg', '23.3.jpg', '23.4.jpg'],
       "Brand": "Libas",
-      "Short Description": "Women Mustard Yellow Solid Casual Shirt With Embroidered Detail",
+      "Type":"Shirt",
+      "Category":"Women",
+      "Seller":"Mayazen",
+      "Short Description": "Women Mustard Yellow Solid Casual Shirt",
       "Description": "Mustard yellow solid casual shirt with embroidered detail, has a spread collar, a full button placket, three-quarter roll-up sleeves, high-low hem",
       "Mrp": 1399,
       "Discount": 50,
@@ -172,9 +218,12 @@ import pprint
       "Product Details": "Libas Mustard yellow solid casual shirt with embroidered detail, has a spread collar, a full button placket, three-quarter roll-up sleeves, high-low hem. The three-quarter sleeves on this tee from Libas provides extra comfort and style. Pair yours with distressed denims and Chelsea boots and enjoy cocktails and dinner with your friends.",
       "Material & Care": ['Rayon', 'Hand-wash']
   },
-  {
-      "Image": [ '24.1.jpg', '24.2.jpg', '24.3.jpg', '24.4.jpg' ],
+      {
+      "Image": ['24.1.jpg', '24.2.jpg', '24.3.jpg', '24.4.jpg'],
       "Brand": "Zima Leto",
+      "Type":"Dress",
+      "Category":"Women",
+      "Seller":"Elixirnet",
       "Short Description": "Women Navy Blue Solid Midi Sheath Dress",
       "Description": "Navy blue solid knitted midi sheath dress, has a round neck, sleeveless, concealed zip and button closure, straight hem",
       "Mrp": 1099,
@@ -184,9 +233,12 @@ import pprint
       "Product Details": "Zima Leto Navy blue solid knitted midi sheath dress, has a round neck, sleeveless, concealed zip and button closure, straight hem.Turn heads this season in this effortlessly stylish dress by Zima Leto. When you're going to an art gallery opening or the theater, wear this solid navy blue piece with platform heels and a trendy clutch.",
       "Material & Care": ['Polyester', 'Machine-wash']
   },
-  {
-      "Image": [ '25.1.jpg', '25.2.jpg', '25.3.jpg', '25.4.jpg' ],
+      {
+      "Image": ['25.1.jpg', '25.2.jpg', '25.3.jpg', '25.4.jpg'],
       "Brand": "DressBerry",
+      "Type":"Dress",
+      "Category":"Women",
+      "Seller":"Wiztech Corp",
       "Short Description": "Women Blue Solid Pinafore Dress",
       "Description": "Blue solid woven pinafore dress, has a square neck, sleeveless,flared hem",
       "Mrp": 1499,
@@ -196,9 +248,12 @@ import pprint
       "Product Details": "DressBerry Blue solid woven pinafore dress, has a square neck, sleeveless,flared hem. Make a name for yourself this season when you wear this DressBerry dress. The solid blue piece can be matched with patent pumps and a pretty purse when you have a semi-formal event to attend.",
       "Material & Care": ['Cotton', 'Machine-wash']
   },
-   {
-      "Image": [ '26.1.jpg', '26.2.jpg', '26.3.jpg', '26.4.jpg' ],
+      {
+      "Image": ['26.1.jpg', '26.2.jpg', '26.3.jpg', '26.4.jpg'],
       "Brand": "Veni Vidi Vici",
+      "Type":"Dress",
+      "Category":"Women",
+      "Seller":"Blumentor",
       "Short Description": "Women Maroon Solid Bardot Fit and Flare Dress",
       "Description": "Maroon solid knitted fit and flare dress, has off-shoulder styling, short sleeves, flared hem",
       "Mrp": 1890,
@@ -208,9 +263,12 @@ import pprint
       "Product Details": "Veni Vidi Vici Maroon solid knitted fit and flare dress, has off-shoulder styling, short sleeves, flared hem. You're sure to love the style and comfort of this lavish Veni Vidi Vici dress. Spruce up this solid maroon piece for work by layering it with a light sweater and some ballerinas.",
       "Material & Care": ['95% Polyester', 'Machine-wash']
   },
-   {
-      "Image": [ '27.1.jpg', '27.2.jpg', '27.3.jpg', '27.4.jpg' ],
+      {
+      "Image": ['27.1.jpg', '27.2.jpg', '27.3.jpg', '27.4.jpg'],
       "Brand": "Harpa",
+      "Type":"Dress",
+      "Category":"Women",
+      "Seller":"Blumentor",
       "Short Description": "Women Yellow Floral Print A-Line Dress",
       "Description": "Yellow floral print woven A-line dress with cut-out detail, has a round neck, three-quarter sleeves, button closure, slightly flared hem",
       "Mrp": 1499,
@@ -220,9 +278,12 @@ import pprint
       "Product Details": "Harpa Yellow floral print woven A-line dress with cut-out detail, has a round neck, three-quarter sleeves, button closure, slightly flared hem. Show off your great sense of fashion when you opt for this Harpa dress. Wear this printed yellow piece with a pair of heels or flats for a perfect lunch look.",
       "Material & Care": ['100% Polyester', 'Hand-wash']
   },
-   {
-      "Image": [ '28.1.jpg', '28.2.jpg', '28.3.jpg', '28.4.jpg' ],
+      {
+      "Image": ['28.1.jpg', '28.2.jpg', '28.3.jpg', '28.4.jpg'],
       "Brand": "Miss Chase",
+      "Type":"Dress",
+      "Category":"Women",
+      "Seller":"FashionTech",
       "Short Description": "Women Navy Striped Detail T-shirt Dress",
       "Description": "Navy striped detail knit T-shirt dress, has a round neck, three-quarter sleeves, straight hem",
       "Mrp": 1499,
@@ -232,9 +293,12 @@ import pprint
       "Product Details": "Miss Chase Navy striped detail knit T-shirt dress, has a round neck, three-quarter sleeves, straight hem. Showcase your great sense of fashion when you opt for this Miss Chase dress. Wear this navy piece with ballerinas and your favourite sweater for a cute date look.",
       "Material & Care": ['Cotton', 'Machine-wash']
   },
-   {
-      "Image": [ '29.1.jpg', '29.2.jpg', '29.3.jpg', '29.4.jpg' ],
+      {
+      "Image": ['29.1.jpg', '29.2.jpg', '29.3.jpg', '29.4.jpg'],
       "Brand": "Athena",
+      "Type":"Dress",
+      "Category":"Women",
+      "Seller":"FashionTech",
       "Short Description": "Women Navy Lace Sheath Dress",
       "Description": "Navy lace woven sheath dress, has a keyhole neck, three-quarter sleeves, concealed zip closure, an attached lining, straight hem",
       "Mrp": 2295,
@@ -247,6 +311,9 @@ import pprint
   {
       "Image": [ '30.1.jpg', '30.2.jpg', '30.3.jpg', '30.4.jpg' ],
       "Brand": "Harpa",
+      "Type":"Top",
+      "Category":"Women",
+      "Seller":"Blumentor",
       "Short Description": "Solid Peplum Top",
       "Description": "Women Black Solid Peplum Top",
       "Mrp": 1399,
@@ -259,6 +326,9 @@ import pprint
    {
       "Image": [ '31.1.jpg', '31.2.jpg', '31.3.jpg', '31.4.jpg' ],
       "Brand": "Harpa",
+      "Type":"Top",
+      "Category":"Women",
+      "Seller":"Blumentor",
       "Short Description": "Yellow Top",
       "Description": "Mustard Yellow Top",
       "Mrp": 999,
@@ -271,6 +341,9 @@ import pprint
   {
       "Image": [ '32.1.jpg', '32.2.jpg', '32.3.jpg', '32.4.jpg' ],
       "Brand": "Harpa",
+      "Type":"Top",
+      "Category":"Women",
+      "Seller":"Blumentor",
       "Short Description": "Printed Top",
       "Description": "Women Cream-Coloured Printed Top",
       "Mrp": 1199,
@@ -283,6 +356,9 @@ import pprint
   {
       "Image": [ '33.1.jpg', '33.2.jpg', '33.3.jpg', '33.4.jpg' ],
       "Brand": "Niza",
+      "Type":"Top",
+      "Category":"Women",
+      "Seller":"Proleague",
       "Short Description": "Floral Printed Top",
       "Description": "Women White Floral Print Top",
       "Mrp": 4792,
@@ -295,6 +371,9 @@ import pprint
   {
       "Image": [ '34.1.jpg', '34.2.jpg', '34.3.jpg', '34.4.jpg' ],
       "Brand": "Niza",
+      "Type":"Top",
+      "Category":"Women",
+      "Seller":"Proleague",
       "Short Description": "Floral Printed Boxy Top",
       "Description": "Women Blue Floral Print Boxy Top",
       "Mrp": 5592,
@@ -307,6 +386,9 @@ import pprint
   {
       "Image": [ '35.1.jpg', '35.2.jpg', '35.3.jpg', '35.4.jpg' ],
       "Brand": "Niza",
+      "Type":"Top",
+      "Category":"Women",
+      "Seller":"Proleague",
       "Short Description": "Self Design TOp",
       "Description": "Women Black Self Design Top",
       "Mrp": 4792,
