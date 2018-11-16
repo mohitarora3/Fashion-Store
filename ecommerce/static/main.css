@@ -30,6 +30,7 @@ body{
   width:20%;
   padding:10px;
   float:left;
+
 }
 .box-1{
     width:80%;
@@ -139,6 +140,7 @@ box-1 h5{
   width:30%;
   padding:20px;
   float: left;
+  border: 3px outset;
 }
 .cart-right{
 float: right;
@@ -153,10 +155,17 @@ clear:right;
 }
 .container0{
   float: left;
+  clear:left;
   width:100%;
-  padding: 30px;
+  padding:50px;
+  border: 3px groove;
+}
+.center-box{
+  margin-left: auto;
+margin-right: auto;
 }
 .center{
+display:block;
 width: 100%;
 text-align: center;
 }
@@ -173,9 +182,16 @@ text-align: center;
   padding-left:10px;
   padding-right:45px;
 }
+
+.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    color: red;
+    text-decoration: line-through;
+}
 .eighty
 {
-  width:70%;
+  width:80%;
   float:left;
   padding-left:10px;
   padding-right:10px;
@@ -189,6 +205,13 @@ text-align: center;
   border:3px groove;
   padding: 10px;
 
+}
+.fifteen{
+  width:15%;
+  float:left;
+  padding: 5px;
+  border-right:3px groove;
+  border-radius: 2px;
 }
 .form-image{
   background-image: url('/static/background.jpg');
@@ -260,13 +283,18 @@ float:left;
   float: left;
   clear:left;
 }
+.login-box{
+  width:30%;
+  padding:30px;
+  border: 3px ridge;
+
+}
 
 .middle-price{
  text-allign:center;
 
 }
 .middle{
-  width:50%;
   margin-left: auto;
   margin-right:auto;
 }
@@ -301,6 +329,12 @@ float:left;
   clear:left;
   padding-left: 10px;
 }
+.new-container{
+  clear:left;
+  width:70%;
+  margin-left: auto;
+  margin-right: auto;
+}
 .normal{
   font-size: larger;
 }
@@ -321,12 +355,22 @@ float:right;
 .orange{
   color:orange;
 }
-
+.pink{
+  color: red;
+}
 .price
 {
   font-size: xx-large;
 }
-
+.seventy{
+width:70%;
+  float:left;
+  padding-left:10px;
+  padding-right:10px;
+}
+.small-text{
+  font-size: 15px;
+}
 .small
 {
   width:30%;
@@ -394,6 +438,7 @@ width:30%;
 margin : 0;
 float : left ;
 }
+
 .twenty
 {
   width:25%;
@@ -401,6 +446,7 @@ float : left ;
   padding:10px;
   overflow:auto;
   margin:10px;
+  margin-top: 40px;
   border: 2px ridge;
 
 }
@@ -414,3 +460,4 @@ border : solid 1px #000;
 border-radius: 25px;
 margin: 10px;
 }
+.w3-button {width:200px;}

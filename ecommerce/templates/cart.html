@@ -10,7 +10,7 @@
       <i class="fa fa-lock grey" style="font-size:24px"></i> <small class="text-muted"> 100%  SECURE</small>
     </span>
    <div class="center">
-    <li ><a href="#" class="underline orange">Bag</a></li>
+    <li class="underline orange"><a href="#">Bag</a></li>
     <li>........</li>
     <li >Delivery</li>
     <li>........</li>
@@ -29,9 +29,9 @@
       </ul>
   </div>
   {% if number == 0 %}
-    <h4>Your shopping cart is empty. </h4>
+    <span class="center"><h3 class="font-weight-bold">Your shopping bag is empty. </h3></span>
   {% else %}
-  <div class="eighty">
+  <div class="seventy">
     <h3><b>My Shopping Bag ({{number}} item)</b></h3>
     {% for item in items %}
      <div class="box-1">
@@ -40,7 +40,6 @@
       </div>
       <b> <a href="{{ url_for('main.item',item_id=item['_id'] ) }}">{{ item["Short Description"] }} </a> </b>
       <div class="cart-right">
-           {{ item['quantity']}}
            <strong> Rs.{{item['quantity']*item["Price"] }} </strong>
       </div><br>
       <small class="text-muted">Sold By:<b>{{item["Seller"]}}</b></small>
@@ -51,19 +50,30 @@
       {% endif %}
       </div><br>
       <form name="si" action=" {{ url_for('users.update_cart', item_id=item['_id'], item_attr=item['quantity'] ) }}" method='post' >
-              <select name='si' onchange="this.form.submit()">
+              Size:
+              <select name='si' class="btn btn-mini" onchange="this.form.submit()">
+                <option>{{item["size"]}}</option>
                 {% for key,value in item['Size'].items() %}
                   {% if value|int > 0 %}
-                    Size:<option value={{key}} >{{key}}</option>
+                    <option value={{key}}>{{key}}</option>
+
+                  {% else %}
+                  <option value={{key}} disabled>{{key}}</option>
                   {% endif %}
                 {% endfor %}
               </select>
-            <select name='qt' onchange='this.form.submit()'>
+        </form>
+        <form name="si" action=" {{ url_for('users.update_cart', item_id=item['_id'], item_attr=item['size'] ) }}" method='post' >
+          Qty:
+            <select name='qt'class="btn btn-mini" onchange='this.form.submit()'>
+
         {% if item["Size"][item['size']] > 10 %}
-          {% for q in range(0,10) %}
+        <option>{{item['quantity']}}</option>
+          {% for q in range(1,10) %}
             Quantity:<option value={{q}} >{{q}}</option>
           {% endfor %}
         {% else %}
+        <option>{{item['quantity']}}</option>
           {% for q in range(1,item["Size"][ item['size'] ] ) %}
             Quantity:<option value={{q}} >{{q}}</option>
           {% endfor %}

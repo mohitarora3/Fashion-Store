@@ -90,7 +90,7 @@ def ordersrecieved():
   for x in a:
     print("\n", x)
 
-  return render_template('ordersrecieved.html', title='Orders', ordersr=a)
+  return render_template('orderreceived.html', title='Orders', ordersr=a)
 
 
 @seller.route('/seller/delete/<string:item_id>', methods=['GET', 'POST'])

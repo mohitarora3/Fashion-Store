@@ -40,7 +40,6 @@ FORM_PAGE = """
     </html>
 """
 
-
 @app.route('/')
 def home_form():
     return FORM_PAGE

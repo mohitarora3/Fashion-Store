@@ -1,19 +1,8 @@
 
 {% extends "layout.html" %}
-
 {% block content %}
-<div class="container">
-<div class="input-group col-sm-6  text-center" >
-    <form  action="{{url_for('main.search') }}" style="margin:auto;max-width:300px"method="post">
-        <span class="input-group-append">
-           <input type="text" placeholder="Search.." name="search">
-        <button type="submit"><i class="fa fa-search"></i></button>
 
-      </span>
-    </form>
-</div>
-</div>
-<div class="twenty text-center">
+<div class="fifteen">
 <form action="{{ url_for('main.filter') }}" method="post">
 <h3><b>Filters</b></h3>
 <hr>
@@ -49,7 +38,7 @@
 
   <div class="box">
     <a href="{{ url_for('main.item', item_id=item['_id']) }}">
-            <img class="rounded article-image" width="200" height="200" src= " {{ url_for('static', filename=item['Category']+'/'+item['Image'][0]) }}">
+            <img class="rounded article-image" width="220" height="280" src= " {{ url_for('static', filename=item['Category']+'/'+item['Image'][0]) }}">
     </a>
     <h5><b>{{item["Brand"] }}</b></h5>
             <small class="text-muted" id="des">{{item["Short Description"]}}</small><br>
@@ -63,62 +52,64 @@
 </div>
 <br><br><br>
 <div class="container0 text-muted">
-  <h4 class="text-center"><b>BUY BED SHEETS STORE ONLINE</b></h4>
-  <div class="col_3">
-    <p><b>CHOOSE A BED SHEET THAT MATCHES YOUR PERSONALITY</b><br><br>
-      A bed sheet can speak volumes about your personality and your taste in home décor. A bed sheet transforms the look of a bedroom in a beautiful way. They are made of various fabrics, such as cotton, linen, synthetics, and silk. History says that the first bed sheets were made of linen, which was derived from the flax plant. Egyptians have been cultivating and weaving linen for centuries. It is lustrous and softer than cotton. This is the reason why linen sheeting was so popular in the earlier days.<br><br>
-<b>THE TYPES OF BED SHEETS</b>
-<br>
-If you want to buy a bed sheet online, Myntra is your perfect destination. We have bedspreads in various colours, designs, and fabrics. We have sheets for single beds, double beds and king-sized beds. The sheet sets comprise of a bed sheet and matching pillow covers. You should never compromise on quality when you are buying sheets for your bed.
-</p>
-</div>
-<div class="col_3">
-  <p>Cotton is the most commonly used fabric in bed sheets because of its durability and softness. The highest quality of cotton is the Egyptian cotton. You can find a wide range of Egyptian cotton sheets on Myntra in vibrant colours and designs. The most popular designs are floral prints, geometric prints, Disney prints, stripes and abstract prints.<br><br>
-  <b>TIPS FOR BUYING THE RIGHT BED SHEET</b><br><br>
-  Although there are various designs available in the market, you should choose a bed sheet that matches your taste and personality. You don’t need a <b>fountain</b> in your house to show your taste in <b>home décor</b>. Your bedding is a reflection of your personality. Here are some tips for buying the right bed sheet:<br><br>
-  1. At first, you need to consider the size of your bed. Measure your mattress and see if you need a king, single or double bed sheet. When you are buying cotton sheets, make sure to buy a bigger size as cotton shrinks with every wash. You should also invest in good quality <b>comforters</b> for your bedding.<br><br>
-  2. The next thing that you need to consider is the fabric of the sheet. Cotton sheets are preferred </p>
-</div>
-<div class="col_3">
-  <p>by most people in India as they are comfortable and cool. If you want to buy a premium bed sheet, you can check out the collection of Egyptian cotton sheets on Myntra. If you are looking for affordable options, you can opt for pure polyester. Silk sheets are very smooth and shiny. You can use them on special occasions.<br><br>
-  3. If the walls of your room are decorated with <b>wall art</b>, you should choose a plain sheet. Make sure your room has some fancy furniture and colourful vases. If you have no décor on your walls and the furniture of your room is plain, you should go for printed sheets to add some liveliness to your room.<br><br>
-  4. When you are choosing the pattern of your bed sheet, go for a pattern that you can identify with. Florals are great for people who love flowers and nature. Abstract prints are great for artistic people. Stripes and checks suit people with a vivacious personality.<br><br>
-  A beautiful bed sheet can magically transform the look of your room. Log on to Myntra right away and make the right choice for your bedroom.</p>
-</div>
+  {% if type=='Bedsheet' %}
+    <h4 class="text-center"><b>BUY BED SHEETS STORE ONLINE</b></h4>
+    <div class="col_3">
+      <p><b>CHOOSE A BED SHEET THAT MATCHES YOUR PERSONALITY</b><br><br>
+        A bed sheet can speak volumes about your personality and your taste in home décor. A bed sheet transforms the look of a bedroom in a beautiful way. They are made of various fabrics, such as cotton, linen, synthetics, and silk. History says that the first bed sheets were made of linen, which was derived from the flax plant. Egyptians have been cultivating and weaving linen for centuries. It is lustrous and softer than cotton. This is the reason why linen sheeting was so popular in the earlier days.<br><br>
+        <b>THE TYPES OF BED SHEETS</b>
+        <br>
+        If you want to buy a bed sheet online, Myntra is your perfect destination. We have bedspreads in various colours, designs, and fabrics. We have sheets for single beds, double beds and king-sized beds. The sheet sets comprise of a bed sheet and matching pillow covers. You should never compromise on quality when you are buying sheets for your bed.
+        </p>
+    </div>
+    <div class="col_3">
+      <p>Cotton is the most commonly used fabric in bed sheets because of its durability and softness. The highest quality of cotton is the Egyptian cotton. You can find a wide range of Egyptian cotton sheets on Myntra in vibrant colours and designs. The most popular designs are floral prints, geometric prints, Disney prints, stripes and abstract prints.<br><br>
+      <b>TIPS FOR BUYING THE RIGHT BED SHEET</b><br><br>
+      Although there are various designs available in the market, you should choose a bed sheet that matches your taste and personality. You don’t need a <b>fountain</b> in your house to show your taste in <b>home décor</b>. Your bedding is a reflection of your personality. Here are some tips for buying the right bed sheet:<br><br>
+      1. At first, you need to consider the size of your bed. Measure your mattress and see if you need a king, single or double bed sheet. When you are buying cotton sheets, make sure to buy a bigger size as cotton shrinks with every wash. You should also invest in good quality <b>comforters</b> for your bedding.<br><br>
+      2. The next thing that you need to consider is the fabric of the sheet. Cotton sheets are preferred </p>
+   </div>
+    <div class="col_3">
+      <p>by most people in India as they are comfortable and cool. If you want to buy a premium bed sheet, you can check out the collection of Egyptian cotton sheets on Myntra. If you are looking for affordable options, you can opt for pure polyester. Silk sheets are very smooth and shiny. You can use them on special occasions.<br><br>
+      3. If the walls of your room are decorated with <b>wall art</b>, you should choose a plain sheet. Make sure your room has some fancy furniture and colourful vases. If you have no décor on your walls and the furniture of your room is plain, you should go for printed sheets to add some liveliness to your room.<br><br>
+      4. When you are choosing the pattern of your bed sheet, go for a pattern that you can identify with. Florals are great for people who love flowers and nature. Abstract prints are great for artistic people. Stripes and checks suit people with a vivacious personality.<br><br>
+      A beautiful bed sheet can magically transform the look of your room. Log on to Myntra right away and make the right choice for your bedroom.</p>
+    </div>
+  {% elif type=='Shirt' %}
+    <h4 class="text-center"><b>BUY SHIRTS FOR MEN & WOMEN</b></h4>
+    <div class="col_3">
+      <p><b>FABULOUS SHIRTS FOR THE FASHION-FORWARD</b><br><br>
+        Gone are the days when shirts were considered apt only for a formal environment. Aware of this change in fashion choices, Myntra brings you a line of smart shirts online for fashion-forward women, men, boys and girls. Be it regular work wear, a boardroom presentation, a semi-formal party, a dinner date or a trip to your favourite holiday destinations; Myntra has the perfect option for you. At Myntra, you are offered a wide variety of shirts with price options that are quite affordable. While you are checking out our collection of shirts online, you can also look for a sharp pair of trousers, <b>jeans</b> and suits to stock up on ensemble options in one go.<br><br>
+        <b>THE SHIRTS ONLINE SHOPPING GUIDE</b>
+        <br>
+        At Myntra, our exclusive collection of shirt brands features a wide number of patterns, colours, cuts and styles. In terms of fabrics, our collection of shirts online include great options in cotton, poly-cotton, crepe, georgette, linen, chiffon, polyester, satin, silk and more. You can even buy shirts in the kind of fit that you would like such as regular, boxy, skinny, tailored or slim-fit versions.<br><br>
+        We now progress towards the most important stage of your shirt shopping journey - the selection of right patterns that suit you the most. Checks, solids and stripes are the most popular options, with men and women opting for one of them as their oft-repeated personal style. You can figure out yours as well. You can also look at faded, printed and self-design shirts online which offer you many popular ensemble alternatives.</p>
+    </div>
+    <div class="col_3">
+        <p>If you thought that the popular button-down collars were the only options for your neckline, think again. Browse through Myntra’s range of Peter Pan collars, cutaway and wingtip collars which offer smart alternatives. The mandarin collar shirts with their eastern appeal are versatile enough to be worn for both formal and casual occasions. For a preppy look, opt for hooded collars with drawstrings. Club collars, as the name suggests, are great for creating a standout image at parties. Or you can simply go collarless with our collection of cool casual shirts online.<br><br>
+        <b>UNLIMITED STYLE OPTIONS WITH SMART SHIRTS ONLINE</b><br><br>
+       Shirts are quite versatile when worn the right way. Here are some style suggestions on how to wear shirts for different occasions:<br><br>
+      Plaid or checked shirts for men can be worn in a number of ways to achieve both casual and formal looks. Simply pair them up with jeans and loafers for a summer outing. Or try a laid-back winter look; choose a layered option with <b>T-shirts</b> and jackets. A pair of light blue or faded jeans and trainers, along with a messenger bag offer, give your look a neat finish.<br><br>
+      Denim shirts for men are classics which shall always remain trendy. Make your own casual statement with a long denim shirt with folded up sleeves, along with dark coloured jeans. Pair the outfit with dark boots and top it off with a skull cap. You can even wear a cardigan on top of your <b>denim shirt</b> for chilly weather.<br><br>
+      Ladies out there, confused on how to get ready in a snap for an impromptu outing with friends? Choose your favourite shirt and wear them untucked with a pair of skinny jeans. Wear round-toe flats and jazz it  </p>
+    </div>
+    <div class="col_3">
+    <p>up with chunky bangles or bracelets. Carry your valuables in your favourite tote and you are done. This outfit provides you with the best of both worlds when it comes to comfort and style.<br><br>
+    Take your pick from some of the stylish formal shirt brands to make a smart statement at work. One style option you can opt for is mandarin neck collars that are paired with your favourite pencil skirt and strappy block heels. Or opt for a bright solid shirt and wear it with dark trousers and pumps. Women can also go for matte-finish makeup for a sharp look. To give your formal look a sharp finish, choose studs from Myntra’s stunning collection of earrings online.<br><br>
+    Myntra’s collection of shirts online also include cute options for kids. You can select any casual, formal or party shirts for your little boys and girls. Go all out with their style preferences and pick their favourite from different varieties of prints, checks, stripes and patterns.<br><br>
+    <b>BUY SHIRTS ONLINE WITH EASE</b><br></p>
+    <p>
+    If there is one place where you can buy shirts online with complete convenience, it is at Myntra. Myntra brings to you simplified browsing and payment processes that ensure an enjoyable shopping experience without any hindrances. The fantastic array of shirt brands Myntra offers feature multiple style options which cater to several different needs, so you find shirts that perfectly suit your personal style. While you are doing so, you can also check out at other interesting varieties from our clothing range including T-shirts, dresses, skirts, <b>jackets</b>, sweaters, sweatshirts and more.
+    </p>
+    </div>
+  {% endif %}</div>
 
-<h4 class="text-center"><b>BUY SHIRTS FOR MEN & WOMEN</b></h4>
-  <div class="col_3">
-    <p><b>FABULOUS SHIRTS FOR THE FASHION-FORWARD</b><br><br>
-      Gone are the days when shirts were considered apt only for a formal environment. Aware of this change in fashion choices, Myntra brings you a line of smart shirts online for fashion-forward women, men, boys and girls. Be it regular work wear, a boardroom presentation, a semi-formal party, a dinner date or a trip to your favourite holiday destinations; Myntra has the perfect option for you. At Myntra, you are offered a wide variety of shirts with price options that are quite affordable. While you are checking out our collection of shirts online, you can also look for a sharp pair of trousers, <b>jeans</b> and suits to stock up on ensemble options in one go.<br><br>
-<b>THE SHIRTS ONLINE SHOPPING GUIDE</b>
-<br>
-At Myntra, our exclusive collection of shirt brands features a wide number of patterns, colours, cuts and styles. In terms of fabrics, our collection of shirts online include great options in cotton, poly-cotton, crepe, georgette, linen, chiffon, polyester, satin, silk and more. You can even buy shirts in the kind of fit that you would like such as regular, boxy, skinny, tailored or slim-fit versions.<br><br>
-We now progress towards the most important stage of your shirt shopping journey - the selection of right patterns that suit you the most. Checks, solids and stripes are the most popular options, with men and women opting for one of them as their oft-repeated personal style. You can figure out yours as well. You can also look at faded, printed and self-design shirts online which offer you many popular ensemble alternatives.
-
- </p>
-</div>
-<div class="col_3">
-  <p>If you thought that the popular button-down collars were the only options for your neckline, think again. Browse through Myntra’s range of Peter Pan collars, cutaway and wingtip collars which offer smart alternatives. The mandarin collar shirts with their eastern appeal are versatile enough to be worn for both formal and casual occasions. For a preppy look, opt for hooded collars with drawstrings. Club collars, as the name suggests, are great for creating a standout image at parties. Or you can simply go collarless with our collection of cool casual shirts online.<br><br>
-  <b>UNLIMITED STYLE OPTIONS WITH SMART SHIRTS ONLINE</b><br><br>
- Shirts are quite versatile when worn the right way. Here are some style suggestions on how to wear shirts for different occasions:<br><br>
-
-Plaid or checked shirts for men can be worn in a number of ways to achieve both casual and formal looks. Simply pair them up with jeans and loafers for a summer outing. Or try a laid-back winter look; choose a layered option with <b>T-shirts</b> and jackets. A pair of light blue or faded jeans and trainers, along with a messenger bag offer, give your look a neat finish.<br><br>
-
-Denim shirts for men are classics which shall always remain trendy. Make your own casual statement with a long denim shirt with folded up sleeves, along with dark coloured jeans. Pair the outfit with dark boots and top it off with a skull cap. You can even wear a cardigan on top of your <b>denim shirt</b> for chilly weather.<br><br>
-
-Ladies out there, confused on how to get ready in a snap for an impromptu outing with friends? Choose your favourite shirt and wear them untucked with a pair of skinny jeans. Wear round-toe flats and jazz it  </p>
-</div>
-<div class="col_3">
-  <p>up with chunky bangles or bracelets. Carry your valuables in your favourite tote and you are done. This outfit provides you with the best of both worlds when it comes to comfort and style.<br><br>
-
-Take your pick from some of the stylish formal shirt brands to make a smart statement at work. One style option you can opt for is mandarin neck collars that are paired with your favourite pencil skirt and strappy block heels. Or opt for a bright solid shirt and wear it with dark trousers and pumps. Women can also go for matte-finish makeup for a sharp look. To give your formal look a sharp finish, choose studs from Myntra’s stunning collection of earrings online.<br><br>
-
-Myntra’s collection of shirts online also include cute options for kids. You can select any casual, formal or party shirts for your little boys and girls. Go all out with their style preferences and pick their favourite from different varieties of prints, checks, stripes and patterns.<br><br>
-<b>BUY SHIRTS ONLINE WITH EASE</b><br><br>
-<p>
-  If there is one place where you can buy shirts online with complete convenience, it is at Myntra. Myntra brings to you simplified browsing and payment processes that ensure an enjoyable shopping experience without any hindrances. The fantastic array of shirt brands Myntra offers feature multiple style options which cater to several different needs, so you find shirts that perfectly suit your personal style. While you are doing so, you can also check out at other interesting varieties from our clothing range including T-shirts, dresses, skirts, <b>jackets</b>, sweaters, sweatshirts and more.
- </p>
-</div>
+  <div class="container0">
+  <h3 class="font-weight-bold">Popular Searches</h3>
+  {% for type in types %}
+    <a href="{{url_for('main.home',type=type)}}"><span class="text-muted">{{type}}</span></a>|
+  {% endfor %}
+  </div>
 
 {% endblock content %}
 

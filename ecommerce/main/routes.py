@@ -11,12 +11,13 @@ def ret_brands():
   return brands
 
 
-@main.route('/')
-@main.route('/home')
-def home():
-  items = mongo.db.items.find({'Type': 'Bedsheet'})
+@main.route('/', defaults={'type': 'Shirt'})
+@main.route('/<string:type>')
+def home(type):
+  items = mongo.db.items.find({'Type': type.title()})
   brands = ret_brands()
-  return render_template('home.html', items=items, brands=brands)
+  types = mongo.db.items.distinct('Type')
+  return render_template('home.html', items=items, brands=brands, type=type.title(), types=types)
 
 
 @main.route('/home/filter', methods=['POST'])

@@ -37,19 +37,20 @@
         <div class="btn-group" data-toggle="buttons">
         {% for key,value in item["Size"].items() %}
             {% if value>0 %}
-                {{key}}
                 <label class="btn btn-default btn-circle btn-lg">
-                    <input type="radio" name="si" value='{{key}}' required ="required" > {{key}}
+                    <input type="radio" name="si" value='{{key}}' required > {{key}}
+                </label>
+            {% else %}
+                <label class="btn btn-default btn-circle btn-lg disabled">
+                    <input type="radio" name="si" disabled value='{{key}}' required > {{key}}
                 </label>
                 &nbsp;
-          {% endif %}
+            {% endif %}
         {% endfor %}
         </div>
         <br><br>
-        <button class="w3-button w3-red">
-            <input type="submit" value="Add To Bag" >
-        </button>
-        </form>
+            <input type="submit"class="w3-btn w3-pink" value="Add To Bag" >
+        </form><br>
         <a class="button" href="">Buy Now</a>
         <br>
         <h4><b> PRODUCT DETAILS</b></h4>

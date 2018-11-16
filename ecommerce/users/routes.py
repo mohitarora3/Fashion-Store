@@ -59,12 +59,35 @@ def logout():
     return redirect(url_for('main.home'))
 
 
+@users.route('/add_wishlist/<string:item_id>', methods=['GET', 'POST'])
+@login_required
+def add_to_wishlist(item_id):
+    id = current_user.get_id()
+    item = mongo.db.user.find({'_id': ObjectId(id), 'wish.item_id': ObjectId(item_id)}).count()
+    if item==0:
+        itemdetail=mongo.db.items.find_one({'_id':ObjectId(item_id)})
+        a = {"item_id":ObjectId(item_id), "size": request.form['si'], "quantity": 1,"SellerId":itemdetail['SellerId']}
+        mongo.db.user.update_one(
+            {"_id": ObjectId(id)
+             },
+            {"$push":
+             {"item": a
+              }
+             }
+        )
+        flash('This item has been successfully added to cart', 'success')
+    else:
+        flash('This item is already present in your cart', 'success')
+    return redirect(url_for('main.home'))
+
+
 @users.route('/saving/<string:item_id>', methods=['GET', 'POST'])
 @login_required
 def add_to_cart(item_id):
     id = current_user.get_id()
     item = mongo.db.user.find({'_id': ObjectId(id), 'item.item_id': ObjectId(item_id), 'item.size': request.form['si']}).count()
     if item==0:
+        print(request.form['si'])
         itemdetail=mongo.db.items.find_one({'_id':ObjectId(item_id)})
         a = {"item_id":ObjectId(item_id), "size": request.form['si'], "quantity": 1,"SellerId":itemdetail['SellerId']}
         mongo.db.user.update_one(
@@ -88,14 +111,20 @@ def update_cart(item_id, item_attr):
     # item=mongo.db.items.find_one({'_id': ObjectId(item_id)}, {"_id": 0, "Size": 1})
     # size=item["Size"]
     print(item_id)
+    print('nefjef')
     print(item_attr)
+    print(type(item_attr))
     if('qt' in request.form):
-        print(request.form['qt'])
         mongo.db.user.update_one(
-            {"_id": ObjectId(id),
-             "item.item_id": ObjectId(item_id),
-             "item.size": item_attr
-             },
+            {
+                        "_id": ObjectId(id),
+                        "item":
+                                {"$elemMatch":
+                                {"item_id": ObjectId(item_id),
+                                "size": item_attr
+                                }
+                    }
+                },
             {"$set":
              {"item.$.quantity": int(request.form['qt'])}
              }
@@ -234,7 +263,7 @@ def place_order():
         order_total+=price+int(item_info['quantity'])
         lst_items.append(item_info)
     order_total=math.floor(order_total)
-    mongo.db.order.insert_one({'date': datetime.now(), 'delivery_date':datetime.now() +timedelta(days=7),'user_id': id, 'item_details': lst_items,'delivery_details': lst_address_details[number], 'order_info':dict})
+    mongo.db.order.insert_one({'date': datetime.now(), 'delivery_date':datetime.now() +timedelta(days=7),'user_id': id, 'item_details': lst_items,'status':'IN PROGRESS','delivery_details': lst_address_details[number], 'order_info':dict})
     mongo.db.user.update_one({'_id': ObjectId(id)}, {'$unset': {'item': 1}})
     return render_template('order_placed.html', title='Order Placed')
 
@@ -260,7 +289,7 @@ def orders():
          'as': 'item_info'
      }
      },
-    {'$project': {'item_info._id': 1, 'item_info.Type':1,'item_info.Category':1,'item_info.Color':1,'item_info.Seller':1,'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1, 'item_details.status':1,'item_details.price': 1,  'item_details.quantity': 1, 'item_details.size':1,'delivery_date':1, 'date': 1, 'order_total':1}}
+    {'$project': {'item_info._id': 1, 'item_info.Type':1,'item_info.Category':1,'item_info.Color':1,'item_info.Seller':1,'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1, 'item_details.status':1,'item_details.price': 1,  'item_details.quantity': 1, 'status':1,'item_details.size':1,'delivery_date':1, 'date': 1, 'order_total':1}}
 ])
     return render_template('orders.html',title='My Orders',dict_order_details=dict_order_details)
 
