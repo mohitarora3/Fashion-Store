@@ -1,10 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <div class="content-section">
+        <div class="middle login-box">
         <form method="Post" action="">
             {{ form.hidden_tag()  }}
-            <fieldset class="form-group">
                 <legend class="border-bottom mb-4">ADD NEW ADDRESS</legend>
                 <div class="form-group">
                     {{ form.name.label(class="form-control-label")}}
@@ -89,9 +88,8 @@
                         {{ form.phone_number(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
-            </fieldset>
             <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info")}}
+                {{ form.submit(class="w3-btn w3-pink btn-block")}}
             </div>
         </form>
     </div>

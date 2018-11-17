@@ -1,12 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="row">
-    <div class="content-section col-lg-6">
-        <form method="Post" action="" enctype="multipart/form-data">
+    <div class="middle login-box">
+            <form method="Post" action="" enctype="multipart/form-data">
             {{ form.hidden_tag()  }}
-            <fieldset class="form-group">
-
-                <legend class="border-bottom mb-4">Item details</legend>
+              <legend class="center">{{Legend}}</legend>
                 <div class="form-group">
                     {{ form.category.label(class="form-control-label") }}
 
@@ -159,13 +156,12 @@
                         {{ form.tags(class="form-control form-control-lg" ) }}
                     {% endif %}
                 </div>
-            </fieldset>
             <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info")}}
+                {{ form.submit(class="w3-btn w3-pink btn-block")}}
             </div>
         </form>
     </div>
-    </div>
+
     <script>
 
     $("#image").change(function(){

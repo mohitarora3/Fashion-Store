@@ -32,7 +32,7 @@
         <br>
         <br>
          <h5> Order Placed on:{{order["date"].strftime("%A")}},{{order["date"].strftime("%B")}}{{order["date"].day }}  {{order["date"].year}} </h5>
-        Order total:{{order["order_total"]   }}
+        Order total:{{order["order_total"]}}
         {% if order["status"] == "IN PROGRESS" %}
                 <a class="button" href=" {{url_for('users.cancel_order',order_id=order['_id']) }}">Cancel Order</a>
         {% endif %}
@@ -44,7 +44,4 @@
     <br>
 
 </article>
-    <script type="text/javascript" src="script.js">
-        imageZoom("image", "myresult");
-    </script>
 {% endblock content %}

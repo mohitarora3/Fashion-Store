@@ -35,7 +35,7 @@ def additem():
   if(itemdetail(form)):
     return viewupdate()
 
-  return render_template('sellerdash.html', title='ADD item', form=form, item={})
+  return render_template('sellerdash.html', title='ADD item', Legend='Add Item', form=form, item={})
 
 
 @seller.route('/seller/selvu')
@@ -68,7 +68,7 @@ def selleritemview(item_id):
   else:
     print("GAdbad")
 
-  return render_template('sellerdash.html', title='Update Item', item=item, form=form)
+  return render_template('sellerdash.html', title='Update Item', Legend='Update Item', item=item, form=form)
 
 
 @seller.route('/seller/orders', methods=['GET', 'POST'])
