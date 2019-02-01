@@ -1,6 +1,6 @@
 import math
 from datetime import datetime, timedelta
-from flask import render_template, redirect, url_for, Blueprint, flash, request,  redirect, send_from_directory
+from flask import render_template, redirect, url_for, Blueprint, flash, request, redirect, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 from ecommerce.users.forms import RequestResetForm, ResetPasswordForm, RegistrationForm, LoginForm, DeliveryForm, ReviewForm
@@ -15,12 +15,6 @@ import os
 users = Blueprint('users', __name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-@users.route('/seller/additem', methods=['GET', 'POST'])
-@login_required
-def additem():
-  form = ItemForm()
-  if(itemdetail(form)):
-    return viewupdate()
 
 @users.route('/register', methods=['GET', 'POST'])
 def register():
@@ -31,7 +25,16 @@ def register():
         existing_user = User.objects(email=form.email.data).first()
         if existing_user is None:
             hashpass = generate_password_hash(form.password.data, method='sha256')
-            hey = User(form.username.data, form.email.data, hashpass).save()
+            role = 'customer'
+            if form.seller.data:
+                role= 'seller'
+                approved=0
+                User(form.username.data, form.email.data, hashpass,role,approved).save()
+            else:
+                User(form.username.data, form.email.data, hashpass,role).save()
+
+
+
             flash('Your account has been created. You are now able to log in.', 'success')
         return redirect(url_for('users.login'))
     return render_template('register.html', title='register', form=form)
@@ -60,13 +63,95 @@ def logout():
     return redirect(url_for('main.home'))
 
 
+@users.route('/add_wishlist/<string:item_id>', methods=['GET', 'POST'])
+@login_required
+def add_to_wishlist(item_id):
+    id = current_user.get_id()
+    item = mongo.db.user.find({'_id': ObjectId(id), 'wishlist.item_id': ObjectId(item_id)}).count()
+    if item == 0:
+        itemdetail = mongo.db.items.find_one({'_id': ObjectId(item_id)})
+        a = {"item_id": ObjectId(item_id)}
+        mongo.db.user.update_one(
+            {"_id": ObjectId(id)
+             },
+            {"$push":
+             {"wishlist": a
+              }
+             }
+        )
+        flash('This item has been successfully added to yor wishlist', 'success')
+    else:
+        flash('This item is already present in your wishlist', 'success')
+    return redirect(url_for('main.home'))
+
+
+@users.route('/removing/<string:item_id>', methods=['GET', 'POST'])
+@login_required
+def remove_from_wishlist(item_id):
+    id = current_user.get_id()
+    mongo.db.user.update_one(
+        {"_id": ObjectId(id),
+         },
+        {"$pull":
+            {"wishlist":
+                {
+                    "item_id": ObjectId(item_id),
+                }
+             }
+         }
+    )
+    flash('Successfully Removed', 'success')
+    return redirect(url_for('users.wishlist'))
+
+@users.route('/my_wishlist', methods=['GET', 'POST'])
+@login_required
+def wishlist():
+    id = current_user.get_id()
+    result_cursor = mongo.db.user.aggregate([{'$match': {'_id': ObjectId(id)}},
+                                  {'$project':
+                                   {'_id': 0, 'wishlist': 1, 'count':
+                                    {'$size': '$wishlist'}
+                                    }
+                                   }
+                                  ])
+    for result in result_cursor:
+        if result['count']>0:
+            count=result['count']
+            print(count)
+            items = mongo.db.user.aggregate([
+                {'$match': {'_id': ObjectId(id)}},
+                {'$lookup':
+                 {
+                     'from': 'items',
+                     'localField': 'wishlist.item_id',
+                     'foreignField': '_id',
+                     'as': 'item_info'
+                 }
+                 },
+                {'$project': {'_id':0,'item_info.Category':1,'item_info._id': 1, 'item_info.Type': 1, 'item_info.Category': 1, 'item_info.Color': 1, 'item_info.Seller': 1, 'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1, "item_info.Price":1,"item_info.Discount":1},
+                 }
+            ])
+            break
+        else:
+            count=0
+            items=None
+            print(count)
+            break
+    if(items):
+        for item in items:
+            items=item["item_info"]
+    else:
+        items=None
+    return render_template('wishlist.html',items_dict=items,count=count)
 @users.route('/saving/<string:item_id>', methods=['GET', 'POST'])
 @login_required
 def add_to_cart(item_id):
     id = current_user.get_id()
     item = mongo.db.user.find({'_id': ObjectId(id), 'item.item_id': ObjectId(item_id), 'item.size': request.form['si']}).count()
     if item==0:
-        a = {"item_id":ObjectId(item_id), "size": request.form['si'], "quantity": 1}
+        print(request.form['si'])
+        itemdetail=mongo.db.items.find_one({'_id':ObjectId(item_id)})
+        a = {"item_id":ObjectId(item_id), "size": request.form['si'], "quantity": 1,"SellerId":itemdetail['SellerId']}
         mongo.db.user.update_one(
             {"_id": ObjectId(id)
              },
@@ -87,12 +172,21 @@ def update_cart(item_id, item_attr):
     id = current_user.get_id()
     # item=mongo.db.items.find_one({'_id': ObjectId(item_id)}, {"_id": 0, "Size": 1})
     # size=item["Size"]
+    print(item_id)
+    print('nefjef')
+    print(item_attr)
+    print(type(item_attr))
     if('qt' in request.form):
         mongo.db.user.update_one(
-            {"_id": ObjectId(id),
-             "item.item_id": ObjectId(item_id),
-             "item.size": item_attr
-             },
+            {
+                        "_id": ObjectId(id),
+                        "item":
+                                {"$elemMatch":
+                                {"item_id": ObjectId(item_id),
+                                "size": item_attr
+                                }
+                    }
+                },
             {"$set":
              {"item.$.quantity": int(request.form['qt'])}
              }
@@ -158,11 +252,25 @@ def cart_details(id):
         dict['bag_discount'] = bag_mrp - bag_price
         dict['bag_mrp'] = bag_mrp
         dict['bag_total'] = bag_price
+        if bag_price>=1499:
+            if bag_price>=2999:
+                offer_discount=bag_price*0.1+bag_price*0.05
+            else:
+                offer_discount=bag_price*0.1
+        else:
+            offer_discount=0
+        dict['bag_offer_discount']=round(offer_discount,2)
+        if bag_price<999:
+            dict['delivery']=149
+        else:
+            dict['delivery']=0
+        dict['tax']=round(0.05*bag_price,2)
+        dict['order_total']=int(dict['tax']+dict['delivery']+bag_price-offer_discount)
         return lst, dict, number_of_items
 
 
 @users.route('/my_cart', methods=['GET', 'POST'])
-@login_required
+
 def cart():
     id = current_user.get_id()
     cart_status = mongo.db.user.find({'$and': [{'_id': ObjectId(id)}, {'item': {'$exists': 'true'}}]}).count()
@@ -174,7 +282,7 @@ def cart():
 
 
 @users.route('/checkout/address')
-@login_required
+
 def checkout():
     id = current_user.get_id()
     count = mongo.db.user.find({'$and': [{'_id': ObjectId(id)}, {'list_address': {'$exists': 'true'}}]}).count()
@@ -188,12 +296,14 @@ def checkout():
 
 
 @users.route('/checkout/place_order', methods=['GET', 'POST'])
-@login_required
 def place_order():
     lst_items=[]
     price=0
     order_total=0
+    status="IN PROGRESS"
     id = current_user.get_id()
+    _, dict, number_of_items = cart_details(id)
+
     number = int(request.form['address_number'])
     dict_items_info = mongo.db.user.find_one({'_id': ObjectId(id)}, {'_id': 0, 'item': 1, 'list_address': 1})
     lst_items_info = dict_items_info['item']
@@ -207,27 +317,30 @@ def place_order():
                                    }
                                   )
         item=mongo.db.items.find_one({'_id':item_info['item_id']},{'_id':0,'Mrp':1,'Discount':1})
-        #item_info['mrp']=item['Mrp']
-        #item_info['discount']=item['Discount']
+        item_info['mrp']=item['Mrp']
+        item_info['discount']=item['Discount']
         price=item['Mrp']-item['Mrp']*item['Discount']/100
         item_info['price']=price*int(item_info['quantity'])
+        item_info['status']=status
         order_total+=price+int(item_info['quantity'])
         lst_items.append(item_info)
     order_total=math.floor(order_total)
-    mongo.db.order.insert_one({'date': datetime.now(), 'delivery_date':datetime.now() +timedelta(days=7),'user_id': id, 'item_details': lst_items,'delivery_details': lst_address_details[number], 'order_total':order_total, 'status':'IN PROGRESS'})
+    mongo.db.order.insert_one({'date': datetime.now(), 'delivery_date':datetime.now() +timedelta(days=7),'user_id': id, 'item_details': lst_items,'status':'IN PROGRESS','delivery_details': lst_address_details[number], 'order_info':dict})
     mongo.db.user.update_one({'_id': ObjectId(id)}, {'$unset': {'item': 1}})
     return render_template('order_placed.html', title='Order Placed')
 
 @users.route('/my_orders/')
-@login_required
+
 def orders():
-    id=current_user.get_id()
+    id = current_user.get_id()
     user_orders=mongo.db.order.find({'user_id':id})
     for user_order in user_orders:
-        if user_order['status']=='IN PROGRESS':
-            current_date=datetime.now().date()
-            if current_date >= user_order["delivery_date"].date():
-                mongo.db.order.update_one({'_id':user_order['_id']},{'$set':{'status':'DELIVERED'}})
+        item_details=user_order['item_details']
+        for item_detail in item_details:
+            if item_detail['status']=='IN PROGRESS':
+                    current_date=datetime.now().date()
+                    if current_date >= user_order["delivery_date"].date():
+                        mongo.db.order.update_one({'_id':user_order['_id'],'item_details.item_id':item_detail['item_id'],'item_details.size':item_detail['size']},{'$set':{'status':'DELIVERED'}})
     dict_order_details= mongo.db.order.aggregate([
     {'$match': {'user_id': id}},
     {'$lookup':
@@ -238,7 +351,7 @@ def orders():
          'as': 'item_info'
      }
      },
-    {'$project': {'item_info._id': 1, 'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1, 'item_details.price': 1,  'item_details.quantity': 1, 'item_details.size':1,'delivery_date':1, 'date': 1, 'status':1, 'order_total':1}}
+    {'$project': {'item_info._id': 1, 'item_info.Type':1,'item_info.Category':1,'item_info.Color':1,'item_info.Seller':1,'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1, 'item_details.status':1,'item_details.price': 1,  'item_details.quantity': 1, 'status':1,'item_details.size':1,'delivery_date':1, 'date': 1, 'order_info.order_total':1}}
 ])
     return render_template('orders.html',title='My Orders',dict_order_details=dict_order_details)
 

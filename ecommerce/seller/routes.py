@@ -4,24 +4,43 @@ from ecommerce.seller.forms import ItemForm
 from flask_login import current_user, login_required, login_user, logout_user
 from ecommerce.models import User
 from bson.objectid import ObjectId
-
+import os
+from functools import wraps
 
 seller = Blueprint('seller', __name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
+def roles_required(f):
+  @wraps(f)
+  def decorated_function(*args, **kwargs):
+    id = current_user.get_id()
+    print('user id : ', id)
+    usera = mongo.db.user.find_one({"_id": ObjectId(id)})
+    print(usera)
+    print(usera['email'], " ", usera['role'])
+    if usera['role'] == 'customer':
+      flash('You are not an seller')
+      return redirect(url_for('users.login'))
+
+    return f(*args, **kwargs)
+  return decorated_function
+
+
 @seller.route('/seller/additem', methods=['GET', 'POST'])
 @login_required
+@roles_required
 def additem():
   form = ItemForm()
   if(itemdetail(form)):
     return viewupdate()
 
-  return render_template('sellerdash.html', title='ADD item', form=form, item={})
+  return render_template('sellerdash.html', title='ADD item', Legend='Add Item', form=form, item={})
 
 
 @seller.route('/seller/selvu')
 @login_required
+@roles_required
 def viewupdate():
   print("executing viewupdate")
   sellerid = current_user.get_id()
@@ -34,6 +53,7 @@ def viewupdate():
 
 @seller.route('/seller/<string:item_id>', methods=['GET', 'POST'])
 @login_required
+@roles_required
 def selleritemview(item_id):
   print("executing seller item view")
   sellerid = current_user.get_id()
@@ -48,11 +68,34 @@ def selleritemview(item_id):
   else:
     print("GAdbad")
 
-  return render_template('sellerdash.html', title='Update Item', item=item, form=form)
+  return render_template('sellerdash.html', title='Update Item', Legend='Update Item', item=item, form=form)
+
+
+@seller.route('/seller/orders', methods=['GET', 'POST'])
+@login_required
+@roles_required
+def ordersrecieved():
+  sellerid = current_user.get_id()
+  ordersrec = mongo.db.order.find({"item_details": {"$elemMatch": {"SellerId": sellerid}}})
+  print("printing order Details")
+  a = []
+  for doc in ordersrec:
+    for itemd in doc['item_details']:
+      if(itemd['SellerId'] == sellerid):
+        itemdetail = mongo.db.items.find_one({'_id': ObjectId(itemd['item_id'])})
+
+        d = [itemdetail, itemd, doc['delivery_details']]
+        a.append(d)
+  print("printing order Details")
+  for x in a:
+    print("\n", x)
+
+  return render_template('orderreceived.html', title='Orders', ordersr=a)
 
 
 @seller.route('/seller/delete/<string:item_id>', methods=['GET', 'POST'])
 @login_required
+@roles_required
 def sellerdelete(item_id):
   sellerid = current_user.get_id()
   print("executing delete")
@@ -70,14 +113,14 @@ def sellerdelete(item_id):
 def itemdetail(form, itemid=0):
 
   sellerid = current_user.get_id()
-  target = os.path.join(APP_ROOT, '../static/shirts')
+  sellerinfo = mongo.db.user.find_one({'_id': ObjectId(sellerid)})
+  target = os.path.join(APP_ROOT, '../static')
   print(target)
   print(request.files.getlist("images"))
   if not os.path.isdir(target):
     os.mkdir(target)
   imageslist = []
   if form.validate_on_submit():
-    print("Entering loop")
     for upload in request.files.getlist("images"):
       print("Entered file section")
       print(upload)
@@ -89,7 +132,7 @@ def itemdetail(form, itemid=0):
         print("File supported moving on...")
       else:
         render_template("Error.html", message="Files uploaded are not supported...")
-      destination = "/".join([target, filename])
+      destination = "/".join([target, form.category.data, filename])
       imageslist.append(filename)
       print("Accept incoming file:", filename)
       print("Save it to:", destination)
@@ -100,6 +143,9 @@ def itemdetail(form, itemid=0):
 
     a = form.material_Care.data
     formdata = {
+        'Category': form.category.data,
+        'Seller': sellerinfo['username'],
+        'Type': form.typeofitem.data,
         'Image': imageslist,
         'Brand': form.brand.data,
         'Short Description': form.short_Description.data,
@@ -107,9 +153,10 @@ def itemdetail(form, itemid=0):
         'Mrp': form.mrp.data,
         'Discount': form.discount.data,
         'Price': (form.mrp.data - ((form.mrp.data * form.discount.data) / 100)),
-        'Size': {'38': 0, '40': 25, '42': 10, '44': 6},
+        'Size': form.sizenqty.data,
         'Product Details': form.productDetails.data,
         'Material & Care': [a, 0],
+        'Tags': form.tags.data,
         'SellerId': sellerid}
     if(itemid == 0):
       mongo.db.items.insert(formdata)

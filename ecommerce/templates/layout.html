@@ -1,82 +1,402 @@
 <!DOCTYPE html>
 <html>
 <head>
-	 <!-- Required meta tags -->
-	     <meta charset="utf-8">
+     <!-- Required meta tags -->
+         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+    $(".dropdown").hover(
+        function() {
+            $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
+            $(this).toggleClass('open');
+        },
+        function() {
+            $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");
+            $(this).toggleClass('open');
+        }
+    );
+});
+</script>
+<script type="text/javascript">
+$('.my-carousel-indicator-class').click(function(){
+  console.log('indicator click');
+  $('#my-carousel-id').carousel('pause');
+});
+</script>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ranga" rel="stylesheet">
 
-	{% if title %}
-		<title> Ecommerce - {{ title }} </title>
-	{% else %}
-		<title> Ecommerce </title>
-	{% endif %}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+
+
+<!------ Include the above in your HEAD tag ---------->
+
+
+
+    {% if title %}
+        <title> Ecommerce - {{ title }} </title>
+    {% else %}
+        <title> Ecommerce </title>
+    {% endif %}
 </head>
-<body>
-	<script type="text/javascript" src="templates/script.js">
-	</script>
-	<header class="site-header">
-	  <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-	    <div class="container">
-	      <a class="navbar-brand mr-4" href="/"> Ecommerce </a>
-	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="navbar-toggler-icon"></span>
-	      </button>
-	      <div class="collapse navbar-collapse" id="navbarToggle">
-	        <div class="navbar-nav mr-auto">
-	          <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Home</a>
-	          <a class="nav-item nav-link" href='#''>About</a>
-	        </div>
-	        <!-- Navbar Right Side -->
-	        <div class="navbar-nav">
-	          {% if current_user.is_authenticated %}
-	          	<a class="nav-item nav-link" href="{{url_for('users.cart') }}" >Cart</a>
-	          	<a class="nav-item nav-link" href="{{ url_for('users.orders') }} ">My Orders</a>
-	          	<a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
-	          {% else %}
-	          	<a class="nav-item nav-link" href="{{ url_for('users.login') }}">Login</a>
-	          	<a class="nav-item nav-link" href="{{ url_for('users.register') }}">Register</a>
-			  {% endif %}
-	        </div>
-	      </div>
-	    </div>
-	  </nav>
-	</header>
+<body style="background-color:#F5EFEF">
+    <script type="text/javascript" src="templates/script.js">
+    </script>
+<!------ Include the above in your HEAD tag ---------->
+<div id="header">
 
-	<br><br><br>
-	<div role="main" class="container">
+  <nav>
+    <form class="search" action="{{url_for('main.search') }}">
+      <input name="q" placeholder="Search..." type="search">
+      <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
+    </form>
+    <ul >
+        <div class="logo">
+            <img width="25" height="25" src=" {{ url_for('static', filename='logo.png' )}}">
+        <a href="{{url_for('main.home') }}" class="logos" >Smart shop</a>
+       </div>
+      <li>
+        <a href="">Home</a>
+      </li>
+      <li>
+        <a href="{{ url_for('main.home') }}">Men</a>
+        <ul class="mega-dropdown">
+          <li class="row">
+            <ul class="mega-col">
+              <li><a href="#">About</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+            <ul class="mega-col">
+              <li><a href="#">Help</a></li>
+              <li><a href="#">Pricing</a></li>
+              <li><a href="#">Team</a></li>
+              <li><a href="#">Services</a></li>
+            </ul>
+            <ul class="mega-col">
+              <li><a href="#">Coming Soon</a></li>
+              <li><a href="#">404 Error</a></li>
+              <li><a href="#">Search</a></li>
+              <li><a href="#">Author Page</a></li>
+            </ul>
+            <ul class="mega-col">
+              <li><a href="#">Full Width</a></li>
+              <li><a href="#">Right Column</a></li>
+              <li><a href="#">Left Column</a></li>
+              <li><a href="#">Maintenance</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="{{ url_for('main.home') }}">Women</a>
+        <ul class="mega-dropdown">
+          <li class="row">
+            <ul class="mega-col">
+              <li><a href="#">About</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+            <ul class="mega-col">
+              <li><a href="#">Help</a></li>
+              <li><a href="#">Pricing</a></li>
+              <li><a href="#">Team</a></li>
+              <li><a href="#">Services</a></li>
+            </ul>
+            <ul class="mega-col">
+              <li><a href="#">Coming Soon</a></li>
+              <li><a href="#">404 Error</a></li>
+              <li><a href="#">Search</a></li>
+              <li><a href="#">Author Page</a></li>
+            </ul>
+            <ul class="mega-col">
+              <li><a href="#">Full Width</a></li>
+              <li><a href="#">Right Column</a></li>
+              <li><a href="#">Left Column</a></li>
+              <li><a href="#">Maintenance</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+            <li>
+        <a href="{{ url_for('main.home') }}">Home & Living</a>
+        <ul class="mega-dropdown">
+          <li class="row">
+            <ul class="mega-col">
+              <li><a href="#">About</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+            <ul class="mega-col">
+              <li><a href="#">Help</a></li>
+              <li><a href="#">Pricing</a></li>
+              <li><a href="#">Team</a></li>
+              <li><a href="#">Services</a></li>
+            </ul>
+            <ul class="mega-col">
+              <li><a href="#">Coming Soon</a></li>
+              <li><a href="#">404 Error</a></li>
+              <li><a href="#">Search</a></li>
+              <li><a href="#">Author Page</a></li>
+            </ul>
+            <ul class="mega-col">
+              <li><a href="#">Full Width</a></li>
+              <li><a href="#">Right Column</a></li>
+              <li><a href="#">Left Column</a></li>
+              <li><a href="#">Maintenance</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
 
-	    	{% with messages=get_flashed_messages(with_categories=true)%}
-	    		{% if messages %}
-	    			{% for category, message in messages %}
-	    			<div class="alert alert-{{ category }}">
-	    			<button type="button" class="close" data-dismiss="alert" aria-label='Close'><span aria-hidden="true">&times;</span></button>
-	    				{{ message }}
-	    			</div>
-	    			{% endfor %}
-				{% endif %}
-	    	{% endwith %}
 
-	      		{% block content %}{% endblock %}
+    </ul>
+  </nav>
+  <nav style="float: right;">
+      <ul>
+
+              {% if current_user.is_authenticated %}
+
+              <li>  <a  href="{{url_for('users.wishlist') }}" >Wishlist</a></li>
+              <li>  <a  href="{{url_for('users.cart') }}" >Cart</a></li>
+               <li> <a  href="{{ url_for('users.orders') }} ">My Orders</a></li>
 
 
-	</div>
-	<br><br><br>
-	<div class="footer">
- 		<p>Footer</p>
-	</div>
+               {%if current_user.role=='seller'%}
 
-	 <!-- Optional JavaScript -->
+
+      <li class="dropdown" id='cartnav'>
+        <a href="">My Menu</a>
+          <ul>
+                <li><a  href="{{url_for('seller.additem') }}" >Additem</a></li>
+                <li><a href="{{ url_for('seller.viewupdate') }} ">Update your Items</a></li>
+                <li><a  href="{{ url_for('seller.ordersrecieved') }}">Orders Recieved</a></li>
+          </ul>
+      </li>
+
+
+
+                {%endif%}
+                <li><a  href="{{ url_for('users.logout') }}">Logout</a></li>
+              {% else %}
+                <li><a  href="{{ url_for('users.login') }}">Login</a></li>
+                <li><a  href="{{ url_for('users.register') }}">Register</a></li>
+              {% endif %}
+
+      </ul>
+
+  </nav>
+</div>
+
+
+
+
+    <div role="main" class="container">
+
+            {% with messages=get_flashed_messages(with_categories=true)%}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                    <button type="button" class="close" data-dismiss="alert" aria-label='Close'><span aria-hidden="true">&times;</span></button>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+                {% block content %}{% endblock %}
+
+
+
+    <br><br><br>
+
+     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+    var itemsMainDiv = ('.MultiCarousel');
+    var itemsDiv = ('.MultiCarousel-inner');
+    var itemWidth = "";
+
+    $('.leftLst, .rightLst').click(function () {
+        var condition = $(this).hasClass("leftLst");
+        if (condition)
+            click(0, this);
+        else
+            click(1, this)
+    });
+
+    ResCarouselSize();
+
+
+
+
+    $(window).resize(function () {
+        ResCarouselSize();
+    });
+
+    //this function define the size of the items
+    function ResCarouselSize() {
+        var incno = 0;
+        var dataItems = ("data-items");
+        var itemClass = ('.item');
+        var id = 0;
+        var btnParentSb = '';
+        var itemsSplit = '';
+        var sampwidth = $(itemsMainDiv).width();
+        var bodyWidth = $('body').width();
+        $(itemsDiv).each(function () {
+            id = id + 1;
+            var itemNumbers = $(this).find(itemClass).length;
+            btnParentSb = $(this).parent().attr(dataItems);
+            itemsSplit = btnParentSb.split(',');
+            $(this).parent().attr("id", "MultiCarousel" + id);
+
+
+            if (bodyWidth >= 1200) {
+                incno = itemsSplit[3];
+                itemWidth = sampwidth / incno;
+            }
+            else if (bodyWidth >= 992) {
+                incno = itemsSplit[2];
+                itemWidth = sampwidth / incno;
+            }
+            else if (bodyWidth >= 768) {
+                incno = itemsSplit[1];
+                itemWidth = sampwidth / incno;
+            }
+            else {
+                incno = itemsSplit[0];
+                itemWidth = sampwidth / incno;
+            }
+            $(this).css({ 'transform': 'translateX(0px)', 'width': itemWidth * itemNumbers });
+            $(this).find(itemClass).each(function () {
+                $(this).outerWidth(itemWidth);
+            });
+
+            $(".leftLst").addClass("over");
+            $(".rightLst").removeClass("over");
+
+        });
+    }
+
+
+    //this function used to move the items
+    function ResCarousel(e, el, s) {
+        var leftBtn = ('.leftLst');
+        var rightBtn = ('.rightLst');
+        var translateXval = '';
+        var divStyle = $(el + ' ' + itemsDiv).css('transform');
+        var values = divStyle.match(/-?[\d\.]+/g);
+        var xds = Math.abs(values[4]);
+        if (e == 0) {
+            translateXval = parseInt(xds) - parseInt(itemWidth * s);
+            $(el + ' ' + rightBtn).removeClass("over");
+
+            if (translateXval <= itemWidth / 2) {
+                translateXval = 0;
+                $(el + ' ' + leftBtn).addClass("over");
+            }
+        }
+        else if (e == 1) {
+            var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+            translateXval = parseInt(xds) + parseInt(itemWidth * s);
+            $(el + ' ' + leftBtn).removeClass("over");
+
+            if (translateXval >= itemsCondition - itemWidth / 2) {
+                translateXval = itemsCondition;
+                $(el + ' ' + rightBtn).addClass("over");
+            }
+        }
+        $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
+    }
+
+    //It is used to get some elements from btn
+    function click(ell, ee) {
+        var Parent = "#" + $(ee).parent().attr("id");
+        var slide = $(Parent).attr("data-slide");
+        ResCarousel(ell, Parent, slide);
+    }
+
+});
+
+
+
+
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+$(document).ready(function(){
+    $(".dropdown").hover(
+        function() {
+            $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
+            $(this).toggleClass('open');
+        },
+        function() {
+            $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");
+            $(this).toggleClass('open');
+        }
+    );
+});
+
+        $('#header').prepend('<div id="menu-icon"><span class="first"></span><span class="second"></span><span class="third"></span></div>');
+
+    $("#menu-icon").on("click", function(){
+    $("nav").slideToggle();
+    $(this).toggleClass("active");
+});
+
+
+
+
+
+    </script>
+
+
 </body>
 </html>
 

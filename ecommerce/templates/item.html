@@ -2,55 +2,124 @@
 {% extends "layout.html" %}
 {% block content %}
 <script type="text/javascript" src="script.js"></script>
-    <article class="container">
-        <div class="box-1">
+
+<div class="input-group col-sm-6  text-center">
+    <form  action="{{url_for('main.search') }}" style="margin:auto;max-width:300px"method="post">
+        <span class="input-group-append">
+           <input type="text" placeholder="Search.." name="search">
+        <button type="submit"><i class="fa fa-search"></i></button>
+
+      </span>
+    </form>
+</div>
+
+    <div class="coloumn1">
             {% for image in item["Image"] %}
-             <img class="rounded article-image" width="50" height="50" src= " {{ url_for('static', filename='shirts/'+image) }}" onmouseover="document.getElementById('image').src=' {{ url_for("static", filename="shirts/"+image) }}'">
+            <div class="image">
+                 <img class="rounded article-image" id="image" width="430" height="500" src= " {{ url_for('static', filename=item['Category']+'/'+image) }}">
+             </div>
             {% endfor %}
-            <div class="img-zoom-container">
-
-                <img class="rounded article-image" id="image" width="500" height="500" src= " {{ url_for('static', filename='shirts/'+item['Image'][0]) }}">
-                <!--<div id="myresult" class="img-zoom-result"></div> -->
-            </div>
-            <h1> {{ item["Brand"] }} </h1>
-            <small class="text-muted">{{ item["Description"] }}</small>
-            <div class="price">
-                <small> {{item["Price"] }} <strike> {{item["Mrp"] }} </strike></small> <p class="text-danger" > {{item["Discount"] }}%OFF</p>
-            </div>
-            <div>
-                <h5> Select Size</h5>
-                    <form name="size" action=" {{ url_for('users.add_to_cart',item_id=item['_id'] )}} " method="post" >
-                        {% for key,value in item["Size"].items() %}
-                            {% if value>0 %}
-                                <input type="radio" value={{key}} name="si" required>{{key}}
-                            {% endif %}
-                        {% endfor %}
-                        <input type="submit"class="btn btn-success" value="Add To Cart">
-
-                    </form>
-                <a class="button" href="">Buy Now</a>
-
-            </div>
-
-            <div>
-            <p>
-                <h5> Product Details </h5>
-                {{ item["Product Details"]}}
-                <br>
-                <h5> Material & Care</h5>
-                <ul>
-                {% for material in item["Material & Care"] %}
-                <li> {{material}} </li>
-                </ul>
-                {% endfor %}
-
-            </p>
-            </div>
+    </div>
+    <div class="coloumn2">
+        <h2><strong> {{ item["Brand"] }} </strong></h2>
+        <p class="text-muted"><font size="4">{{ item["Description"] }}</font></p>
+        <hr>
+        <div class="price">
+            <strong> Rs.{{item["Price"] }} </strong>
+            {% if item["Discount"] !=0 %}
+                <strike class="text-muted"> <small>Rs.{{item["Mrp"] }} </small></strike>  &nbsp;
+              <font size="5" color="#FF4500" >  ({{item["Discount"]}}% OFF)</font>
+            {% endif %}
         </div>
-        <h4> Review this product</h4>
-        <small> Share your thoughts with other customers </small>
+        <small class="text-muted">Additional tax may apply; charged at checkout</small><br>
+        <h5> <strong>Select Size </strong></h5>
+        <form name="size" action=" {{ url_for('users.add_to_cart',item_id=item['_id'] )}} " method="post" >
+        <div class="btn-group" data-toggle="buttons">
+        {% for key,value in item["Size"].items() %}
+            {% if value>0 %}
+                <label class="btn btn-default btn-circle btn-lg">
+                    <input type="radio" name="si" value='{{key}}' required > {{key}}
+                </label>
+            {% else %}
+                <label class="btn btn-default btn-circle btn-lg disabled">
+                    <input type="radio" name="si" disabled value='{{key}}' required > {{key}}
+                </label>
+                &nbsp;
+            {% endif %}
+        {% endfor %}
+        </div>
         <br>
-        <a class="btn btn-success btn-md" href="{{ url_for('users.review',item_id=item['_id']) }}">Write a product review</a>
+            <input type="submit"class="w3-btn w3-blue" value="Add To Bag" >
+        </form> &nbsp; &nbsp;
+        <a class="w3-btn w3-pink" href="{{url_for('users.add_to_wishlist',item_id=item['_id'])}}">Add to wishlist</a>
+        <br>
+        <h4><b> PRODUCT DETAILS</b></h4>
+        <hr>
+        {%if item['Type']=='Bedsheet'%}
+        {% for details in item["Product Details"] %}
+            <br>{{ details}}
+        {% endfor %}
+        {% else %}
+            <p>{{item['Product Details']}}</p>
+        {% endif %}
+        <br>
+        <br>
+        <b> Material & Care</b>
+        <br>
+        {% for material in item["Material & Care"] %}
+         {{material}}
+        <br>
+        {% endfor %}
+        <br>
+        {% if item['Complete The Look'] %}
+        <b> Complete The Look </b>
+        <br>
+        <p>{{item['Complete The Look']}}</p>
+        {% endif %}
+
+        <br>
+        <h4><b> DELIVERY OPTIONS </b> </h4>
+        <hr>
+        <p>Tax: Applicable tax on the basis of exact location & discount will be charged at the time of checkout<br><br>
+            100% Original Products<br><br>
+            Free Delivery on order above Rs. 1199<br><br>
+            Cash on delivery might be available<br><br>
+            Easy 7 days order cancellation</br><br>
+            {% if item['Seller'] %}
+                Sold by: <b>{{ item['Seller'] }}</b> ( Supplied By Partner )<br>
+            {% endif %}
+        </p>
+    </div>
+    <hr>
+    <br>
+    <div class="new">
+    <h3><b>Similar Products</b></h3>
+    {% for similar_item in similar_products %}
+        {% if similar_item['_id']!= item['_id'] %}
+        <div class="box">
+            <a href="{{ url_for('main.item', item_id=similar_item['_id']) }}">
+            <img class="rounded article-image" width="250" height="250" src= " {{ url_for('static', filename=similar_item['Category']+'/'+similar_item['Image'][0]) }}">
+            </a>
+            <h3> <a  id="br" href="{{ url_for('main.item',item_id=similar_item['_id'] ) }}"><b>{{item["Brand"] }}</b></a> </h3>
+            <small class="text-muted" id="des">{{similar_item["Short Description"]}}</small><br>
+             <strong> Rs.{{similar_item["Price"] }} </strong>
+            {% if similar_item["Discount"] !=0 %}
+                <strike class="text-muted"> <small>Rs.{{similar_item["Mrp"] }} </small></strike>  &nbsp;
+              <font  color="#FF4500" >  ({{similar_item["Discount"]}}% OFF)</font>
+            {% endif %}
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+    <br>
+    <div class="small">
+         <br><br><br> <br>
+        <h2> <b>Review this product </b></h2>
+        <br>
+        <font size="3" class="text-muted"> Share your thoughts with other customers </font>
+        <br>
+        <a class="btn btn-default btn-block" href="{{ url_for('users.review',item_id=item['_id']) }}">Write a product review</a>
+        <hr>
         {% if reviews_cursor %}
             {% for reviews in reviews_cursor %}
                 <h4>{{reviews['number']}} customer reviews</h4>
@@ -60,39 +129,36 @@
                 {% for number in range(reviews['rating_avg']|int,5) %}
                             <span class="fa fa-star" style="font-size:24px"></span>
                 {% endfor %} &nbsp; {{reviews['rating_avg']|round(1,'floor') }} out of 5 stars
-
-                {% for review in reviews['reviews'] %}
-                    <br><br>
-                    <div>
-                        <div class="w3-jumbo w3-teal"><i class="material-icons w3-jumbo"  style="font-size:24px">person</i> {{review['user_name']}}
-                        </div>
-                        <b>
-                            {% for number in range(0,review['rating']) %}
-                                <span class="fa fa-star" style="font-size:24px;color:orange"></span>
-                            {% endfor %}
-                            {% for number in range(review['rating'],5) %}
-                                <span class="fa fa-star" style="font-size:24px"></span>
-                            {% endfor %}
-                            &nbsp;nknkn
-                        {{review['headline']}}<br>
-                        <small>{{review['date'].day}} {{review['date'].strftime("%B")}} {{review['date'].year}} </small>
-                        <br>
-                        {{review['review']}}<br>
-                    </div>
-                        {% if review['user_id'] == current_user.get_id() %}
-
-                            <a class="btn btn-success btn-md" href="{{url_for('users.update_review', item_id=item['_id']) }}">Update review</a>
-                            <a class="btn btn-success btn-md" href="{{ url_for('users.delete_review',item_id=item['_id']) }}">Delete review</a>
-                            <br> <br><br>
-                        {% endif %}
-                {% endfor %}
+    </div>
+    <div class="large">
+        {% for review in reviews['reviews'] %}
+            <br><br>
+            <i class="material-icons w3-xxlarge"  style="font-size:24px">person</i>
+            <strong> {{review['user_name']}}</strong>
+            <br>
+            {% for number in range(0,review['rating']) %}
+                <span class="fa fa-star" style="font-size:24px;color:orange"></span>
             {% endfor %}
-            {% else %}
-            <h3>No customer reviews </h3>
-        {% endif %}
-    </article>
+            {% for number in range(review['rating'],5) %}
+                <span class="fa fa-star" style="font-size:24px"></span>
+            {% endfor %}
+            &nbsp;
+                {{review['headline']}}<br>
+                <small class="normal">{{review['date'].day}} {{review['date'].strftime("%B")}} {{review['date'].year}} </small>
+                <br><br>
+                <div  class="text-muted normal" >{{review['review']}}</div>
+                <br>
+            {% if review['user_id'] == current_user.get_id() %}
+            <a class="btn btn-success btn-md" href="{{url_for('users.update_review', item_id=item['_id']) }}">Update review</a>
+            <a class="btn btn-success btn-md" href="{{ url_for('users.delete_review',item_id=item['_id']) }}">Delete review</a><br> <br><br>
+            {% endif %}
+        {% endfor %}
+        {% endfor %}
+        {% else %}
+        <h3>No customer reviews </h3>
+    {% endif %}
+    </div>
 
-<script type="text/javascript" src="script.js">
-    imageZoom("image", "myresult");
-</script>
+
+
 {% endblock content %}

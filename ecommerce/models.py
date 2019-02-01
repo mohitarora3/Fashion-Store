@@ -11,7 +11,11 @@ class User(UserMixin, db.Document):
     username = db.StringField(max_length=30)
     email = db.EmailField(max_length=30)
     password = db.StringField()
+    role = db.StringField()
+    approved=db.BooleanField()
+    isactive = db.BooleanField()
     item = db.StringField()
+    wishlist = db.StringField()
     list_address = db.StringField()
 
     def __rep__(self):

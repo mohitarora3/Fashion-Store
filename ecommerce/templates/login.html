@@ -1,10 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
-	<div class="content-section">
+<div class="container">
+	<div class="middle fifty-box">
 		<form method="Post" action="">
 			{{ form.hidden_tag()  }}
-			<fieldset class="form-group">
-				<legend class="border-bottom mb-4">Log In</legend>
+
+				<legend class="center">Log In</legend>
 				<div class="form-group">
 					{{ form.email.label(class="form-control-label")}}
 
@@ -34,23 +35,21 @@
 						{{ form.password(class="form-control form-control-lg") }}
 					{% endif %}
 				</div>
-				<div class="form-check">
-					{{ form.remember(class="form-check-input") }}
-					{{ form.remember.label(class="form-check-label") }}
-				</div>
-			</fieldset>
+				{{ form.remember(class="form-check-input") }}&nbsp; &nbsp;  {{ form.remember.label(class="form-check-label") }}
+
 			<div class="form-group">
-				{{ form.submit(class="btn btn-outline-info")}}
-				<small class="text-muted" ml-2">
-					<a href=" {{ url_for('users.reset_request') }}"> Forget Password? </a>
-				</small>
-
+				{{ form.submit(class="w3-btn w3-pink btn-block")}}
 			</div>
-					</form>
+				<span class="center">
+				<a href=" {{ url_for('users.reset_request') }}"> <small class="text-muted pink">Forget Password? </small></a>
+				<a  href=" {{ url_for('users.register') }}">
+				<small class="text-muted pink small-text">Create Account</small> </a>
+				</span>
+
+		</form>
 
 
-		<small class="text-muted">
-			Need an Account? <a class="ml-2" href=" {{ url_for('users.register') }}"> Sign Up Now </a>
-		</small>
 	</div>
+</div>
+
 {% endblock content %}
