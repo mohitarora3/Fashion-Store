@@ -25,10 +25,15 @@ def register():
         existing_user = User.objects(email=form.email.data).first()
         if existing_user is None:
             hashpass = generate_password_hash(form.password.data, method='sha256')
-            a = 'customer'
+            role = 'customer'
             if form.seller.data:
-                a = 'seller'
-            hey = User(form.username.data, form.email.data, hashpass, a).save()
+                role= 'seller'
+                approved=0
+                User(form.username.data, form.email.data, hashpass,role,approved).save()
+            else:
+                User(form.username.data, form.email.data, hashpass,role).save()
+
+
 
             flash('Your account has been created. You are now able to log in.', 'success')
         return redirect(url_for('users.login'))
@@ -80,11 +85,29 @@ def add_to_wishlist(item_id):
     return redirect(url_for('main.home'))
 
 
+@users.route('/removing/<string:item_id>', methods=['GET', 'POST'])
+@login_required
+def remove_from_wishlist(item_id):
+    id = current_user.get_id()
+    mongo.db.user.update_one(
+        {"_id": ObjectId(id),
+         },
+        {"$pull":
+            {"wishlist":
+                {
+                    "item_id": ObjectId(item_id),
+                }
+             }
+         }
+    )
+    flash('Successfully Removed', 'success')
+    return redirect(url_for('users.wishlist'))
+
 @users.route('/my_wishlist', methods=['GET', 'POST'])
 @login_required
 def wishlist():
     id = current_user.get_id()
-    result_cursor = mongo.db.user.aggregate([{'$match': {'_id': ObjectId("5be6b480eaeeee29e026fd1b")}},
+    result_cursor = mongo.db.user.aggregate([{'$match': {'_id': ObjectId(id)}},
                                   {'$project':
                                    {'_id': 0, 'wishlist': 1, 'count':
                                     {'$size': '$wishlist'}
@@ -96,7 +119,7 @@ def wishlist():
             count=result['count']
             print(count)
             items = mongo.db.user.aggregate([
-                {'$match': {'_id': ObjectId("5be6b480eaeeee29e026fd1b")}},
+                {'$match': {'_id': ObjectId(id)}},
                 {'$lookup':
                  {
                      'from': 'items',
@@ -105,7 +128,7 @@ def wishlist():
                      'as': 'item_info'
                  }
                  },
-                {'$project': {'_id':0,'item_info.Category':1,'item_info._id': 1, 'item_info.Type': 1, 'item_info.Category': 1, 'item_info.Color': 1, 'item_info.Seller': 1, 'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1},
+                {'$project': {'_id':0,'item_info.Category':1,'item_info._id': 1, 'item_info.Type': 1, 'item_info.Category': 1, 'item_info.Color': 1, 'item_info.Seller': 1, 'item_info.Image': 1, 'item_info.Brand': 1, 'item_info.Short Description': 1, "item_info.Price":1,"item_info.Discount":1},
                  }
             ])
             break
@@ -114,9 +137,11 @@ def wishlist():
             items=None
             print(count)
             break
-
-    for i in items:
-        print(i)
+    if(items):
+        for item in items:
+            items=item["item_info"]
+    else:
+        items=None
     return render_template('wishlist.html',items_dict=items,count=count)
 @users.route('/saving/<string:item_id>', methods=['GET', 'POST'])
 @login_required

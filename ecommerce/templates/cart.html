@@ -81,7 +81,7 @@
 
       </select>
       </form>
-      <a class="button" href=" {{url_for('users.remove_from_cart',item_id=item['_id'], size=item['size']) }}">Remove</a></br>
+      <a class="w3-btn w3-red" href=" {{url_for('users.remove_from_cart',item_id=item['_id'], size=item['size']) }}">Remove</a></br>
     </div>
     {% endfor %} <br>
   </div>

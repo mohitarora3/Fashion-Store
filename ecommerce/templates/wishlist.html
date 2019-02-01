@@ -6,11 +6,8 @@
   <span class="center"><h3 class="font-weight-bold">Your Wishlist is empty. </h3></span>
 {% else %}
 <div class="eighty">
-  {{count}}
-{% for items in items_dict %}222222
-  {% for item in items['item_info'] %}2222
-{{item['Brand']}}111111
-    <div class="box">
+{% for item in items_dict %}
+   <div class="box">
        <a href="{{ url_for('main.item', item_id=item['_id']) }}">
             <img class="rounded article-image" width="220" height="280" src= " {{ url_for('static', filename=item['Category']+'/'+item['Image'][0]) }}">
     </a>
@@ -21,9 +18,11 @@
                   <strike class="text-muted"> <small>Rs.{{item["Mrp"] }} </small></strike>  &nbsp;
                 <font  color="#FF4500" >  ({{item["Discount"]}}% OFF)</font>
               {% endif %}
+              <br><br>
+              <a class="w3-btn w3-red" href=" {{url_for('users.remove_from_wishlist',item_id=item['_id']) }}">Remove</a></br>
     </div>
-  {% endfor %}
 {% endfor %}
+
 </div>
 {% endif %}
 </div>

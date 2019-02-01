@@ -48,10 +48,10 @@
             {% endif %}
         {% endfor %}
         </div>
-        <br><br>
-            <input type="submit"class="w3-btn w3-pink" value="Add To Bag" >
-        </form><br>
-        <a class="w3-btn w3-purple" href="{{url_for('users.add_to_wishlist',item_id=item['_id'])}}">Wishlist</a>
+        <br>
+            <input type="submit"class="w3-btn w3-blue" value="Add To Bag" >
+        </form> &nbsp; &nbsp;
+        <a class="w3-btn w3-pink" href="{{url_for('users.add_to_wishlist',item_id=item['_id'])}}">Add to wishlist</a>
         <br>
         <h4><b> PRODUCT DETAILS</b></h4>
         <hr>

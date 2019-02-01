@@ -12,6 +12,7 @@ class User(UserMixin, db.Document):
     email = db.EmailField(max_length=30)
     password = db.StringField()
     role = db.StringField()
+    approved=db.BooleanField()
     isactive = db.BooleanField()
     item = db.StringField()
     wishlist = db.StringField()

@@ -47,6 +47,9 @@
                 <strike class="text-muted"> <small>Rs.{{item["Mrp"] }} </small></strike>  &nbsp;
               <font  color="#FF4500" >  ({{item["Discount"]}}% OFF)</font>
             {% endif %}
+            <br><br>
+             <a class="w3-btn w3-pink" href="{{ url_for('users.add_to_wishlist',item_id=item['_id']) }}">Add to wishlist </a>
+
   </div>
 {% endfor %}
 </div>

@@ -75,7 +75,7 @@ $('.my-carousel-indicator-class').click(function(){
     <ul >
         <div class="logo">
             <img width="25" height="25" src=" {{ url_for('static', filename='logo.png' )}}">
-        <a href="#" class="logos" >Smart shop</a>
+        <a href="{{url_for('main.home') }}" class="logos" >Smart shop</a>
        </div>
       <li>
         <a href="">Home</a>
@@ -182,6 +182,7 @@ $('.my-carousel-indicator-class').click(function(){
 
               {% if current_user.is_authenticated %}
 
+              <li>  <a  href="{{url_for('users.wishlist') }}" >Wishlist</a></li>
               <li>  <a  href="{{url_for('users.cart') }}" >Cart</a></li>
                <li> <a  href="{{ url_for('users.orders') }} ">My Orders</a></li>
 

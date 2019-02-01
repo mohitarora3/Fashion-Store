@@ -154,7 +154,7 @@ box-1 h5{
     display: inline-block;
 }
 .button{
-  background-color:#333;
+  background-color:rgb(126,115,97);
   color:#fff;
   padding:10px 15px;
   border:none;
@@ -305,6 +305,14 @@ text-align: center;
   border-right:3px groove;
   border-radius: 2px;
 }
+.fifty-box{
+  width:50%;
+  margin-top: 20px;
+  padding:30px;
+  border: 3px ridge;
+
+}
+
 .form-image{
   background-image: url('/static/background.jpg');
   background-repeat: no-repeat;
@@ -375,13 +383,7 @@ float:left;
   float: left;
   clear:left;
 }
-.login-box{
-  width:30%;
-  margin-top: 20px;
-  padding:30px;
-  border: 3px ridge;
 
-}
 
 .middle-price{
  text-allign:center;
@@ -456,10 +458,18 @@ float:right;
   font-size: xx-large;
 }
 .seventy{
-width:70%;
+  width:70%;
   float:left;
   padding-left:10px;
   padding-right:10px;
+}
+
+.seventy-box{
+  width:70%;
+  margin-top: 20px;
+  padding:30px;
+  border: 3px ridge;
+
 }
 .small-text{
   font-size: 15px;
@@ -533,7 +543,7 @@ float : left ;
 
 .twenty
 {
-  width:25%;
+  width:28%;
   float:left;
   padding:10px;
   overflow:auto;
