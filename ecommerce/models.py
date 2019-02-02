@@ -46,14 +46,14 @@ def load_user(user_id):
     return User.objects(pk=user_id).first()
 
 
+'''
 class UserView(ModelView):
     column_list = ('name', 'email', 'password')
     column_sortable_list = ('name', 'email', 'password')
-
     form = User
+'''
 
-
-admin.add_view(ModelView(User))
+aadmin.add_view(ModelView(User))
 
 
 #admin.add_view(ModelView(Post, db.session))
