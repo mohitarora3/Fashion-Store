@@ -62,6 +62,14 @@ def logout():
     logout_user()
     return redirect(url_for('main.home'))
 
+@users.route('/admin')
+def admin():
+    admin=Admin()
+    admin.add_view(MYModel_view(User,db.session))
+
+
+
+
 
 @users.route('/add_wishlist/<string:item_id>', methods=['GET', 'POST'])
 @login_required

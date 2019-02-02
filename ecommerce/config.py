@@ -8,6 +8,10 @@ class Config:
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    SOCIAL_FACEBOOK = {
+    'consumer_key': '2246910702234554',
+    'consumer_secret': '1724128f42762d9897832bc39cdcd5cf'
+}
     MONGO_URI = 'mongodb://vidulkumar:New2mlab@ds157493.mlab.com:57493/mydatabase'
     #MONGO_URI = "mongodb://localhost:27017/myDatabase"
     RECAPTCHA_USE_SSL = False

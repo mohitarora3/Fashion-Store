@@ -1,8 +1,11 @@
-from ecommerce import db, login_manager, mongo
+from ecommerce import db, login_manager, mongo, aadmin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from flask_login import UserMixin
 from bson.objectid import ObjectId
+from flask_admin.contrib.pymongo import ModelView, filters
+
+#from flask_admin.contrib.mongoengine import ModelView
 
 
 class User(UserMixin, db.Document):
@@ -12,7 +15,7 @@ class User(UserMixin, db.Document):
     email = db.EmailField(max_length=30)
     password = db.StringField()
     role = db.StringField()
-    approved=db.BooleanField()
+    approved = db.BooleanField()
     isactive = db.BooleanField()
     item = db.StringField()
     wishlist = db.StringField()
@@ -41,6 +44,20 @@ class User(UserMixin, db.Document):
 @login_manager.user_loader
 def load_user(user_id):
     return User.objects(pk=user_id).first()
+
+
+class UserView(ModelView):
+    column_list = ('name', 'email', 'password')
+    column_sortable_list = ('name', 'email', 'password')
+
+    form = User
+
+
+admin.add_view(ModelView(User))
+
+
+#admin.add_view(ModelView(Post, db.session))
+# Admin.add_view(UserView(User))
 
 
 '''class User(Document):
