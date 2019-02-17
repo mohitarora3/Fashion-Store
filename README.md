@@ -1,6 +1,13 @@
+Ecommerce website
+
 Technologies used:-
-flask, mongodb, html, css, javascript
-I am currently working on it. Uptil now I have done this functionalities:-
+ Flask
+ Mongodb
+ Html
+ Css
+ Javascript
+
+  I am currently working on it. Uptil now I have done this functionalities:-
 
 -User, seller can register and sign in.
 -Seller can add products using forms.
@@ -13,6 +20,7 @@ I am currently working on it. Uptil now I have done this functionalities:-
 -User can cancel an order.
 
 Currently working on:
--Search 
+-Search
+-Filter
 -Admin portal
 -online payment gateway
