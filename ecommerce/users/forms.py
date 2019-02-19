@@ -28,13 +28,13 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Sign Up')
 
     def validate_username(self, username):
-        users = mongo.db.customers
+        users = mongo.db.user
         user = users.find_one({'username': username.data})
         if user:
             raise ValidationError('That username is alreay taken. Please choose a different one')
 
     def validate_email(self, email):
-        users = mongo.db.customers
+        users = mongo.db.user
         user = users.find_one({'email': email.data})
         if user:
             raise ValidationError('That email is already taken. Please choose a different one.')
@@ -59,12 +59,13 @@ class DeliveryForm(FlaskForm):
 
 class RequestResetForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
-    recaptcha = RecaptchaField()
+    #recaptcha = RecaptchaField()
     submit = SubmitField('Request Reset Password')
 
     def validate_email(self, email):
-        users = mongo.db.customers
-        user = users.find({'email': email.data})
+        users = mongo.db.user
+        print(email.data)
+        user = users.find_one({'email': email.data})
         if user is None:
             raise ValidationError('There is no account with that email. You must register first')
 

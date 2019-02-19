@@ -1,0 +1,33 @@
+Metadata-Version: 2.1
+Name: paypalrestsdk
+Version: 1.13.1
+Summary: The PayPal REST SDK provides Python APIs to create, process and manage payments.
+Home-page: https://github.com/paypal/PayPal-Python-SDK
+Author: PayPal
+Author-email: DL-PP-PYTHON-SDK@paypal.com
+License: PayPal SDK License
+Keywords: paypal,rest,sdk,payments,invoice,subscription,webhook
+Platform: UNKNOWN
+Classifier: Intended Audience :: Developers
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Dist: requests (>=1.0.0)
+Requires-Dist: six (>=1.0.0)
+Requires-Dist: pyopenssl (>=0.15)
+
+
+The PayPal REST SDK provides Python APIs to create, process and manage payments.
+
+1. https://github.com/paypal/PayPal-Python-SDK/ - README and Samples
+2. https://developer.paypal.com/webapps/developer/docs/api/ - API Reference
+
+

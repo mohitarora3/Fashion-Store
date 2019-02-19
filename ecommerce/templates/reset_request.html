@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-	<div class="content-section">
+	<div class="container">
+	<div class="middle fifty-box">
 		<form method="Post" action="">
-			{{ form.hidden_tag()  }}
-			<fieldset class="form-group">
+		{{ form.hidden_tag()  }}
 				<legend class="border-bottom mb-4">Reset Password</legend>
 				<div class="form-group">
 					{{ form.email.label(class="form-control-label")}}
@@ -19,24 +19,12 @@
 						{{ form.email(class="form-control form-control-lg") }}
 					{% endif %}
 				</div>
+					
 				<div class="form-group">
-					{% if form.email.errors %}
-						<div class="invalid-feedback">
-								{% for error in form.recaptcha.errors %}
-									<span> {{ error }} </span>
-								{% endfor %}
-						</div>
-					{% else %}
-						{{ form.recaptcha}}
-					{% endif %}
-
-				</div>
-			</fieldset>
-			<div class="form-group">
 				{{ form.submit(class="btn btn-outline-info")}}
-			</div>
+				</div>
 		</form>
 	</div>
-
+	</div>
 
 {% endblock content %}

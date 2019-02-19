@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+	<h2>Sellers</h2>
+	<div class="full-box text-muted">
+  
+	{% for seller in sellers %}
+		<div class="right">
+		<input type="checkbox" data-width="200" checked data-toggle="toggle" data-on="Approved" data-off="Not Approved" data-onstyle="success" data-offstyle="danger">
+	</div>
+
+		<h4><b> Name:</b></h4>
+        {{seller['username']}}
+		<h4><b> Email id:</b></h4>{{seller['email']}}
+			{% endfor %}
+</div>
+</div>
+
+
+{% endblock content %}
+
+
+

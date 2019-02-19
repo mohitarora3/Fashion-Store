@@ -457,6 +457,11 @@ float:right;
 {
   font-size: xx-large;
 }
+.right
+{
+  position:absolute;
+  right:0px;
+}
 .seventy{
   width:70%;
   float:left;

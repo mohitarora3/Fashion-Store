@@ -1,4 +1,4 @@
-from ecommerce import db, login_manager, mongo, aadmin
+from ecommerce import db, login_manager, mongo
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from flask_login import UserMixin
@@ -26,7 +26,9 @@ class User(UserMixin, db.Document):
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'])
-        return s.dumps({'user_id': self.id}).decode('utf-8')
+        print('Serializer working',type(self.id))
+
+        return s.dumps({'user_id': self.email}).decode('utf-8')
 
     @staticmethod
     def verify_reset_token(token):
@@ -39,13 +41,22 @@ class User(UserMixin, db.Document):
 
 # with switch_db(User, 'archive') as User:
 # User(name='Ross').save()  # Saves the 'archive-user-db'
-
-
+'''
+hashpass = generate_password_hash("mohitarora123", method='sha256')
+role = 'admin'
+User("Mohit Arora","arora3mohit@gmail.com",hashpass,role).save()
+'''
 @login_manager.user_loader
 def load_user(user_id):
     return User.objects(pk=user_id).first()
 
+class UserView(ModelView):
+    column_list = ('name', 'email', 'password')
+    column_sortable_list = ('name', 'email', 'password')
 
+    form = User
+
+'''
 class UserView(ModelView):
     column_list = ('name', 'email', 'password')
     column_sortable_list = ('name', 'email', 'password')
@@ -54,7 +65,7 @@ class UserView(ModelView):
 
 aadmin.add_view(ModelView(User))
 
-
+'''
 #admin.add_view(ModelView(Post, db.session))
 # Admin.add_view(UserView(User))
 

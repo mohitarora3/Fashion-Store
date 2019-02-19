@@ -14,7 +14,9 @@ def ret_brands():
 @main.route('/', defaults={'type': 'Shirt'})
 @main.route('/<string:type>')
 def home(type):
+  mongo.db.items.find_one_or_404({'Type': type.title()}) #just to return 404 error if there is not a single item with that thing 
   items = mongo.db.items.find({'Type': type.title()})
+  
   brands = ret_brands()
   types = mongo.db.items.distinct('Type')
   return render_template('home.html', items=items, brands=brands, type=type.title(), types=types)

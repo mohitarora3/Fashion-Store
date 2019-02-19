@@ -1,9 +1,11 @@
 import math
+import flask_admin as admin
 from datetime import datetime, timedelta
 from flask import render_template, redirect, url_for, Blueprint, flash, request, redirect, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 from ecommerce.users.forms import RequestResetForm, ResetPasswordForm, RegistrationForm, LoginForm, DeliveryForm, ReviewForm
+from ecommerce.seller.forms import SellerForm
 from ecommerce.seller.forms import ItemForm
 from ecommerce.users.utils import send_reset_email
 from ecommerce import db, bcrypt, mongo
@@ -11,6 +13,9 @@ from ecommerce.models import User
 import json
 from bson.objectid import ObjectId
 import os
+from functools import wraps
+
+
 
 users = Blueprint('users', __name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -30,6 +35,12 @@ def register():
                 role= 'seller'
                 approved=0
                 User(form.username.data, form.email.data, hashpass,role,approved).save()
+                flash('Your registeration is successfull.', 'success')
+                form=SellerForm()
+                if(form.validate_on_submit()):
+                    return render_template('registration(part-3).html',title='Completed')
+                return render_template('seller_registration.html',title='Step 2',form=form)
+                    
             else:
                 User(form.username.data, form.email.data, hashpass,role).save()
 
@@ -38,6 +49,23 @@ def register():
             flash('Your account has been created. You are now able to log in.', 'success')
         return redirect(url_for('users.login'))
     return render_template('register.html', title='register', form=form)
+
+
+def roles_required(f):
+  @wraps(f)
+  def decorated_function(*args, **kwargs):
+    id = current_user.get_id()
+    print('user id : ', id)
+    user= mongo.db.user.find_one({"_id": ObjectId(id)})
+    print(user)
+    print(user['email'], " ", user['role'])
+    if user['role'] == 'customer' or user['role']=='seller':
+      flash('You are not an admin')
+      return render_template('errors/403.html'), 403
+
+
+    return f(*args, **kwargs)
+  return decorated_function
 
 
 @users.route('/login', methods=['GET', 'POST'])
@@ -49,6 +77,10 @@ def login():
         check_user = User.objects(email=form.email.data).first()
         if check_user and check_password_hash(check_user['password'], form.password.data):
             login_user(check_user)
+            #id = current_user.get_id()
+            #user_document=mongo.db.user.find_one({'_id':ObjectId(id)},{'_id':0,'role':1})
+            #if user_document['role']=='admin':
+             #   return redirect('/admin_')
             flash('You have been successfully logged in', 'success')
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('main.home'))
@@ -62,13 +94,16 @@ def logout():
     logout_user()
     return redirect(url_for('main.home'))
 
-@users.route('/admin')
+@users.route('/admin_')
+@login_required
+@roles_required
 def admin():
-    admin=Admin()
-    admin.add_view(MYModel_view(User,db.session))
+    #Admin = admin(current_app)
 
-
-
+    print(current_user.get_id())
+    print("yessssssssssssssssssssssssssssss")
+    sellers=mongo.db.user.find({'role':'seller'})
+    return render_template('admin_portal.html',title='Admin portal',sellers=sellers)
 
 
 @users.route('/add_wishlist/<string:item_id>', methods=['GET', 'POST'])
@@ -159,7 +194,10 @@ def add_to_cart(item_id):
     if item==0:
         print(request.form['si'])
         itemdetail=mongo.db.items.find_one({'_id':ObjectId(item_id)})
-        a = {"item_id":ObjectId(item_id), "size": request.form['si'], "quantity": 1,"SellerId":itemdetail['SellerId']}
+        #this comment is to be removed on using with mlab (online databse)
+        #a = {"item_id":ObjectId(item_id), "size": request.form['si'], "quantity": 1,"SellerId":itemdetail['SellerId']}
+        a = {"item_id":ObjectId(item_id), "size": request.form['si'], "quantity": 1}
+       
         mongo.db.user.update_one(
             {"_id": ObjectId(id)
              },
@@ -458,15 +496,19 @@ def update_address(address):
 
 @users.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
+    #print('fkbvjkbrvkbrkv brkv')
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
     else:
+        print('jjjjj')
         form = RequestResetForm()
         if form.validate_on_submit():
             user = User.objects(email=form.email.data).first()
+            print('ggggggggggg')
             if user is None:
                 flash('There is no account with this email.', 'danger')
                 return redirect(url_for('users.reset_request'))
+            print('hhhhhhhhhhhhhhhhhh')
             send_reset_email(user)
             flash('An email has been sent with instructions to rest your password', 'success')
             return redirect(url_for('users.login'))

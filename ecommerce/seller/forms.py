@@ -1,8 +1,30 @@
 from flask_wtf import FlaskForm
 import itertools
-from wtforms import StringField, SubmitField, IntegerField, MultipleFileField, validators, Field
-from wtforms.validators import DataRequired, Length, ValidationError
+from wtforms import StringField, SubmitField, IntegerField, FileField, DateField,MultipleFileField, validators, Field
+from wtforms.validators import DataRequired, Length, ValidationError,Email
 from wtforms.widgets import TextArea, TextInput
+from flask_wtf.file import FileField, FileAllowed, FileRequired
+
+
+class SellerForm(FlaskForm):
+    first_name= StringField('First Name', validators=[DataRequired(), Length(min=2, max=15)])
+    last_name=StringField('Last Name', validators=[DataRequired(), Length(min=2, max=15)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    
+    date_of_birth=DateField('Date Of Birth', validators=[DataRequired()])
+    picture = FileField('Picture', validators=[FileAllowed(['jpg', 'png'])])
+    
+    address=StringField('Permanent Address', validators=[DataRequired()])
+    state=StringField('State',validators=[DataRequired()])
+    pin_code=IntegerField('PIN CODE',validators=[DataRequired()])
+    gstin=IntegerField('GST Number', validators=[DataRequired()])
+   
+    adhar_card_no=IntegerField('Adhar Card Number',validators=DataRequired())
+
+    def validate_image(form, field):
+        if field.data:
+            field.data = re.sub(r'[^a-z0-9_.-]', '_', field.data)
+    submit = SubmitField('Submit')
 
 
 class TagListField(Field):
