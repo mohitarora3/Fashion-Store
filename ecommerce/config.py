@@ -6,12 +6,9 @@ class Config:
     Mail_SERVER = 'smtp.googleemail.com'
     Mail_PORT = 587
     MAIL_USE_TLS = True
-    MAIL_USERNAME = 'arora3mohit@gmail.com'
-    MAIL_PASSWORD = 'krishnakibansuri'
-
+   
     #MAIL_USERNAME = 'arora3mohit@gmail.com'
     #os.environ.get('MAIL_USERNAME')
-    #MAIL_PASSWORD = 'krishnakibansuri'
     #os.environ.get('MAIL_PASSWORD')
     SOCIAL_FACEBOOK = {
     'consumer_key': '2246910702234554',
