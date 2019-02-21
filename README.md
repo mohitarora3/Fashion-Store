@@ -1,12 +1,30 @@
-# Ecommerce website
+                                      # Smart App
 
-Technologies used:-
- Flask
- Mongodb
- Html
- Css
- Javascript
+An ecommerce webite
 
+
+##Prerequisities
+- Python
+- pip
+- Mongodb
+
+##Installing 
+git clone 
+cd 
+virtualenv env
+activate 
+pip install -r requirements
+python run.py
+
+
+### Technologies used:-
+ - Flask
+ - Mongodb
+ - Html
+ - Css
+ - Javascript
+
+  
   I am currently working on it. Uptil now I have done this functionalities:-
 
 -User, seller can register and sign in.
