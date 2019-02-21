@@ -18,7 +18,7 @@
       activate
    
 3. Install requirements:-
-      pip install -r requirements
+      pip install -r requirements.txt
     
 4. Run the application
       python run.py
