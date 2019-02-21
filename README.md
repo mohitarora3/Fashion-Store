@@ -1,6 +1,4 @@
-     ## Smart App
-
-*An ecommerce webite*
+   ## Smart App (An ecommerce webite*)
 
 
 ## Prerequisities
@@ -9,6 +7,7 @@
 - Mongodb
 
 ## Installing 
+'''
 git clone 
 cd 
 virtualenv env
@@ -16,6 +15,7 @@ activate
 pip install -r requirements
 python run.py
 
+'''
 
 ### Technologies used:-
  - Flask
