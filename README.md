@@ -1,4 +1,4 @@
-                                      # Smart App
+     ## Smart App
 
 *An ecommerce webite*
 
