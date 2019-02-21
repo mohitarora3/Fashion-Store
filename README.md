@@ -6,7 +6,7 @@
 - pip
 - Mongodb
 
-## Installing 
+## How to start?
 ```
 1. Clone the repository
       git clone https://github.com/mohitarora3/Ecommerce
@@ -22,6 +22,9 @@
     
 4. Run the application
       python run.py
+      
+5. Open http://127.0.0.1.5000./
+
 ```
 
 ### Technologies used:-
