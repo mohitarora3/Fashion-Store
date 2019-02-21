@@ -9,7 +9,7 @@
 ## Installing 
 ```
 1. Clone the repository
-      git clone 
+      git clone https://github.com/mohitarora3/Ecommerce
       cd  Ecommerce
 
 2. Create and activate a virtual environment
