@@ -7,15 +7,14 @@
 - Mongodb
 
 ## Installing 
-'''
+```
 git clone 
 cd 
 virtualenv env
 activate 
 pip install -r requirements
 python run.py
-
-'''
+```
 
 ### Technologies used:-
  - Flask
