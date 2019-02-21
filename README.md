@@ -1,4 +1,4 @@
-   ## Smart App (An ecommerce webite*)
+   ## Smart App (An ecommerce webite)
 
 
 ## Prerequisities
@@ -8,12 +8,20 @@
 
 ## Installing 
 ```
-git clone 
-cd 
-virtualenv env
-activate 
-pip install -r requirements
-python run.py
+1. Clone the repository
+      git clone 
+      cd  Ecommerce
+
+2. Create and activate a virtual environment
+      virtualenv env 
+      source env/Scripts
+      activate
+   
+3. Install requirements:-
+      pip install -r requirements
+    
+4. Run the application
+      python run.py
 ```
 
 ### Technologies used:-
@@ -24,8 +32,7 @@ python run.py
  - Javascript
 
   
- **I am currently working on it. Uptil now I have done this functionalities:-**
-
+ **Current Functionalities:-**
 - User, seller can register and sign in.
 - Seller can add products using forms.
 - User can browse products.
@@ -36,7 +43,7 @@ python run.py
 - User can get additional discounts on purchase.
 - User can cancel an order.
 
-**Currently working on:**
+**Under Development:**
 - Search
 - Filter
 - Admin portal
