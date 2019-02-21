@@ -1,14 +1,14 @@
-                                      #Smart App
+                                      # Smart App
 
-An ecommerce webite
+*An ecommerce webite*
 
 
-##Prerequisities
+## Prerequisities
 - Python
 - pip
 - Mongodb
 
-##Installing 
+## Installing 
 git clone 
 cd 
 virtualenv env
@@ -25,7 +25,7 @@ python run.py
  - Javascript
 
   
- > I am currently working on it. Uptil now I have done this functionalities:-
+ **I am currently working on it. Uptil now I have done this functionalities:-**
 
 - User, seller can register and sign in.
 - Seller can add products using forms.
@@ -37,7 +37,7 @@ python run.py
 - User can get additional discounts on purchase.
 - User can cancel an order.
 
-> Currently working on:
+**Currently working on:**
 - Search
 - Filter
 - Admin portal
