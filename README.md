@@ -37,13 +37,14 @@
  **Current Functionalities:-**
 - User, seller can register and sign in.
 - Seller can add products using forms.
-- User can browse products.
-- User can add/remove products from wishlist.
-- User can move products from wishlist to cart.
-- User can add/ remove items from cart.
-- User can place order.
-- User can get additional discounts on purchase.
-- User can cancel an order.
+- Customer can browse products.
+- Customer can rate and review product.
+- Customer can add/remove products from wishlist.
+- Customer can move products from wishlist to cart.
+- Customer can add/ remove items from cart.
+- Customer can place order.
+- Customer can get additional discounts on purchase.
+- Customer can cancel an order.
 
 **Under Development:**
 - Search
