@@ -4,18 +4,44 @@
 	<h2>Sellers</h2>
 	<div class="full-box text-muted">
   
-	{% for seller in sellers %}
-		<div class="right">
-		<input type="checkbox" data-width="200" checked data-toggle="toggle" data-on="Approved" data-off="Not Approved" data-onstyle="success" data-offstyle="danger">
+ 		<div class="right">
+ 			<input type="checkbox" id="cb" value="{{sellers['_id'] }}" >
+		<!-- <input type="checkbox" data-width="200"  data-toggle="toggle" data-on="Approved" data-off="Not Approved" id="cb" data-onstyle="success" data-offstyle="danger"> -->
 	</div>
 
 		<h4><b> Name:</b></h4>
-        {{seller['username']}}
-		<h4><b> Email id:</b></h4>{{seller['email']}}
-			{% endfor %}
-</div>
-</div>
+        {{sellers['username']}}
+		<h4><b> Email id:</b></h4>{{sellers['email']}}
+ </div>
+</div>  
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		console.log('Mohit');
+		$("#cb").change(function(){
+			var status = document.getElementById('cb');
+			if (cb.checked) {
+				var data = {}
+				data.id = $("#cb").val();
+				console.log(data.id);
+
+				$ajax({
+					type: "POST",
+					data: JSON.stringify(data),
+					contentType: 'application/json',
+					url: '/seller/approved'
+				});
+
+			}
+			
+			else	{
+
+			}
+
+		});
+	});
+</script>>
 
 {% endblock content %}
 

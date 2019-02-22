@@ -1,3 +1,4 @@
+import bcrypt
 from flask import Flask
 from flask_pymongo import PyMongo
 #from jsonmerge import merge
@@ -18,9 +19,14 @@ mongo = PyMongo(app)
 # hashpass = generate_password_hash('password', method='sha256')
 # mongo.db.user.insert_one({'username':'Mohit Arora','email':'arora3mohit@gmail.com', 'password':hashpass, 'role':'adminmo
 '''
-      Admin details and commands to insert document in user collection
+
+
+
+'''
+
+#      Admin details and commands to insert document in user collection
 hashpass = generate_password_hash("mohitarora123", method='sha256')
-mongo.db.user.insert(
+mongo.db.user.insert_one(
       {
       "username":"Mohit Arora",
       "email":"arora3mohit@gmail.com",
@@ -28,11 +34,18 @@ mongo.db.user.insert(
       "role":"admin"
       }
       )
+
 '''
-id="5c6958484ec65127a48f2430"
-ans=mongo.db.user.find_one({'_id':ObjectId(id)},{'_id':0,'role':1})
-print(ans['role'])
-
-
-for i in mongo.db.user.find({}):
-		print(i['role'])
+id="5c6d39ac4ec651035420c742"
+hashpass = generate_password_hash('6666')
+print(hashpass)
+mongo.db.user.update({'_id':ObjectId(id)
+            },
+            {
+            '$set':
+            {
+                'password':hashpass
+            }
+            }
+            )
+'''

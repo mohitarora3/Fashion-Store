@@ -29,7 +29,7 @@ def register():
     if form.validate_on_submit():
         existing_user = User.objects(email=form.email.data).first()
         if existing_user is None:
-            hashpass = generate_password_hash(form.password.data, method='sha256')
+            hashpass = generate_password_hash(form.password.data,method='sha256')
             role = 'customer'
             if form.seller.data:
                 role= 'seller'
@@ -102,8 +102,23 @@ def admin():
 
     print(current_user.get_id())
     print("yessssssssssssssssssssssssssssss")
+    sellers=mongo.db.user.find_one({'role':'seller'})
+    return render_template('admin_portal.html',title='Admin portal',sellers=sellers)
+
+
+@users.route('/seller/approved')
+@login_required
+@roles_required
+def seller_approved():
+    #Admin = admin(current_app)
+
+    print(current_user.get_id())
+    print("nnnnnnnssssssssssssssssssssssssssssss")
     sellers=mongo.db.user.find({'role':'seller'})
     return render_template('admin_portal.html',title='Admin portal',sellers=sellers)
+
+
+
 
 
 @users.route('/add_wishlist/<string:item_id>', methods=['GET', 'POST'])
@@ -517,7 +532,7 @@ def reset_request():
 
 @users.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_token(token):
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         return redirect(url_for('main.home'))
     user = User.verify_reset_token(token)
     if user is None:
@@ -525,10 +540,19 @@ def reset_token(token):
         return redirect(url_for('reset_request'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
-        hashpass = bcrypt.generate_password_hash(forms.password.data).decode('utf-8')
-        db.session.commit()
+        print(form.password.data)
+        hashpass = generate_password_hash(form.password.data,method='sha256')
+        mongo.db.user.update({'_id':ObjectId(current_user.get_id())
+            },
+            {
+            '$set':
+            {
+                'password':hashpass
+            }
+            }
+            )
         flash('Your password has benn updated!', 'success')
-        redirect(url_for('login'))
+        return redirect(url_for('users.login'))
 
     return render_template('reset_token.html', form=form)
 
