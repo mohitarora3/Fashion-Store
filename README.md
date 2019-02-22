@@ -3,7 +3,6 @@
 
 ## Prerequisities
 - Python
-- pip
 - Mongodb
 
 ## How to start?
