@@ -1,26 +1,53 @@
-Ecommerce website
+   ## Smart App (An ecommerce webite)
 
-Technologies used:-
- Flask
- Mongodb
- Html
- Css
- Javascript
 
-  I am currently working on it. Uptil now I have done this functionalities:-
+## Prerequisities
+- Python
+- Mongodb
 
--User, seller can register and sign in.
--Seller can add products using forms.
--User can browse products.
--User can add/remove products from wishlist.
--User can move products from wishlist to cart.
--User can add/ remove items from cart.
--User can place order.
--User can get additional discounts on purchase.
--User can cancel an order.
+## How to start?
+```
+1. Clone the repository
+      git clone https://github.com/mohitarora3/Ecommerce
+      cd  Ecommerce
 
-Currently working on:
--Search
--Filter
--Admin portal
--online payment gateway
+2. Create and activate a virtual environment
+      virtualenv env 
+      source env/Scripts
+      activate
+   
+3. Install requirements:-
+      pip install -r requirements.txt
+    
+4. Run the application
+      python run.py
+      
+5. Open http://127.0.0.1.5000./
+
+```
+
+### Technologies used:-
+ - Flask
+ - Mongodb
+ - Html
+ - Css
+ - Javascript
+
+  
+ **Current Functionalities:-**
+- User, seller can register and sign in.
+- Seller can add products using forms.
+- Customer can browse products.
+- Customer can rate and review product.
+- Customer can add/remove products from wishlist.
+- Customer can move products from wishlist to cart.
+- Customer can add/ remove items from cart.
+- Customer can place order.
+- Customer can get additional discounts on purchase.
+- Customer can cancel an order.
+
+**Under Development:**
+- Search
+- Filter
+- Admin portal
+- Online payment gateway
