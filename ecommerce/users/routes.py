@@ -1,4 +1,4 @@
-import math
+import math,string,secrets
 import flask_admin as admin
 from datetime import datetime, timedelta
 from flask import render_template, redirect, url_for, Blueprint, flash, request, redirect, send_from_directory
@@ -7,13 +7,14 @@ from flask_login import current_user, login_required, login_user, logout_user
 from ecommerce.users.forms import RequestResetForm, ResetPasswordForm, RegistrationForm, LoginForm, DeliveryForm, ReviewForm
 from ecommerce.seller.forms import SellerForm
 from ecommerce.seller.forms import ItemForm
-from ecommerce.users.utils import send_reset_email
+from ecommerce.users.utils import send_reset_email, sendPasswordSeller
 from ecommerce import db, bcrypt, mongo
 from ecommerce.models import User
 import json
 from bson.objectid import ObjectId
 import os
 from functools import wraps
+from bson.json_util import dumps
 
 
 
@@ -102,20 +103,55 @@ def admin():
 
     print(current_user.get_id())
     print("yessssssssssssssssssssssssssssss")
-    sellers=mongo.db.user.find_one({'role':'seller'})
-    return render_template('admin_portal.html',title='Admin portal',sellers=sellers)
+    approvedSellers=mongo.db.user.find({'role':'seller','approved':True})
+    unapprovedSellers=mongo.db.user.find({'role':'seller','approved':False})
+    
+    return render_template('admin_portal.html',title='Admin portal',approvedSellers=approvedSellers,unapprovedSellers=unapprovedSellers)
 
 
-@users.route('/seller/approved')
-@login_required
-@roles_required
-def seller_approved():
+@users.route('/seller/approved/<string:seller_id>', methods=['POST'])
+
+# @login_required
+# @roles_required
+def seller_approved(seller_id):
     #Admin = admin(current_app)
 
-    print(current_user.get_id())
+    print(seller_id)
     print("nnnnnnnssssssssssssssssssssssssssssss")
-    sellers=mongo.db.user.find({'role':'seller'})
-    return render_template('admin_portal.html',title='Admin portal',sellers=sellers)
+    # generating password to be sent to seller that contains atleast 1 lowercase, uppercase, digit, punctiation
+    passwordSource= string.ascii_letters +string.digits +string.punctuation
+    password= secrets.choice(string.ascii_lowercase)
+    password+=secrets.choice(string.ascii_uppercase)
+    password+=secrets.choice(string.digits)
+    password+=secrets.choice(string.punctuation)
+    print('Data')    
+    for i in range(0,6):
+        password+=secrets.choice(passwordSource)
+    hashpass = generate_password_hash(password,method='sha256')
+    sellerDocument=mongo.db.user.find_one({'_id':ObjectId(seller_id)},{'_id':0,'email':1})
+
+    #sending password to seller 
+    #sendPasswordSeller(sellerDocument['email'],password)
+    print('is')
+    '''
+    mongo.db.user.update_one({'_id':ObjectId(seller_id)},
+        {
+        '$set':
+            {
+                'approved':True,
+                'password':hashpass,
+
+            }
+        })
+    '''
+    print('here')
+    sellers=mongo.db.user.find({'role':'seller', 'approved':False})
+    sellersJson=dumps(sellers)
+    return sellersJson
+
+
+    
+
 
 
 

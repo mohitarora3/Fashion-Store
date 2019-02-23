@@ -33,3 +33,21 @@ def send_reset_email(user):
     If you did not make this request then simply ignore this email and no changes will be made
     '''.format(url_for('users.reset_token', token=token, _external=True))
     mail.send(msg)
+
+def sendPasswordSeller(sellerEmailId,password):
+    subject="Approval to sell on Smart App"
+    body=""" 
+    Congratulations! You application has been approved. 
+    Now you can sell products on smart app.
+    Login with this password:-
+    {}
+    Note:-Kindly change your password as soon as possible.
+    Happy selling!
+
+    Smart App Team
+    """.format(password)
+    msg=Message(sender='Smart App Team',
+                recipients=[sellerEmailId],
+                body=body,
+                subject=subject)
+    mail.send(msg);

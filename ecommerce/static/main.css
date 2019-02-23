@@ -459,9 +459,14 @@ float:right;
 }
 .right
 {
-  position:absolute;
+  position: absolute;
+   top: 0; 
+   right: 0; 
+   width: 100px;
+    text-align:right
+  /*position:absolute;
   right:0px;
-}
+*/}
 .seventy{
   width:70%;
   float:left;

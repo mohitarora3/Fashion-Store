@@ -1,46 +1,120 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-	<h2>Sellers</h2>
-	<div class="full-box text-muted">
-  
- 		<div class="right">
- 			<input type="checkbox" id="cb" value="{{sellers['_id'] }}" >
-		<!-- <input type="checkbox" data-width="200"  data-toggle="toggle" data-on="Approved" data-off="Not Approved" id="cb" data-onstyle="success" data-offstyle="danger"> -->
+	<button  id ="btn-1" class="w3-btn w3-pink"> Approved Sellers </button>
+	<button id="btn-2" class="w3-btn w3-pink"> Unapproved Sellers </button>
+	
+ 	<div class="sellers approved-sellers">
+		<h2> Approved Sellers</h2>
+		{% for seller in approvedSellers %}
+		
+			<div id ="{{seller['_id']}}" class="full-box text-muted">
+	  
+					<h4> <b> Name: </b>{{seller['username']}}</h4>
+		  			<br>
+		  			<h4> <b> Email Id: </b>{{seller['email']}} </b> </h4>
+		  
+		 				
+			<!-- <input type="checkbox" data-width="200"  data-toggle="toggle" data-on="Approved" data-off="Not Approved" id="cb" data-onstyle="success" data-offstyle="danger">
+		 -->
+			</div>
+		{% endfor %}
 	</div>
-
-		<h4><b> Name:</b></h4>
-        {{sellers['username']}}
-		<h4><b> Email id:</b></h4>{{sellers['email']}}
- </div>
+ 
+	<div class="sellers unapproved-sellers">
+		<h2>Unapproved Sellers</h2>
+		{% for seller in unapprovedSellers %}
+		
+			<div id ="{{seller['_id']}}" class="full-box text-muted">
+	  
+					<h4> <b> Name: </b>{{seller['username']}}</h4>
+		  			<br>
+		  			<h4> <b> Email Id: </b>{{seller['email']}} </b> </h4>
+		  
+		 			<input type="checkbox" id="cb" unchecked value="{{seller['_id'] }}" >
+	 			
+			<!-- <input type="checkbox" data-width="200"  data-toggle="toggle" data-on="Approved" data-off="Not Approved" id="cb" data-onstyle="success" data-offstyle="danger">
+		 -->
+		</div>
+				{% endfor %}
+	</div>
 </div>  
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+
 <script type="text/javascript">
-	$(document).ready(function() {
-		console.log('Mohit');
-		$("#cb").change(function(){
-			var status = document.getElementById('cb');
-			if (cb.checked) {
-				var data = {}
-				data.id = $("#cb").val();
-				console.log(data.id);
+	$(function(){
 
-				$ajax({
-					type: "POST",
-					data: JSON.stringify(data),
-					contentType: 'application/json',
-					url: '/seller/approved'
-				});
+		$('.sellers').hide();
+		console.log('yippy');
+		$('#btn-1').on('click',function(){
+				console.log('clicked');
+				$('.unapproved-sellers').hide();
+				$('.approved-sellers').slideToggle(1000);
 
-			}
-			
-			else	{
+		});
 
-			}
+		$('#btn-2').on('click',function(){
+				$('.approved-sellers').hide();
+				 $('.unapproved-sellers').slideToggle(1000);
+
+		});
+		$("input").on("click",function(){
+		console.log('arora');
+		var $sellerId=$(this).parent();
+		console.log('mohit');
+		console.log('done',$sellerId);
+		$sellerId.remove();
+			data={
+				sellerCheckedId:$(this).val(),
+				};
+
+			$.ajax({
+				type:"POST",
+				data:data,
+				url:'/seller/approved/'+data.sellerCheckedId,
+				success:function(sellers){
+					 $sellerId.slideUp(1000).delay(1000).slideDown(1000).fadeOut(1000).remove();
+					console.log(sellers);
+
+
+				}
+
+			})
 
 		});
 	});
+	// 	// console.log('Mohit');
+	// 	// $("#cb").change(function(){
+	// 	// 	var status = document.getElementById('cb');
+	// 	// 	if (cb.checked) {
+	// 	// 		var data = {
+	// 	// 			id: $("#cb").val(),
+	// 	// 		};
+	// 	// 		// data.id = $("#cb").val();
+	// 	// 		console.log(data.id);
+	// 	// 		console.log('dyessssssss');
+
+	// 			$.ajax({
+	// 				type: "POST",
+	// 				data:data,
+	// 				contentType: 'application/json',
+	// 				url: '/seller/approved/'+data.id,
+	// 				success:function(sellers)
+	// 				{
+	// 					console.log(sellers);
+	// 				},
+					
+	// 			});
+
+	// 		}
+			
+	// 		else	{
+
+	// 		}
+
+	// 	});
+	// });
 </script>>
 
 {% endblock content %}

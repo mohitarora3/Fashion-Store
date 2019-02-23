@@ -1,4 +1,5 @@
 env/
 __pycache__/
-*.pyc
+users/__pycache__/
+.pyc
 site/
