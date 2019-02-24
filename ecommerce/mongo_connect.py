@@ -50,10 +50,28 @@ mongo.db.user.update({'_id':ObjectId(id)
             }
             )
 '''
+data={
+      'Brand':['Higlander','Campus Sutra'],
+      'Discount':10,
+      'Category':['Men','Women']
+      };
+search= mongo.db.items.find(
+            {'$and':[
+           {"$or":[ {'Brand':'Highlander'},{"Brand":"Campus Sutra"},{'Brand':'Harpa'}]},
+           {'Discount':{'$gt':10}},
+           {"$or":[{"Category":"Men"},{"Category":"Women"}]}
+           ]}
+           )
 
-sellers=mongo.db.items.find({'$and':[
-      {'Type':'Dress'},
-      {'Price':{'$gt':1000, '$lt':2800}}
-      ]})
-print(dumps(sellers))
+# search={}
+ans={'Brand':[]}
+     #search['Brand']={'$or':{Brand:"
+
+if len(data['Brand'])>1:
+       for brand in data['Brand']:
+             ans['Brand']+="{Brand:"+brand+"},"
+print(ans)
+
+# for i in search:
+#       print(i['Brand'],i['Discount'],i['Category'])
 

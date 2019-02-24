@@ -3,24 +3,69 @@
 {% block content %}
 
 <div class="fifteen">
-<form action="{{ url_for('main.filter') }}" method="post">
+
 <h3><b>Filters</b></h3>
 <hr>
-<b>Brand</b>
+<h3><b>Brand</b></h3>
+<div value="brand">
   {% for brand in brands %}
-    <div class="custom-control custom-checkbox">
-      <input type="checkbox" class="custom-checkbox-input" id="1" value={{brand}} onchange="this.form.submit()" name={{brand}}>
-      <label class="custom-control-label" for="1"> <br><small class="text-muted">{{brand}}</small></label>
-    </div>
+  
+       <!-- <label class="custom-control-label" for="1"> <br></label>
+      --> 
+    <label class="Checkbox"> <small class="text-muted">{{brand}}</small>
+      <input type="checkbox" data-panelId="brand" class="checkbox-1"  value={{brand}}  >
+      <span class="checkmark"></span>
+    </label>
+     
+  
   {% endfor %}
-</form>
+</div>
 <hr>
-<b>Discount Range</b>
-  <br><small class="text-muted">10% and above</small>
-  <br><small class="text-muted">20% and above</small>
-  <br><small class="text-muted">30% and above</small>
-  <br><small class="text-muted">40% and above</small>
-  <br><small class="text-muted">50% and above</small>
+<h3><b>Price</b></h3>
+<div class="price">
+
+  <label class="Checkbox"><small class="text-muted">Under 499</small>
+    <input class="checkbox-2" value=500 type="checkbox">
+    <span class="checkmark"></span>
+  </label>
+  <label class="Checkbox"><small class="text-muted">Under 999</small>
+      <input class="checkbox-2" value=1000 type="checkbox">
+      <span class="checkmark"></span>
+  </label>
+  <label class="Checkbox"><small class="text-muted">Under 1499</small>
+      <input class="checkbox-2" value=1500 type="checkbox">
+      <span class="checkmark"></span>
+  </label>
+  <label class="Checkbox"><small class="text-muted">Under 1999</small>
+      <input class="checkbox-2" value=2000 type="checkbox">
+      <span class="checkmark"></span>
+  </label>
+
+</div>
+<hr>
+
+<hr>
+<h3><b>Discount Range</b></h3>
+<div class="discount">
+
+  <label class="Checkbox"><small class="text-muted">10% and above</small>
+    <input class="checkbox-3" value=10 type="checkbox">
+    <span class="checkmark"></span>
+  </label>
+  <label class="Checkbox"><small class="text-muted">20% and above</small>
+      <input class="checkbox-3" value=20 type="checkbox">
+      <span class="checkmark"></span>
+  </label>
+  <label class="Checkbox"><small class="text-muted">30% and above</small>
+      <input class="checkbox-3" value=10 type="checkbox">
+      <span class="checkmark"></span>
+  </label>
+  <label class="Checkbox"><small class="text-muted">40% and above</small>
+      <input class="checkbox-3" value=40 type="checkbox">
+      <span class="checkmark"></span>
+  </label>
+
+</div>
 <hr>
 <hr>
 <b>Color</b>
@@ -113,6 +158,107 @@
     <a href="{{url_for('main.home',type=type)}}"><span class="text-muted">{{type}}</span></a>|
   {% endfor %}
   </div>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+
+<script type="text/javascript">
+  $(function(){
+    let discountArray=new Set();
+    let priceArray=new Set();
+
+   var data={'Brand':
+    [],
+    'Price':[],
+    'Discount':[],
+  };
+
+  $("input.checkbox-1").on("click",function(){
+      var $x=$(this).val();
+      console.log($x);
+      var newItem={'Brand':$x};
+      console.log(newItem);
+
+      var index=data['Brand'].findIndex(x=>x['Brand']==$x);
+      console.log(index);
+      // var ans=$'input[data-panelId="checkbox-1"]';
+      // console.log(ans);
+      // var checkbox_type=$('this').attr("data-panelId");
+      // alert(checkbox_type);
+     // data['Brand']={"Brand":$x};
+     var isChecked=$(this).is(':checked');
+     if(isChecked && index==-1)
+        data['Brand'].push(newItem); //inserting  of brands
+      else
+        data['Brand'].splice(index,1); //to remove brand that is unchecked (right now by user)
+      //splice(index,number_of_elements_to_delete) //index - start point of deletion
+      
+
+    });
+
+  $("input.checkbox-2").on("click",function(){
+      var newPrice,isChecked,index,$x=$(this).val();
+      var newPrice=parseInt($x);
+      console.log(newPrice);
+      // index=data['Discount'].findIndex(x=>x['Discount']==$x);
+      isChecked=$(this).is(':checked');
+      if(isChecked)
+      {
+                    priceArray.add(newPrice);
+                   data['Price']=Array.from(priceArray);
+                  // minDiscount=Math.min.apply(0,data['Discount']);
+                  
+      }      
+      else
+      {
+          priceArray.delete(newPrice);
+          data['Price']=Array.from(priceArray);
+ }
+
+        console.log(data['Price']);
+      
+  });
+  
+  $("input.checkbox-3").on("click",function(){
+      var newDiscount,isChecked,index,$x=$(this).val();
+      var newDiscount=parseInt($x);
+      console.log(newDiscount);
+      // index=data['Discount'].findIndex(x=>x['Discount']==$x);
+      isChecked=$(this).is(':checked');
+      if(isChecked)
+      {
+                    discountArray.add(newDiscount);
+                   data['Discount']=Array.from(discountArray);
+                  // minDiscount=Math.min.apply(0,data['Discount']);
+                  
+      }      
+      else
+      {
+          discountArray.delete(newDiscount);
+          data['Discount']=Array.from(discountArray);
+ }
+
+        console.log(data['Discount']);
+      
+  });
+  
+  $('input').on('click',function(){
+
+    console.log('yes',data);
+
+    $.ajax({
+      data:JSON.stringify(data),
+      type:"POST",
+      contentType: 'application/json;charset=UTF-8',
+      url:'/items/filter',
+      success:function(items){
+        console.log(items);
+      }
+    })
+  });
+   
+  });
+</script>
 
 {% endblock content %}
 
