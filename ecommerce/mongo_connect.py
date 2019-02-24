@@ -51,6 +51,9 @@ mongo.db.user.update({'_id':ObjectId(id)
             )
 '''
 
-sellers=mongo.db.user.find({'role':'seller', 'approved':0})
+sellers=mongo.db.items.find({'$and':[
+      {'Type':'Dress'},
+      {'Price':{'$gt':1000, '$lt':2800}}
+      ]})
 print(dumps(sellers))
 

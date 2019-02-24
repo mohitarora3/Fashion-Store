@@ -30,6 +30,7 @@ def send_reset_email(user):
                   recipients=[user.email])
     msg.body = '''To reset your password, visit the following link
     {}
+    
     If you did not make this request then simply ignore this email and no changes will be made
     '''.format(url_for('users.reset_token', token=token, _external=True))
     mail.send(msg)
@@ -41,9 +42,12 @@ def sendPasswordSeller(sellerEmailId,password):
     Now you can sell products on smart app.
     Login with this password:-
     {}
+
+
     Note:-Kindly change your password as soon as possible.
     Happy selling!
 
+    Regards
     Smart App Team
     """.format(password)
     msg=Message(sender='Smart App Team',

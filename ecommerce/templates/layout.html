@@ -68,8 +68,10 @@ $('.my-carousel-indicator-class').click(function(){
     </script>
 <!------ Include the above in your HEAD tag ---------->
 <div id="header">
-
+{% if current_user.role!='admin'%}
+    
   <nav>
+                  
     <form class="search" action="{{url_for('main.search') }}">
       <input name="q" placeholder="Search..." type="search">
       <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
@@ -178,11 +180,13 @@ $('.my-carousel-indicator-class').click(function(){
 
 
     </ul>
+
   </nav>
   <nav style="float: right;">
       <ul>
 
               {% if current_user.is_authenticated %}
+                
 
               <li>  <a  href="{{url_for('users.wishlist') }}" >Wishlist</a></li>
               <li>  <a  href="{{url_for('users.cart') }}" >Cart</a></li>
@@ -211,6 +215,13 @@ $('.my-carousel-indicator-class').click(function(){
               {% endif %}
 
       </ul>
+      {% else %}
+        <button  id ="btn-1" class="w3-btn w3-white"> Approved Sellers </button>
+       <button id="btn-2" class="w3-btn w3-white"> Unapproved Sellers </button>
+
+       {% endif %}
+  
+    
 
   </nav>
 </div>
