@@ -28,13 +28,21 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Sign Up')
 
     def validate_username(self, username):
+<<<<<<< HEAD
         users = mongo.db.customers
+=======
+        users = mongo.db.user
+>>>>>>> upstream/master
         user = users.find_one({'username': username.data})
         if user:
             raise ValidationError('That username is alreay taken. Please choose a different one')
 
     def validate_email(self, email):
+<<<<<<< HEAD
         users = mongo.db.customers
+=======
+        users = mongo.db.user
+>>>>>>> upstream/master
         user = users.find_one({'email': email.data})
         if user:
             raise ValidationError('That email is already taken. Please choose a different one.')
@@ -59,19 +67,33 @@ class DeliveryForm(FlaskForm):
 
 class RequestResetForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
+<<<<<<< HEAD
     recaptcha = RecaptchaField()
     submit = SubmitField('Request Reset Password')
 
     def validate_email(self, email):
         users = mongo.db.customers
         user = users.find({'email': email.data})
+=======
+    #recaptcha = RecaptchaField()
+    submit = SubmitField('Request Reset Password')
+
+    def validate_email(self, email):
+        users = mongo.db.user
+        print(email.data)
+        user = users.find_one({'email': email.data})
+>>>>>>> upstream/master
         if user is None:
             raise ValidationError('There is no account with that email. You must register first')
 
 
 class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
+<<<<<<< HEAD
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo(password)])
+=======
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+>>>>>>> upstream/master
     submit = SubmitField('Reset Password')
 
 

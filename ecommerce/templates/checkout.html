@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <br><br><br>
 <div class="container">
 <div class="input-group col-sm-6  text-center" >
@@ -51,3 +52,83 @@
 {% endblock content %}
 
 a
+=======
+<br><br><br>
+
+{% extends "style.html" %}
+{% block content %}
+<div class="container">
+<ul class="inline font-weight-bold">
+  <span class="left">
+    <li><a href=" {{url_for('main.home')}} ">Smart Shop</a></li>
+
+   </span>
+   <span class="right">
+      <i class="fa fa-lock grey" style="font-size:24px"></i> <small> 100%  SECURE</small>
+    </span>
+   <div class="center">
+    <li><a href="{{url_for('users.cart')}}">Bag</a></li>
+    <li>........</li>
+    <li class="underline orange"><a href="#">Delivery</a></li>
+    <li>........</li>
+    <li>Payment</li>
+    </div>
+
+</ul>
+<hr>
+  <form name="a" action="{{ url_for('users.place_order') }}" method="post">
+  <div class="seventy">
+  <h5 class="font-weight-bold">Select Delivery Address</h5>
+  {% for address in list_address %}
+    <label class="equal-container" id="box-hover">
+          <input type="radio" value={{loop.index-1}} name="address_number" required><p> {{address["name"] }}</p>
+            <small class="text-muted" id="des">{{address["address"]}} <br> {{address['city']}}-{{address['pin-code']}}<br>{{address['state']}}<br><br>Mobile: <b> {{address['phone_number']}}</b></small>
+            <br>
+            <a class="btn btn-success btn-md" href="{{ url_for('users.remove_address', number=loop.index-1) }}">Remove</a>
+           <a class="btn btn-success btn-md" href="#">Edit</a>
+      </label>
+{% endfor %}
+    <div class="equal-container" id="box-hover">
+      <span class="center">
+        <h2><a class="btn btn-default btn-circle" href="{{ url_for('users.address') }}"><b>+</b></a> <a  href="{{ url_for('users.address') }}">Add new address</a></h2>
+      </span>
+      </div>
+  </div>
+
+
+  <div class="twenty" style="margin-top:30px" >
+  <br>
+  <small class="text-muted">Estimated Delivery:{{delivery_date.day }} {{delivery_date.strftime("%B")}}  {{delivery_date.year}}</small>
+  <br>
+      <b>{{number}}
+      {% if number==1 %}
+        ITEM
+      {% else %}
+        ITEMS
+      {% endif %}
+      </b>
+      <hr>
+      <h5>Bag Total<span class="right">Rs.{{dict["bag_mrp"]}}</span></h5>
+      <h5>Bag Discount <span class="right">-Rs.{{dict["bag_discount"]}}</span></h5>
+      <h5>Estimated Tax<span class="right"> {{dict['tax']}}</span></h5>
+      {% if dict['delivery']==0 %}
+        <h5>Delivery Charges<span class="right">Free</span></h5>
+      {% else %}
+        <h5>Delivery Charges<span class="right">{{dict['delivery']}}</span></h5>
+      {% endif %}
+      {% if dict['bag_offer_discount']!=0 %}
+         <h5>Offer Discount <span class="right">-Rs.{{dict["bag_offer_discount"]}}</span></h5>
+      {% endif %}
+      <hr>
+      <h3><b>Total Payable</b><span class="right"><b>Rs.{{dict['order_total']}}</b></span></h3>
+        <input type=submit value="Place Your Order Now" class="btn btn-success btn-block btn-md" onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();" >
+
+        <br>
+        <br>
+  </form>
+  </div>
+</div>
+{% endblock content %}
+
+
+>>>>>>> upstream/master

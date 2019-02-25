@@ -1,9 +1,16 @@
 {% extends "layout.html" %}	
 {% block content %}
+<<<<<<< HEAD
 	<div class="content-section">
 		<form method="Post" action="">
 			{{ form.hidden_tag()  }}
 			<fieldset class="form-group">
+=======
+	<div class="container">
+		<div class="middle fifty-box">
+			<form method="Post" action="">
+			{{ form.hidden_tag()  }}
+>>>>>>> upstream/master
 				<legend class="border-bottom mb-4">Reset Password</legend>
 				<div class="form-group">
 					{{ form.password.label(class="form-control-label")}}
@@ -33,17 +40,28 @@
 						{{ form.confirm_password(class="form-control form-control-lg") }}			
 					{% endif %}
 				</div>
+<<<<<<< HEAD
 			</fieldset>
+=======
+>>>>>>> upstream/master
 			<div class="form-group">
 				{{ form.submit(class="btn btn-outline-info")}}	
 			</div>
 		</form>
+<<<<<<< HEAD
 	</div>
+=======
+>>>>>>> upstream/master
 	
 	<div class="border-top pt-3">
 		<small class="text-muted">
 			Need an Account? <a class="ml-2" href=" {{ url_for('users.register') }}"> Sign Up Now </a>
 		</small>
 	</div>
+<<<<<<< HEAD
+=======
+</div>
+</div>
+>>>>>>> upstream/master
 	
 {% endblock content %}

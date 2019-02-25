@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 {% extends "layout.html" %}
 {% block content %}
@@ -49,3 +50,52 @@
         imageZoom("image", "myresult");
     </script>
 {% endblock content %}
+=======
+
+{% extends "layout.html" %}
+{% block content %}
+<script type="text/javascript" src="script.js"></script>
+    <article class="container">
+    {% for order in dict_order_details %}
+    <div class="full-box">
+        <span class="btn orange">Order Id:{{order["_id"]}}</span>
+        {% for item in order["item_info"] %}
+        <div class="full-box">
+            <span class="image-left">
+                <img class="rounded article-image" id="image" width="100" height="100" src= " {{ url_for('static', filename='Home & Living/'+item['Image'][0]) }}">
+                <!--<div id="myresult" class="img-zoom-result"></div> -->
+            </span>
+            <h4> {{ item["Brand"] }} </h4>
+             <span class="middle-price">Price <small> Rs.{{order["item_details"][loop.index-1]["price"]}}</small></span><br>
+            <a href="{{ url_for('main.item',item_id=item['_id'] ) }}"><small class="text-muted">{{ item["Short Description"] }}</small> </a><br>
+            Quantity{{ order["item_details"][loop.index-1]["quantity"]}}<br>
+        </div>
+        {% endfor %}
+         <br>
+         <span class="status">
+         {% if order['status'] == 'IN PROGRESS' %}
+             <b>Estimated Delivery:</b>
+        {% else %}
+            {{ order['status'] }}
+            <b> Delivered on:</b>
+
+        {% endif %}
+            <b>{{order["delivery_date"].strftime("%A") }}, {{order["delivery_date"].strftime("%B")}} {{order["delivery_date"].day }}  {{order["delivery_date"].year}} </b>
+        </span>
+        <br>
+        <br>
+         <h5> Order Placed on:{{order["date"].strftime("%A")}},{{order["date"].strftime("%B")}}{{order["date"].day }}  {{order["date"].year}} </h5>
+        Order total:{{order["order_total"]}}
+        {% if order["status"] == "IN PROGRESS" %}
+                <a class="button" href=" {{url_for('users.cancel_order',order_id=order['_id']) }}">Cancel Order</a>
+        {% endif %}
+
+    </div>
+    {% endfor %}
+    <br>
+    <br>
+    <br>
+
+</article>
+{% endblock content %}
+>>>>>>> upstream/master

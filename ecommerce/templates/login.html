@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "layout.html" %}
 {% block content %}
 	<div class="content-section">
@@ -54,3 +55,60 @@
 		</small>
 	</div>
 {% endblock content %}
+=======
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+	<div class="middle fifty-box">
+		<form method="Post" action="">
+			{{ form.hidden_tag()  }}
+
+				<legend class="center">Log In</legend>
+				<div class="form-group">
+					{{ form.email.label(class="form-control-label")}}
+
+					{% if form.email.errors %}
+						{{ form.email(class="form-control form-control-lg is-invalid")}}
+						<div class="invalid-feedback">
+								{% for error in form.email.errors %}
+									<span> {{ error }} </span>
+								{% endfor %}
+						</div>
+					{% else %}
+						{{ form.email(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+				<div class="form-group">
+					{{ form.password.label(class="form-control-label") }}
+
+					{% if form.password.errors %}
+						{{ form.password(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+								{% for error in form.password.errors %}
+									<span> {{ error }} </span>
+								{% endfor %}
+						</div>
+					{% else %}
+						{{ form.password(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+				{{ form.remember(class="form-check-input") }}&nbsp; &nbsp;  {{ form.remember.label(class="form-check-label") }}
+
+			<div class="form-group">
+				{{ form.submit(class="w3-btn w3-pink btn-block")}}
+			</div>
+				<span class="center">
+				<a href=" {{ url_for('users.reset_request') }}"> <small class="text-muted pink">Forget Password? </small></a>
+				<a  href=" {{ url_for('users.register') }}">
+				<small class="text-muted pink small-text">Create Account</small> </a>
+				</span>
+
+		</form>
+
+
+	</div>
+</div>
+
+{% endblock content %}
+>>>>>>> upstream/master

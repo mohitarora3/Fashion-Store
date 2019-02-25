@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <br><br><br>
 <div class="container">
 <div class="input-group col-sm-6  text-center" >
@@ -17,3 +18,30 @@
 </article>
 {% endblock content %}
 
+=======
+<br><br><br>
+
+{% extends "style.html" %}
+{% block content %}
+<div class="container">
+<ul class="inline font-weight-bold">
+  <span class="left">
+     <li><a href=" {{url_for('main.home')}} ">Smart Shop</a></li>
+   </span>
+   <span class="right">
+      <i class="fa fa-lock grey" style="font-size:24px"></i> <small> 100%  SECURE</small>
+    </span>
+   <div class="center">
+    <li><a href="{{url_for('users.cart')}}">Bag</a></li>
+    <li>........</li>
+    <li><a href="{{url_for('users.checkout')}}">Delivery</a></li>
+    <li>........</li>
+    <li class="underline orange"><a href="#">Payment</a></li>
+    </div>
+
+</ul>
+<hr>
+ <span class="center"><h3 class="font-weight-bold">Congratulations! Your order has been placed.</h3></span>
+{% endblock content %}
+
+>>>>>>> upstream/master
