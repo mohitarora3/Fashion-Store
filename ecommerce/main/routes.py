@@ -3,6 +3,17 @@ from ecommerce import mongo
 from flask_login import current_user
 from bson.objectid import ObjectId
 import json
+<<<<<<< HEAD
+main = Blueprint('main', __name__)
+
+
+@main.route('/')
+@main.route('/home')
+def home():
+  items = mongo.db.items.find({'Type': 'Bedsheet'})
+  brands = mongo.db.items.distinct('Brand', {'Type': 'Bedsheet'})
+  return render_template('home.html', items=items, brands=brands)
+=======
 from bson.json_util import dumps
 
 main = Blueprint('main', __name__)
@@ -22,6 +33,7 @@ def home(type):
   brands = ret_brands(type)
   types = mongo.db.items.distinct('Type')
   return render_template('home.html', items=items, brands=brands, type=type.title(), types=types)
+>>>>>>> upstream/master
 
 @main.route('/newhome')
 def newhome():
@@ -34,6 +46,8 @@ def newhome():
 
 
 
+<<<<<<< HEAD
+=======
 @main.route('/items/filter', methods=['POST'])
 def filter():
   minDiscount=0
@@ -63,6 +77,7 @@ def filter():
   return(dumps(items))
   
 
+>>>>>>> upstream/master
 @main.route('/item/<string:item_id>')
 def item(item_id):
   item = mongo.db.items.find_one_or_404({"_id": ObjectId(item_id)})

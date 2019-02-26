@@ -1,5 +1,10 @@
 from flask_wtf import FlaskForm
 import itertools
+<<<<<<< HEAD
+from wtforms import StringField, SubmitField, IntegerField, MultipleFileField, validators, Field
+from wtforms.validators import DataRequired, Length, ValidationError
+from wtforms.widgets import TextArea, TextInput
+=======
 from wtforms import StringField, SubmitField, IntegerField, FileField, DateField,MultipleFileField, validators, Field
 from wtforms.validators import DataRequired, Length, ValidationError,Email
 from wtforms.widgets import TextArea, TextInput
@@ -25,6 +30,7 @@ class SellerForm(FlaskForm):
         if field.data:
             field.data = re.sub(r'[^a-z0-9_.-]', '_', field.data)
     submit = SubmitField('Submit')
+>>>>>>> upstream/master
 
 
 class TagListField(Field):

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "layout.html"%}
 {%block content%}
 
@@ -15,3 +16,22 @@
 
 
 {% endblock content %}
+=======
+{% extends "layout.html"%}
+{%block content%}
+
+
+<div class="container">
+          <br><br><br><br>
+          <h1>welcome seller</h1>
+            <a class="btn btn-success btn-md" href="{{ url_for('users.login') }}"> Login </a>
+            <p>Not Registered? Signup here
+            </p>
+            <a class="btn btn-success btn-md" href="{{ url_for('seller.additem') }}"> additem </a>
+            <h2>View Items</h2>
+            <a class="btn btn-success btn-md" href="{{url_for('seller.viewupdate')}}">View and Update your Items</a>
+    </div>
+
+
+{% endblock content %}
+>>>>>>> upstream/master
