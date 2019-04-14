@@ -1,4 +1,4 @@
-   ## Smart App (An ecommerce webite)
+   ## Fashion Store (An ecommerce webite)
 
 
 ## Prerequisities
