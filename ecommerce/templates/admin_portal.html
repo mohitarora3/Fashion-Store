@@ -33,8 +33,10 @@
 		  			<br>
 		  			<h4> <b> Email Id: </b>{{seller['email']}} </b> </h4>
 		  
-		 			<input type="checkbox" id="cb" unchecked value="{{seller['_id'] }}" >
-	 			
+		 			<label class="Checkbox">Approve
+		 				<input type="checkbox" id="cb" unchecked value="{{seller['_id'] }}" >
+		 				<span class="checkmark"></span>
+					</label> 			
 			<!-- <input type="checkbox" data-width="200"  data-toggle="toggle" data-on="Approved" data-off="Not Approved" id="cb" data-onstyle="success" data-offstyle="danger">
 		 -->
 		</div>
@@ -63,10 +65,10 @@
 		});
 		$("input").on("click",function(){
 		console.log('arora');
-		var $sellerId=$(this).parent();
+		var $sellerId=$(this).parent().parent();
 		console.log('mohit');
 		console.log('done',$sellerId);
-		$sellerId.remove();
+		$sellerId.delay(10000000).remove();
 			data={
 				sellerCheckedId:$(this).val(),
 				};

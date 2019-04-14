@@ -17,5 +17,5 @@ class Config:
     'consumer_secret': '1724128f42762d9897832bc39cdcd5cf'
     }
    #MONGO_URI = 'mongodb://vidulkumar:New2mlab@ds157493.mlab.com:57493/mydatabase'
-    MONGO_URI = "mongodb://localhost:27017/mydatabase"
-    
+    MONGO_URI = "mongodb://localhost:27017/myDatabase"
+

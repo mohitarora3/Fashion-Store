@@ -1,0 +1,19 @@
+
+{% for item in items %}
+
+  <div class="box">
+    <a href="{{ url_for('main.item', item_id=item['_id']) }}">
+            <img class="rounded article-image" width="220" height="280" src= " {{ url_for('static', filename=item['Category']+'/'+item['Image'][0]) }}">
+    </a>
+    <h5><b>{{item["Brand"] }}</b></h5>
+            <small class="text-muted" id="des">{{item["Short Description"]}}</small><br>
+             <strong> Rs.{{item["Price"] }} </strong>
+            {% if item["Discount"] !=0 %}
+                <strike class="text-muted"> <small>Rs.{{item["Mrp"] }} </small></strike>  &nbsp;
+              <font  color="#FF4500" >  ({{item["Discount"]}}% OFF)</font>
+            {% endif %}
+            <br><br>
+             <a class="w3-btn w3-pink" href="{{ url_for('users.add_to_wishlist',item_id=item['_id']) }}">Add to wishlist </a>
+
+  </div>
+{% endfor %}

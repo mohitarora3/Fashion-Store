@@ -3,20 +3,11 @@
 {% block content %}
 <script type="text/javascript" src="script.js"></script>
 
-<div class="input-group col-sm-6  text-center">
-    <form  action="{{url_for('main.search') }}" style="margin:auto;max-width:300px"method="post">
-        <span class="input-group-append">
-           <input type="text" placeholder="Search.." name="search">
-        <button type="submit"><i class="fa fa-search"></i></button>
-
-      </span>
-    </form>
-</div>
 
     <div class="coloumn1">
             {% for image in item["Image"] %}
             <div class="image">
-                 <img class="rounded article-image" id="image" width="430" height="500" src= " {{ url_for('static', filename=item['Category']+'/'+image) }}">
+                 <img class="rounded article-image" id="image" height="520" width="520" src= " {{ url_for('static', filename=item['Category']+'/'+image) }}">
              </div>
             {% endfor %}
     </div>
@@ -49,9 +40,10 @@
         {% endfor %}
         </div>
         <br>
-            <input type="submit"class="w3-btn w3-blue" value="Add To Bag" >
-        </form> &nbsp; &nbsp;
-        <a class="w3-btn w3-pink" href="{{url_for('users.add_to_wishlist',item_id=item['_id'])}}">Add to wishlist</a>
+            <a href="{{url_for('users.add_to_wishlist',item_id=item['_id'])}}"><input type="submit" value="Add to Wishlist" class="w3-btn w3-pink"></a>
+            <input type="submit"class="w3-btn btn-lg w3-blue" value="Add To Bag" >
+         &nbsp;
+    </form>
         <br>
         <h4><b> PRODUCT DETAILS</b></h4>
         <hr>

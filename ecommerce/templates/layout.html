@@ -17,6 +17,9 @@
    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<script src="url_for('js', filename='my_js.js')"></script>
+
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -45,9 +48,14 @@ $('.my-carousel-indicator-class').click(function(){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" media="screen and (min-width: 0px)" type="text/css" href="{{ url_for('static', filename='small.css') }}">
+    <link rel="stylesheet" media="screen and (min-width: 1000px)" type="text/css" href="{{ url_for('static', filename='medium.css') }}">
+   <link rel="stylesheet" media="screen and (min-width: 1400px)" type="text/css" href="{{ url_for('static', filename='large.css') }}">
+
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Ranga" rel="stylesheet">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
@@ -69,17 +77,17 @@ $('.my-carousel-indicator-class').click(function(){
 <!------ Include the above in your HEAD tag ---------->
 <div id="header">
 {% if current_user.role!='admin'%}
-    
+
   <nav>
-                  
-    <form class="search" action="{{url_for('main.search') }}">
+
+    <form class="search" action="{{url_for('main.search') }}" method="GET">
       <input name="q" placeholder="Search..." type="search">
       <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
     </form>
     <ul >
         <div class="logo">
             <img width="25" height="25" src=" {{ url_for('static', filename='logo.png' )}}">
-        <a href="{{url_for('main.home') }}" class="logos" >Smart shop</a>
+        <a href="{{url_for('main.home') }}" class="logos" >Fashion Store</a>
        </div>
       <li>
         <a href="">Home</a>
@@ -186,7 +194,7 @@ $('.my-carousel-indicator-class').click(function(){
       <ul>
 
               {% if current_user.is_authenticated %}
-                
+
 
               <li>  <a  href="{{url_for('users.wishlist') }}" >Wishlist</a></li>
               <li>  <a  href="{{url_for('users.cart') }}" >Cart</a></li>
@@ -220,8 +228,8 @@ $('.my-carousel-indicator-class').click(function(){
        <button id="btn-2" class="w3-btn w3-white"> Unapproved Sellers </button>
 
        {% endif %}
-  
-    
+
+
 
   </nav>
 </div>

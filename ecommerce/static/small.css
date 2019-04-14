@@ -245,7 +245,7 @@ clear:right;
   float:left;
 
 }
-.Checkbox {
+.Checkbox{
   display: block;
   position: relative;
   padding-left: 35px;
@@ -278,7 +278,7 @@ clear:right;
 }
 
 /* On mouse-over, add a grey background color */
-.Checkbox:hover input ~ .checkmark {
+.Checkbox :hover input ~ .checkmark {
   background-color: #ccc;
 }
 
@@ -330,16 +330,18 @@ text-align: center;
 }
 .coloumn1
 {
+
   width:60%;
   float:left;
   padding:10px;
 }
 .coloumn2
 {
-  width:40%;
+   width:40%;
   float:left;
-  padding-left:10px;
-  padding-right:45px;
+  padding:10px;
+  margin-right:10px;
+
 }
 
 .disabled {
@@ -366,6 +368,7 @@ text-align: center;
 
 }
 .fifteen{
+  margin-left: 10px;
   width:15%;
   float:left;
   padding: 5px;
@@ -424,6 +427,7 @@ h5{
 padding:25px;
 display: inline;
 }
+
 .image{
   width:50%;
   padding:5px;
@@ -524,11 +528,62 @@ float:right;
 {
   font-size: xx-large;
 }
+ .Radiobutton {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.Radiobutton input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+
+/* On mouse-over, add a grey background color */
+.Radiobutton :hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.Radiobutton input:checked ~ .checkmark {
+  background-color: #FF1493;
+}
+
+
+/* Show the checkmark when checked */
+.Radiobutton input:checked ~ .checkmark:after {
+  display: block;
+}
+
+
+
+.Radiobutton .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
 .right
 {
   position: absolute;
-   top: 0; 
-   right: 0; 
+   top: 0;
+   right: 0;
    width: 100px;
     text-align:right
   /*position:absolute;

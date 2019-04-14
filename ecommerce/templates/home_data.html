@@ -1,24 +1,43 @@
-{% extends "layout.html" %}
-{% block content %}
+
 <div class="fifteen">
 
 <h3><b>Filters</b></h3>
 <hr>
+    <label class="Radiobutton"> <small class="text-muted">Men</small>
+      <input class="radiobutton-1" type="radio" name="gender" value="Men">
+      <span class="checkmark" style="border-radius: 50%" ></span>
+    </label>
+
+      <label class="Radiobutton"> <small class="text-muted">Women</small>
+      <input class="radiobutton-1"  type="radio" name="gender" value="Women">
+      <span class="checkmark" style="border-radius: 50%"></span>
+      </label>
+<div class="cat-brand">
+<h3><b>Category</b></h3>
+<div value="category">
+  {% for category in categories %}
+    <label class="Checkbox"> <small class="text-muted">{{category}}</small>
+      <input type="checkbox" id="filterCheck" data-panelId="brand" class="checkbox-4"  value={{category}}  >
+      <span class="checkmark"></span>
+    </label>
+  {% endfor %}
+</div>
+<hr>
+
+
 <h3><b>Brand</b></h3>
 <div value="brand">
   {% for brand in brands %}
 
-       <!-- <label class="custom-control-label" for="1"> <br></label>
-      -->
     <label class="Checkbox"> <small class="text-muted">{{brand}}</small>
       <input type="checkbox" id="filterCheck" data-panelId="brand" class="checkbox-1"  value={{brand}}  >
       <span class="checkmark"></span>
     </label>
 
-
   {% endfor %}
 </div>
 <hr>
+</div>
 <h3><b>Price</b></h3>
 <div class="price">
 
@@ -65,31 +84,14 @@
 
 </div>
 <hr>
-<hr>
-<b>Color</b>
-  <br><small class="text-muted">White</small>
-  <br><small class="text-muted">Blue</small>
-  <br><small class="text-muted">Pink</small>
-  <br><small class="text-muted">Red</small>
-  <br><small class="text-muted">Yellow</small>
-  <br><small class="text-muted">Multicolor</small>
-<hr>
 </div>
 
-
 <div class="eighty">
-
-{% if count == 0 %}
-  <h3>We couldn't found any matches</h3>
-  <small>Please check the spelling or try searching something else</small>
-  {% else %}
-  {{count}} items
   {% include "home_items.html" %}
-{% endif %}
 </div>
 <br><br><br>
 <div class="container0 text-muted">
-  {% if type=='Bedsheet' %}
+  {% if itemType=='Bedsheet' %}
     <h4 class="text-center"><b>BUY BED SHEETS STORE ONLINE</b></h4>
     <div class="col_3">
       <p><b>CHOOSE A BED SHEET THAT MATCHES YOUR PERSONALITY</b><br><br>
@@ -112,7 +114,7 @@
       4. When you are choosing the pattern of your bed sheet, go for a pattern that you can identify with. Florals are great for people who love flowers and nature. Abstract prints are great for artistic people. Stripes and checks suit people with a vivacious personality.<br><br>
       A beautiful bed sheet can magically transform the look of your room. Log on to Myntra right away and make the right choice for your bedroom.</p>
     </div>
-  {% elif type=='Shirt' %}
+  {% elif itemType=='Shirt' %}
     <h4 class="text-center"><b>BUY SHIRTS FOR MEN & WOMEN</b></h4>
     <div class="col_3">
       <p><b>FABULOUS SHIRTS FOR THE FASHION-FORWARD</b><br><br>
@@ -147,19 +149,35 @@
     <a href="{{url_for('main.home',type=type)}}"><span class="text-muted">{{type}}</span></a>|
   {% endfor %}
   </div>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
-
+</div>
 <script type="text/javascript">
-  $(function(){
+   $(function(){
     let discountArray=new Set();
     let priceArray=new Set();
-
-   var data={'Brand':
+   var data={'Type':[],
+    'Brand':
     [],
     'Price':[],
     'Discount':[],
+    'Gender':[],
   };
+
+  $("input.radiobutton-1").on("click",function(){
+    var gender=$(this).val();
+    data['Gender']=gender;
+    console.log(gender);
+    $.ajax({
+      data:JSON.stringify(gender),
+      type:"POST",
+      contentType: 'application/json;charset=UTF-8',
+      url:'/items/gender',
+      success:function(filter_result){
+
+         $('.cat-brand').html(filter_result);
+         $('input:radio[name="gender"][value=gender]').attr('checked',true);
+        }
+    })
+  });
 
   $("input.checkbox-1").on("click",function(){
       var $x=$(this).val();
@@ -169,6 +187,7 @@
 
       var index=data['Brand'].findIndex(x=>x['Brand']==$x);
       console.log(index);
+      console.log('yippy')
       // var ans=$'input[data-panelId="checkbox-1"]';
       // console.log(ans);
       // var checkbox_type=$('this').attr("data-panelId");
@@ -183,6 +202,31 @@
 
 
     });
+
+   $("input.checkbox-4").on("click",function(){
+      var $x=$(this).val();
+      console.log($x);
+      var newType={'Type':$x};
+      console.log(newType);
+
+      var index=data['Type'].findIndex(x=>x['Type']==$x);
+      console.log(index);
+      console.log('yippy')
+      // var ans=$'input[data-panelId="checkbox-1"]';
+      // console.log(ans);
+      // var checkbox_type=$('this').attr("data-panelId");
+      // alert(checkbox_type);
+     // data['Brand']={"Brand":$x};
+     var isChecked=$(this).is(':checked');
+     if(isChecked && index==-1)
+        data['Type'].push(newType); //inserting  of brands
+      else
+        data['Type'].splice(index,1); //to remove brand that is unchecked (right now by user)
+      //splice(index,number_of_elements_to_delete) //index - start point of deletion
+
+
+    });
+
 
   $("input.checkbox-2").on("click",function(){
       var newPrice,isChecked,index,$x=$(this).val();
@@ -230,6 +274,8 @@
 
   });
 
+
+
   $('input').on('click',function(){
 
     console.log('yes',data);
@@ -240,7 +286,7 @@
       contentType: 'application/json;charset=UTF-8',
       url:'/items/filter',
       success:function(items){
-        console.log(items);
+        // console.log(items);
          $('.eighty').html(items);
         }
     })
@@ -248,6 +294,4 @@
 
   });
 </script>
-
-{% endblock content %}
 
