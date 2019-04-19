@@ -8,7 +8,7 @@
 ## How to start?
 ```
 1. Clone the repository
-      git clone https://github.com/mohitarora3/Ecommerce
+      git clone https://github.com/mohitarora3/Fashion-Store
       cd  commerce
 
 2. Create and activate a virtual environment
