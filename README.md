@@ -1,4 +1,4 @@
-   ## Fashion Store (An ecommerce webite)
+   ## Fashion Store 
 
 
 ## Prerequisities
@@ -9,7 +9,7 @@
 ```
 1. Clone the repository
       git clone https://github.com/mohitarora3/Ecommerce
-      cd  Ecommerce
+      cd  commerce
 
 2. Create and activate a virtual environment
       virtualenv env 
@@ -32,6 +32,7 @@
  - Html
  - Css
  - Javascript
+ - Ajax
 
   
  **Current Functionalities:-**
@@ -48,6 +49,5 @@
 
 **Under Development:**
 - Search
-- Filter
 - Admin portal
 - Online payment gateway
