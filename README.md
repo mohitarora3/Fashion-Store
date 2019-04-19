@@ -2,7 +2,7 @@
 
 
 ## Prerequisities
-- Python
+- Python 3.7
 - Mongodb
 
 ## How to start?
