@@ -9,7 +9,7 @@
 ```
 1. Clone the repository
       git clone https://github.com/mohitarora3/Fashion-Store
-      cd  commerce
+      cd  ecommerce
 
 2. Create and activate a virtual environment
       virtualenv env 
@@ -49,5 +49,4 @@
 
 **Under Development:**
 - Search
-- Admin portal
 - Online payment gateway
