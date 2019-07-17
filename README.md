@@ -50,3 +50,6 @@
 **Under Development:**
 - Search
 - Online payment gateway
+
+#### Screenshots
+[image](screenshots/fashion1.png)
