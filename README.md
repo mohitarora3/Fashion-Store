@@ -49,8 +49,7 @@
 - Customer can get additional discounts on purchase.
 - Customer can cancel an order.
 
-**Under Development:**
-- Search
+## Under Development:
 - Online payment gateway
 
 ## Screenshots
