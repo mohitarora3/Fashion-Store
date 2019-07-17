@@ -27,14 +27,14 @@
 ```
 
 ### Technologies used:-
+ - Python
  - Flask
  - Mongodb
  - Html
  - Css
  - Javascript
- - Ajax
 
-  
+
  **Current Functionalities:-**
 - User, seller can register and sign in.
 - Seller can add products using forms.
@@ -52,4 +52,4 @@
 - Online payment gateway
 
 #### Screenshots
-[!image](screenshots/fashion1.png) [!image](screenshots/fashion2.png) [!image](screenshots/fashion3.png) [!image](screenshots/fashion4.png)
+![image](screenshots/fashion1.png) ![image](screenshots/fashion2.png) ![image](screenshots/fashion3.png) ![image](screenshots/fashion4.png)
