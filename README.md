@@ -52,4 +52,4 @@
 - Online payment gateway
 
 #### Screenshots
-[image](screenshots/fashion1.png) [image](screenshots/fashion2.png) [image](screenshots/fashion3.png) [image](screenshots/fashion4.png)
+[!image](screenshots/fashion1.png) [!image](screenshots/fashion2.png) [!image](screenshots/fashion3.png) [!image](screenshots/fashion4.png)
