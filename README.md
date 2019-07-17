@@ -1,4 +1,5 @@
    ## Fashion Store 
+   *An eccoemerce website of garments*
 
 
 ## Prerequisities
