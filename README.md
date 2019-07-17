@@ -26,7 +26,7 @@
 
 ```
 
-### Technologies used:-
+## Technologies used:-
  - Python
  - Flask
  - Mongodb
@@ -35,7 +35,7 @@
  - Javascript
 
 
- **Current Functionalities:-**
+ ## Current Functionalities:-
 - User, seller can register and sign in.
 - Seller can add products using forms.
 - Customer can browse products.
@@ -51,5 +51,5 @@
 - Search
 - Online payment gateway
 
-#### Screenshots
-![image](screenshots/fashion1.png) ![image](screenshots/fashion2.png) ![image](screenshots/fashion3.png) ![image](screenshots/fashion4.png)
+## Screenshots
+![image](screenshots/fashion1.png) ![image](screenshots/fashion2.png) ![image](screenshots/fashion3.png) ![image](screenshots/fashion4.png) ![image](screenshots/fashion5.png)![image](screenshots/fashion6.png)![image](screenshots/fashion7.png)![image](screenshots/fashion8.png)![image](screenshots/fashion9.png)![image](screenshots/fashion10.png)![image](screenshots/fashion11.png)![image](screenshots/fashion12.png)![image](screenshots/fashion13.png)![image](screenshots/fashion14.png)![image](screenshots/fashion15.png) ![image](screenshots/fashion16.png)![image](screenshots/fashion17.png)![image](screenshots/fashion18.png)![image](screenshots/fashion19.png)![image](screenshots/fashion20.png)
