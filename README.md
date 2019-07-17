@@ -38,8 +38,9 @@
 
  ## Current Functionalities:-
 - User, seller can register and sign in.
-- Seller can add products using forms.
+- Multiple Sellers can sell their products.
 - Customer can browse products.
+- Filter products based on brand, gender, price and discount.
 - Customer can rate and review product.
 - Customer can add/remove products from wishlist.
 - Customer can move products from wishlist to cart.
