@@ -1,5 +1,5 @@
    ## Fashion Store 
-   *An eccoemerce website of garments*
+   *An ecommerce website of garments*
 
 
 ## Prerequisities
