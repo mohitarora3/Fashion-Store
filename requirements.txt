@@ -27,7 +27,7 @@ html5lib==1.0b8
 idna==2.7
 image==1.5.24
 ipykernel==4.9.0
-ipython==6.5.0
+ipython==7.16.3
 ipython-genutils==0.2.0
 ipywidgets==7.4.2
 itsdangerous==0.24
